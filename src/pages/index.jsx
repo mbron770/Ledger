@@ -25,15 +25,15 @@ export default function Home() {
     createLinkToken();
   }, []);
 
-  const onSuccess = useCallback(async (publicToken) => {
-    await fetch("/api/exchangepublictoken", {
+  const onSuccess = useCallback(async (public_token) => {
+    await fetch("/api/exchangepublic", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ publicToken: publicToken }),
+      body: JSON.stringify({ public_token: public_token }),
     });
-    Router.push("/api/transactions");
+    // Router.push("/api/transactions");
   }, []);
 
   const { open, ready } = usePlaidLink({

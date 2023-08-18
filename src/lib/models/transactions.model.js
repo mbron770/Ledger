@@ -8,6 +8,15 @@ const transactionSchema = new mongoose.Schema({
     amount: Number
 })
 
-const Transaction = mongoose.models.Transaction || mongoose.model('Transaction', transactionSchema)
-export default (Transaction, transactionSchema)
+// const Transaction = mongoose.models.Transaction || mongoose.model('Transaction', transactionSchema)
+// export default (Transaction, transactionSchema)
 
+let Transaction;
+
+if (mongoose.models && mongoose.models.Transaction) {
+    Transaction = mongoose.models.Transaction;
+} else {
+    Transaction = mongoose.model('Transaction', transactionSchema);
+}
+
+export default Transaction; 

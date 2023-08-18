@@ -6,21 +6,21 @@ export default async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).end();
   }
-  connectToDB
+  await connectToDB()
 
 
-  const { id, username, name, image, bio, onboarded } = req.body;
+  const { id, username, name /*, image, bio, onboarded*/ } = req.body;
 
   try {
 
-    const newUser = await User.findOneAndUpdate({
+    const newUser = await User.create({
       id,
       username,
-      name,
-      image,
-      bio,
-      onboarded,
-      upsert: true
+      name
+    //   image,
+    //   bio,
+    //   onboarded
+    //   upsert: true
     });
 
     

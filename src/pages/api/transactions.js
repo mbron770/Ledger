@@ -1,53 +1,53 @@
 import { plaidClient, sessionOptions } from "../../lib/plaid";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { connectToDB } from "../../lib/mongoose";
-import Item from '../../lib/models/item.model'
-import User from '../../lib/models/user.model'
-import Account from "../../lib/models/account.model"
-
+import Item from "../../lib/models/item.model";
+import User from "../../lib/models/user.model";
+import Account from "../../lib/models/account.model";
+import Transaction from "../../lib/models/transactions.model";
 
 async function handler(req, res) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }
-//   const access_token = req.session.access_token;
+  //   const access_token = req.session.access_token;
 
-await connectToDB 
-const access_token = await Item.findOne()
+  await connectToDB();
 
+  // const userId = req.query.userId;
+  // const id = '1'
+  // const item = await Item.findOne({user: id});
+
+  const newestAccessToken = await Item.findOne().sort({ _id: -1 }).limit(1);
+  const access_token = newestAccessToken.access_token;
   if (!access_token) {
     return res.status(403).json({ error: "No access Token" });
   }
 
   try {
-    const authResponse = await plaidClient.authGet({ access_token });
+    // const authResponse = await plaidClient.authGet({ ac });
+
     let cursor = null;
     let added = [];
     let modified = [];
     let removed = [];
     let hasMore = true;
 
-    while (hasMore) {
-      const request = {
-        access_token: access_token,
-        cursor: cursor,
-      };
+    const response = await plaidClient.transactionsSync({
+      access_token,
+      count: 500,
+    });
+    // console.log('response - ', response.data)
 
-      const response = await plaidClient.transactionsSync(request);
-      const data = response.data;
-
-      added = added.concat(data.added);
-      modified = modified.concat(data.modified);
-      removed = removed.concat(data.removed);
-      hasMore = data.has_more;
-      cursor = data.next_cursor;
-    }
+    added = added.concat(response.data.added);
+    modified = modified.concat(response.data.modified);
+    removed = removed.concat(response.data.removed);
+    hasMore = response.data.has_more;
+    cursor = response.data.next_cursor;
+    const recentlyAdded = [...added].sort().slice(-1000);
+    // console.log('recentlyAdded - ', recentlyAdded);
 
     // const byDate = (a, b) => (a.date > b.date) - (a.date > b.date)
-
-    const recentlyAdded = [...added].sort().slice(-1000);
-    console.log(recentlyAdded);
-
     const transactions = recentlyAdded.map((ra) => ({
       date: ra.date,
       name: ra.name,
@@ -55,15 +55,50 @@ const access_token = await Item.findOne()
       amount: ra.amount,
     }));
 
-    await Account.insertMany(transactions).save()
+    await Transaction.insertMany(transactions);
 
     return res.status(200).json(transactions);
   } catch (error) {
-    alert("error fetching transactions");
+    // while (hasMore) {
+    //   const request = {
+    //     // access_token: item.access_token,
+    //     access_token: access_token,
+    //     cursor: cursor,
+    //   };
+
+    //   const response = await plaidClient.transactionsSync(request);
+    //   const data = response.data;
+    //   console.log(data)
+
+    //   added = added.concat(data.added);
+    //   modified = modified.concat(data.modified);
+    //   removed = removed.concat(data.removed);
+    //   hasMore = data.has_more;
+    //   cursor = data.next_cursor;
+    // }
+
+    // const byDate = (a, b) => (a.date > b.date) - (a.date > b.date)
+
+    // const recentlyAdded = [...added].sort().slice(-1000);
+    // console.log(recentlyAdded);
+
+    // const transactions = recentlyAdded.map((ra) => ({
+    //   date: ra.date,
+    //   name: ra.name,
+    //   category: ra.category[0],
+    //   amount: ra.amount,
+    // }));
+
+    // await Account.insertMany(transactions).save()
+
+    // return res.status(200).json(transactions);
+    // return res.status(200).json(response.data);
+
+    console.log("error");
     return res.status(500).json({ error: "server error" });
   }
 }
 
-export default handler
+// export default handler
 
-// export default withIronSessionApiRoute(handler, sessionOptions);
+export default withIronSessionApiRoute(handler, sessionOptions);

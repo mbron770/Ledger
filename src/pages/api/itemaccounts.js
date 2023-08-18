@@ -9,9 +9,11 @@ export async function handler(req, res) {
   // const access_token = req.session.access_token;
   if (req.method === "GET") {
 
-    await connectToDB 
+    await connectToDB();
 
-    const access_token = await Item.findOne()
+    // const access_token = await Item.findOne()
+    const newestAccessToken = await Item.findOne().sort({ _id: -1 }).limit(1)
+    const access_token = newestAccessToken.access_token
 
     if (!access_token) {
       return res.status(403).json({ error: "No access Token" });
@@ -19,16 +21,17 @@ export async function handler(req, res) {
 
     try {
       const itemAccounts = await plaidClient.accountsGet({
-        access_token,
+        access_token
       });
+      console.log(itemAccounts.data)
       const accounts = itemAccounts.data.accounts.map((account) => ({
-        official_name: account.official_name,
-        account_id: account.account_id,
-        subtype: account.subtype,
-        available_balance: account.balances.available,
+        name: account.official_name,
+        accountNumber: account.account_id,
+        type: account.subtype,
+        balance: account.balances.available,
       }));
 
-      await Account.insertMany(accounts).save()
+      await Account.insertMany(accounts)
 
       return res.status(200).json(accounts);
     } catch (error) {
@@ -37,6 +40,6 @@ export async function handler(req, res) {
   }
 }
 
-export default handler 
+// export default handler 
 
-// export default withIronSessionApiRoute(handler, sessionOptions);
+export default withIronSessionApiRoute(handler, sessionOptions);

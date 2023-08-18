@@ -6,10 +6,10 @@ import Item from '../../lib/models/item.model'
 import User from '../../lib/models/user.model'
 
 
-// export default withIronSessionApiRoute(exchangePublicToken, sessionOptions);
+export default withIronSessionApiRoute(exchangePublicToken, sessionOptions);
 
-export default async function exchangePublicToken(req, res) {
-  await connectToDB; 
+/*export default */ async function exchangePublicToken(req, res) {
+  await connectToDB() 
 
   try{
     const exchangeResponse = await plaidClient.itemPublicTokenExchange({
@@ -26,7 +26,7 @@ export default async function exchangePublicToken(req, res) {
      // const { user } = useUser() cant use this 
 
   const newItem = new Item({
-    accessToken: exchangeResponse.data.access_token
+    access_token: exchangeResponse.data.access_token
     // user: user 
   })
   await newItem.save()
