@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import { UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 
 
 
@@ -11,8 +12,8 @@ import { usePlaidLink } from "react-plaid-link";
 
 export default function Home() {
   const [token, setToken] = useState(null);
-
-  
+  const { user } = useUser()
+  console.log(user?.id)
 
   useEffect(() => {
     const createLinkToken = async () => {
@@ -23,7 +24,7 @@ export default function Home() {
       setToken(link_token);
     };
     createLinkToken();
-  }, []);
+  }, [user]);
 
   const onSuccess = useCallback(async (public_token) => {
     await fetch("/api/exchangepublic", {
@@ -31,15 +32,23 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ public_token: public_token }),
+      body: JSON.stringify({ public_token: public_token, 
+      userID: user?.id }),
     });
     // Router.push("/api/transactions");
-  }, []);
+  }, [user]);
 
   const { open, ready } = usePlaidLink({
     token,
     onSuccess,
   });
+
+
+  useEffect(() => {
+    fetch('/api/itemaccounts')
+    
+
+  }, [user])
 
 
   // import { useUser } from "@clerk/clerk-react";

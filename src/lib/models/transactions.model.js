@@ -18,5 +18,5 @@ if (mongoose.models && mongoose.models.Transaction) {
 } else {
     Transaction = mongoose.model('Transaction', transactionSchema);
 }
-
+console.log("Transactions model loaded");
 export default Transaction; 

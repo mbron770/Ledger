@@ -28,16 +28,21 @@
 // export default Onboarding
 
 import React, { useState } from 'react';
-import { updateUser } from "@/lib/actions/user.actions";
+import { ClerkProvider, useUser, SignIn, SignedOut } from '@clerk/nextjs'
+import * as z from "zod";
+import { usePathname, useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UserValidation } from "@/lib/validations/user";
 
 function UserForm() {
+  const { user } = useUser()
+  console.log(user)
+   resolver: zodResolver(UserValidation)
     const [formData, setFormData] = useState({
-        id: "",
         username: "",
         name: "",
-        image: "",
         bio: "",
-        onboarded: false
+        
     });
 
     const handleChange = (e) => {
@@ -47,26 +52,6 @@ function UserForm() {
             [name]: type === "checkbox" ? checked : value
         }));
     };
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     try {
-    //         await updateUser({
-    //             userId: formData.userId,
-    //             username: formData.username,
-    //             name: formData.name,
-    //             bio: formData.bio,
-    //             image: formData.image
-    //             // path: '/profile/edit'
-    //         });
-    //         console.log("User updated successfully!");
-          
-    //     } catch (error) {
-    //         console.error("Error updating user:", error.message);
-           
-    //     }
-    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -96,10 +81,7 @@ function UserForm() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <label>
-                ID:
-                <input type="text" name="id" value={formData.id} onChange={handleChange} required />
-            </label>
+           
             <br />
 
             <label>
@@ -114,10 +96,6 @@ function UserForm() {
             </label>
             <br />
 
-            <label>
-                Image URL:
-                <input type="url" name="image" value={formData.image} onChange={handleChange} />
-            </label>
             <br />
 
             <label>
@@ -125,11 +103,6 @@ function UserForm() {
                 <textarea name="bio" value={formData.bio} onChange={handleChange}></textarea>
             </label>
             <br />
-
-            <label>
-                Onboarded:
-                <input type="checkbox" name="onboarded" checked={formData.onboarded} onChange={handleChange} />
-            </label>
             <br />
 
             <input type="submit" value="Submit" />

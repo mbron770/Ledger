@@ -17,6 +17,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/index.jsx", "src/lib/models/user.model.js", "src/lib/actions/user.actions.js", "src/lib/mongoose.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/index.jsx", "src/lib/models/user.model.js", "src/lib/actions/user.actions.js", "src/lib/mongoose.js", "src/pages/api/uploadthing.js"],
   "exclude": ["node_modules"]
 }
