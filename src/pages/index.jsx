@@ -44,11 +44,7 @@ export default function Home() {
   });
 
 
-  useEffect(() => {
-    fetch('/api/itemaccounts')
-    
 
-  }, [user])
 
 
   // import { useUser } from "@clerk/clerk-react";

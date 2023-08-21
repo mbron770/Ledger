@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { itemSchema } from '../models/account.model'
+import { itemSchema } from "../models/item.model";
 
 const userSchema = new mongoose.Schema(
   {
@@ -8,30 +8,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    items: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Item'
-  }], 
-    // items: [itemSchema],
+    items: [itemSchema],
     data: mongoose.Schema.Types.Mixed,
-    
-    
-    
-    
   },
-  { strict: false, timestamps: true }, 
-
-  
-
-
-      // threads: [
-    //     {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'Thread' // thread is a collection/table
-    //     }
-
-
-
+  { strict: false, timestamps: true }
 );
 
 let User;
@@ -44,4 +24,3 @@ if (mongoose.models && mongoose.models.User) {
 
 export default User;
 console.log("User model loaded");
-

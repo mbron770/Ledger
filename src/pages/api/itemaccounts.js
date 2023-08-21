@@ -22,7 +22,7 @@ export async function handler(req, res) {
       return ('user not found')
     }
 
-    
+
 
     if (!access_token) {
       return res.status(403).json({ error: "No access Token" });

@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const accountSchema = new mongoose.Schema({
-    // date: {type: String, required: true}, 
     dateAdded: {type: Date, default: Date.now(), required: true}, 
     name: {type: String, required: true}, 
     accountNumber: {type: String, required: true}, 
@@ -13,13 +12,15 @@ const accountSchema = new mongoose.Schema({
 // export default (Account, accountSchema)
 
 
-let Account;
+// let Account;
 
-if (mongoose.models && mongoose.models.Account) {
-    Account = mongoose.models.Account;
-} else {
-    Account = mongoose.model('Account', accountSchema);
-}
+// if (mongoose.models && mongoose.models.Account) {
+//     Account = mongoose.models.Account;
+// } else {
+//     Account = mongoose.model('Account', accountSchema);
+// }
 
-export default Account; 
+// export default Account; 
+
+export { accountSchema }
 
