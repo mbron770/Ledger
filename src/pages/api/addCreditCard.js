@@ -65,6 +65,7 @@ async function addCreditCardsToDb(loggedInUser, accessToken, res) {
       { $push: { "items.$.creditCards": { $each: newCreditCard } } }
     );
     console.log("Just added credit card:", newCreditCard);
+    return res.status(200)
   } catch (error) {
     console.error(error);
     return res.status(500).send("server error");

@@ -6,6 +6,7 @@ import User from "../../lib/models/user.model";
 export default withIronSessionApiRoute(exchangePublicToken, sessionOptions);
 
 async function exchangePublicToken(req, res) {
+  await connectToDB();
   const userID = req?.body?.userID;
   const loggedInUser = await confirmLogin(userID);
   if (loggedInUser) {
@@ -38,8 +39,21 @@ async function exchangePublicToken(req, res) {
   }
 }
 
+// async function confirmLogin(userID) {
+
+//   const loggedInUser = await User.findOne({ id: userID });
+//   if (!loggedInUser) throw new Error("not logged in");
+//   return loggedInUser;
+// }
+
 async function confirmLogin(userID) {
-  const loggedInUser = await User.findOne({ id: userID });
-  if (!loggedInUser) throw new Error("not logged in");
-  return loggedInUser;
+  await connectToDB();
+
+  try {
+    const loggedInUser = await User.findOne({ id: userID });
+    return loggedInUser;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw new Error("Database error while fetching user.");
+  }
 }
