@@ -1,63 +1,15 @@
 import { UserButton } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
 import Router from "next/router";
-import { useState, useEffect, useCallback } from "react";
-import { usePlaidLink } from "react-plaid-link";
+import { useState, useEffect, useCallback, useContext } from "react";
 import CreditCardLink from '../components/plaidLinks/liabilities/creditCard/creditCardLink'
+import CheckingAccountLink from '../components/plaidLinks/bankAccounts/checking/checkingAccountLink'
+import InfoContext from '../contexts/InfoContext'
+
 
 export default function Home() {
-  // const [token, setToken] = useState(null);
-  // const { user } = useUser()
-  // console.log(user?.id)
+  const { creditCard, checkingAccount, creditCardTransactions, checkingAccountTransactions} = useContext(InfoContext);
 
-  // useEffect(() => {
-  //   const createLinkToken = async () => {
-  //     const res = await fetch("/api/createlinktoken", {
-  //       method: "POST",
-  //     });
-  //     const { link_token } = await res.json();
-  //     setToken(link_token);
-  //   };
-  //   createLinkToken();
-  // }, [user]);
-
-  // const onSuccess = useCallback(async (public_token) => {
-  //   await fetch("/api/exchangepublic", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ public_token: public_token, 
-  //     userID: user?.id }),
-  //   });
-  //   // Router.push("/api/transactions");
-  // }, [user]);
-
-  // const { open, ready } = usePlaidLink({
-  //   token,
-  //   onSuccess,
-  // });
-
-
-
-
-
-  // import { useUser } from "@clerk/clerk-react";
-
-
-// function YourComponent() {
-//   const { user } = useUser();
-
-//   // Then when making the API request:
-//   fetch('/api/yourApiRoute', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Clerk-User-Id': user.id
-//     },
-//     body: JSON.stringify({ public_token: yourPublicToken }),
-//   });
-// }
 
   return (
     <>
@@ -66,12 +18,92 @@ export default function Home() {
 			</header>
 
     <h1>homepage</h1>
-      {/* <button
-        onClick={() => open()}
-        disabled={!ready}
-      >click me</button> */}
 
       <CreditCardLink/>
+
+      <h2>Credit Card Details</h2>
+      {creditCard &&
+        creditCard.map((card) => (
+          <div key={card.number}>
+            <p>
+              <strong>Name:</strong> {card.name}
+            </p>
+            <p>
+              <strong>Number:</strong> {card.number}
+            </p>
+            <p>
+              <strong>Current Balance:</strong> {card.currentBalance}
+            </p>
+            <p>
+              <strong>Credit Limit:</strong> {card.creditLimit}
+            </p>
+          </div>
+        ))}
+
+      <h2>Credit Card Transactions</h2>
+
+      {creditCardTransactions &&
+        creditCardTransactions.map((transaction) => (
+          <div key={transaction.name}>
+            <h1>date: {transaction.date}</h1>
+            <h1>name: {transaction.name}</h1>
+            <h1>category: {transaction.category}</h1>
+            <h1>paymentChannel: {transaction.paymentChannel}</h1>
+            <h1>amount: {transaction.amount}</h1>
+            <h1>pending: {transaction.pending}</h1>
+          </div>
+        ))}
+
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+
+        <CheckingAccountLink/>
+
+<h2>Checking Account Details</h2>
+{checkingAccount &&
+        checkingAccount.map((account) => (
+          <div key={account.accountNumber}>
+            <p>
+              <strong>Name:</strong> {account.name}
+            </p>
+            <p>
+              <strong>Account Number:</strong> {account.accountNumber}
+            </p>
+            <p>
+              <strong>Balance:</strong> {account.balance}
+            </p>
+          </div>
+        ))}
+
+<h2>Checking Account Transactions</h2>
+{checkingAccountTransactions &&
+        checkingAccountTransactions.map((transaction) => (
+          <div key={transaction.name}>
+            <h1>date: {transaction.date}</h1>
+            <h1>name: {transaction.name}</h1>
+            <h1>category: {transaction.category}</h1>
+            <h1>paymentChannel: {transaction.paymentChannel}</h1>
+            <h1>amount: {transaction.amount}</h1>
+            <h1>pending: {transaction.pending}</h1>
+          </div>
+        ))}
+
+
+
 
 
     </>

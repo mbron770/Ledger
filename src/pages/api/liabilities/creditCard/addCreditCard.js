@@ -1,7 +1,7 @@
-import { plaidClient, sessionOptions } from "../../lib/plaid";
+import { plaidClient, sessionOptions } from "../../../../lib/plaid";
 import { withIronSessionApiRoute } from "iron-session/next";
-import { connectToDB } from "../../lib/mongoose";
-import User from "../../lib/models/user.model";
+import { connectToDB } from "../../../../lib/mongoose";
+import User from "../../../../lib/models/user.model";
 
 export default withIronSessionApiRoute(creditCardHandler, sessionOptions);
 
@@ -10,9 +10,6 @@ async function creditCardHandler(req, res) {
   try {
     const userID = req?.body?.userID;
     const loggedInUser = await User.findOne({ id: userID });
-    // const justAddedCreditCard = await User.findOne({ id: userID })
-    
-    // return res.status(200).json(justAddedCreditCard)
     
     if (!loggedInUser) {
       return res.status(404).send({ error: "User not logged in" });
@@ -25,10 +22,7 @@ async function creditCardHandler(req, res) {
         return res.status(400).send({ error: "no access token" });
       }
 
-      await addCreditCardsToDb(loggedInUser, accessToken);
-      // const updatedUser = await User.findOne({ id: userID });
-      // const justAddedCreditCard = updatedUser?.items?.[updatedUser.items.length - 1]?.creditCards;
-      // return res.status(200).json(justAddedCreditCard);
+      await addCreditCardsToDb(loggedInUser, accessToken, res);
       return res.status(200)
       
     } else {
@@ -65,7 +59,7 @@ async function addCreditCardsToDb(loggedInUser, accessToken, res) {
       { $push: { "items.$.creditCards": { $each: newCreditCard } } }
     );
     console.log("Just added credit card:", newCreditCard);
-    return res.status(200)
+    return res.status(200).json(newCreditCard)
   } catch (error) {
     console.error(error);
     return res.status(500).send("server error");

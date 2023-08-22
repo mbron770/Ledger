@@ -1,11 +1,11 @@
 import { useUser } from "@clerk/nextjs";
 import Router from "next/router";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import { usePlaidLink } from "react-plaid-link";
+import InfoContext from '../../../../contexts/InfoContext'
 
 export default function CreditCardLink() {
-  const [token, setToken] = useState(null);
-  const [creditCard, setCreditCard] = useState(null);
+  const { setCreditCard, setCreditCardTransactions, token, setToken } = useContext(InfoContext);
   const { user } = useUser();
   const products = ["liabilities", "transactions"];
   const account_filters = {
@@ -18,7 +18,7 @@ export default function CreditCardLink() {
 
   useEffect(() => {
     const createLinkToken = async () => {
-      const res = await fetch("/api/createlinktoken", {
+      const res = await fetch("/api/plaidTokens/createlinktoken", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,34 +32,10 @@ export default function CreditCardLink() {
     createLinkToken();
   }, [user]);
 
-  async function addCreditCard(){
-    try{
-      const response = await fetch("/api/addCreditCard", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            'Accept': "application/json",
-        },
-        body: JSON.stringify({ userID: user?.id }),
-    });
-
-    if (!response.ok) {
-        throw new Error("failed to get added credit card");
-    }
-
-
-
-
-    }catch(error){
-      console.error(error);
-
-    }
-  }
-
   const onSuccess = useCallback(
     async (public_token) => {
       try {
-        await fetch("/api/exchangePublicToken", {
+        await fetch("/api/plaidTokens/exchangePublicToken", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -70,97 +46,111 @@ export default function CreditCardLink() {
           }),
         });
 
-        // if (!exchangeResponse.ok) {
-        //   throw new Error("Failed to exchange public token.");
-        // }
-        console.log('add credit card')
+        console.log("add credit card");
         await addCreditCard();
-        console.log('get added credit card')
+        console.log("get added credit card");
         await getAddedCreditCard();
-        // handleCreditCardOperations();
+        console.log("get transactions");
+        await getTransactions();
+        console.log("display transactions");
+        await displayTransactions();
       } catch (error) {
         console.error(error.message);
       }
     },
-    [user, addCreditCard, getAddedCreditCard]
+    [
+      user,
+      addCreditCard,
+      getAddedCreditCard,
+      getTransactions,
+      displayTransactions,
+    ]
   );
 
+  async function addCreditCard() {
+    try {
+      const response = await fetch("/api/liabilities//creditCard/addCreditCard", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ userID: user?.id }),
+      });
 
-  
-  
-  
- 
-  // const getAddedCreditCard = useCallback(async () => {
-  //   try {
-  //     const response = await fetch("/api/getAddedCreditCard", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Accept: "application/json",
-  //       },
-  //       body: JSON.stringify({ userID: user?.id }),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("failed to get added credit card");
-  //     }
-
-  //     const newCreditCard = await response.json();
-  //     setCreditCard(newCreditCard);
-  //     console.log("Received from API:", newCreditCard);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }, [user]);
+      if (!response.ok) {
+        throw new Error("failed to get added credit card");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   async function getAddedCreditCard() {
     try {
-        const response = await fetch("/api/getAddedCreditCard", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify({ userID: user?.id }),
-        });
+      const response = await fetch("/api/liabilities//creditCard/getAddedCreditCard", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ userID: user?.id }),
+      });
 
-        if (!response.ok) {
-            throw new Error("failed to get added credit card");
-        }
+      if (!response.ok) {
+        throw new Error("failed to get added credit card");
+      }
 
-        const newCreditCard = await response.json();
-        setCreditCard(newCreditCard);
-        console.log("Received from API:", newCreditCard);
+      const newCreditCard = await response.json();
+      setCreditCard(newCreditCard);
+      console.log("Received from API:", newCreditCard);
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
-}
+  }
 
-//   const handleCreditCardOperations = useCallback(async () => {
-//     console.log('add credit card');
-//      await addCreditCard();
-//     console.log('get added credit card');
-//      await getAddedCreditCard();
-// }, [user, addCreditCard, getAddedCreditCard]);
+  async function getTransactions() {
+    try {
+      const response = await fetch("/api/liabilities/creditCard/getCreditCardTransactions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ userID: user?.id }),
+      });
 
- 
+      if (!response.ok) {
+        throw new Error("failed to get transactions");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-//   useEffect(() => {
-//     console.log('use effect')
-//     addCreditCard()
-//     getAddedCreditCard();
-// }, []);
+  async function displayTransactions() {
+    try {
+      const response = await fetch("/api/liabilities/creditCard/displayCreditCardTransactions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
 
-// useEffect(() => {
-//   console.log('use effect');
+        body: JSON.stringify({ userID: user?.id }),
+      });
 
-//   const fetchData = async () => {
-//       await addCreditCard();
-//       await getAddedCreditCard();
-//   };
+      if (!response.ok) {
+        throw new Error("failed to add transactions");
+      }
 
-//   fetchData();
-// }, []);
+      const newCreditCardTransactions = await response.json();
+      setCreditCardTransactions(newCreditCardTransactions);
+      console.log("recieved from api: ", newCreditCardTransactions);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const { open, ready } = usePlaidLink({
     token,
@@ -173,28 +163,12 @@ export default function CreditCardLink() {
         add credit card button
       </button>
 
-      <br></br>
+      
 
-      {/* <button onClick={addCreditCard}>see added credit card details</button> */}
+    
 
-      <h2>Credit Card Details</h2>
-      {creditCard &&
-    creditCard.map((card) => (
-        <div key={card.number}>
-            <p>
-                <strong>Name:</strong> {card.name}
-            </p>
-            <p>
-                <strong>Number:</strong> {card.number}
-            </p>
-            <p>
-                <strong>Current Balance:</strong> {card.currentBalance}
-            </p>
-            <p>
-                <strong>Credit Limit:</strong> {card.creditLimit}
-            </p>
-        </div>
-    ))}
+
+
     </>
   );
 }

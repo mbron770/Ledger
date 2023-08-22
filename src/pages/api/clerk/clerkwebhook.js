@@ -1,5 +1,5 @@
-import { connectToDB } from "../../lib/mongoose";
-import User from "../../lib/models/user.model";
+import { connectToDB } from "../../../lib/mongoose";
+import User from "../../../lib/models/user.model";
 import { Webhook } from "svix";
 
 export default async (req, res) => {
@@ -27,14 +27,14 @@ export default async (req, res) => {
 
   if (evt.type === "user.created" || evt.type === "user.updated") {
     const updateResult = await User.updateOne(
-      { externalId: evt.data.id },
+      { id: evt.data.id },
       evt.data,
       { upsert: true }
     );
     console.log("Update result:", updateResult);
   } else if (evt.type === "user.deleted") {
     const { id } = evt.data;
-    const deleteResult = await User.deleteOne({ externalId: id });
+    const deleteResult = await User.deleteOne({ id: evt.data.id });
     console.log("Delete result:", deleteResult);
   }
 

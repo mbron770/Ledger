@@ -1,7 +1,7 @@
-import { plaidClient, sessionOptions } from "../../lib/plaid";
+import { plaidClient, sessionOptions } from "../../../../lib/plaid";
 import { withIronSessionApiRoute } from "iron-session/next";
-import { connectToDB } from "../../lib/mongoose";
-import User from "../../lib/models/user.model";
+import { connectToDB } from "../../../../lib/mongoose";
+import User from "../../../../lib/models/user.model";
 
 export default withIronSessionApiRoute(
   creditCardTransactionsHandler,
@@ -24,7 +24,7 @@ async function creditCardTransactionsHandler(req, res) {
       if (!accessToken) {
         return res.status(400).send({ error: "no access token" });
       }
-      await addCreditCardTransactionsToDb(loggedInUser, accessToken);
+      await addCreditCardTransactionsToDb(loggedInUser, accessToken, res);
       return res.status(200).send("successful");
     } else {
       return res.status(400).send("User has no items");
@@ -66,7 +66,7 @@ async function addCreditCardTransactionsToDb(loggedInUser, accessToken, res) {
       const newTransactions = data.added.map((transaction) => ({
         date: transaction.date,
         name: transaction.name,
-        category: transaction.category[0],
+        category: (transaction.category && Array.isArray(transaction.category)) ? transaction.category[0] : 'default',
         paymentChannel: transaction.payment_channel,
         amount: transaction.amount,
         pending: transaction.pending,

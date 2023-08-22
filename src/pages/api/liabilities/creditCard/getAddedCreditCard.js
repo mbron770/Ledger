@@ -1,7 +1,7 @@
-import { plaidClient, sessionOptions } from "../../lib/plaid";
+import { plaidClient, sessionOptions } from "../../../../lib/plaid";
 import { withIronSessionApiRoute } from "iron-session/next";
-import { connectToDB } from "../../lib/mongoose";
-import User from "../../lib/models/user.model";
+import { connectToDB } from "../../../../lib/mongoose";
+import User from "../../../../lib/models/user.model";
 
 export default withIronSessionApiRoute(
   getAddedCreditCardHandler,

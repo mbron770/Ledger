@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
+import { transactionSchema } from './transactions.model';
 
-const accountSchema = new mongoose.Schema({
+const checkingAccountSchema = new mongoose.Schema({
     dateAdded: {type: Date, default: Date.now(), required: true}, 
     name: {type: String, required: true}, 
-    accountNumber: {type: String, required: true}, 
-    type: {type: String, required: true}, 
-    balance: {type: Number, required: true}
+    accountNumber: {type: String, required: true},
+    balance: {type: Number, required: true}, 
+    transactions: [transactionSchema]
 })
 
 // const Account = mongoose.models.Account || mongoose.model('Account', accountSchema)
@@ -22,5 +23,5 @@ const accountSchema = new mongoose.Schema({
 
 // export default Account; 
 
-export { accountSchema }
+export { checkingAccountSchema }
 

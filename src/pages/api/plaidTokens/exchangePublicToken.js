@@ -1,7 +1,7 @@
 import { withIronSessionApiRoute } from "iron-session/next";
-import { plaidClient, sessionOptions } from "../../lib/plaid";
-import { connectToDB } from "../../lib/mongoose";
-import User from "../../lib/models/user.model";
+import { plaidClient, sessionOptions } from "../../../lib/plaid";
+import { connectToDB } from "../../../lib/mongoose";
+import User from "../../../lib/models/user.model";
 
 export default withIronSessionApiRoute(exchangePublicToken, sessionOptions);
 
@@ -27,6 +27,7 @@ async function exchangePublicToken(req, res) {
         loggedInUser.items.push(newItem);
         await loggedInUser.save();
         console.log("item inserted");
+        
       } catch (error) {
         console.error(error, "couldnt insert item for user");
         throw new Error("couldnt insert item for user");

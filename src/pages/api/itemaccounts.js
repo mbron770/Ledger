@@ -3,7 +3,7 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import { connectToDB } from "../../lib/mongoose";
 import Item from '../../lib/models/item.model'
 import User from '../../lib/models/user.model'
-import Account from "../../lib/models/account.model"
+import Account from "../../lib/models/checkingAccount.model"
 
 export async function handler(req, res) {
   // const access_token = req.session.access_token;
