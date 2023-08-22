@@ -54,8 +54,11 @@ async function addCreditCardsToDb(loggedInUser, accessToken, res) {
       justAddedItem.creditCards = [];
     }
 
-    justAddedItem.creditCards.push(...newCreditCard);
-    await loggedInUser.save();
+    
+    await User.updateOne(
+      {id: loggedInUser.id, 'items.accessToken': accessToken }, 
+      {$push: {'items.$.creditCards': {$each: newCreditCard}}}
+    )
     console.log("credit card added");
   } catch (error) {
     console.error(error);
@@ -90,7 +93,7 @@ async function addCreditCardTransactionsToDb(loggedInUser, accessToken, res){
       hasMore = data.has_more
       cursor = data.next_cursor
 
-      const newTransactions = transactions.map((transaction) => ({
+      const newTransactions = data.added.map((transaction) => ({
         date: transaction.date,
         name: transaction.name,
         category: transaction.category[0],
@@ -98,6 +101,8 @@ async function addCreditCardTransactionsToDb(loggedInUser, accessToken, res){
         amount: transaction.amount,
         pending: transaction.pending
       }))
+
+      console.log(newTransactions)
     }
     
 
