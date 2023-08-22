@@ -2,13 +2,16 @@ import mongoose from 'mongoose'
 import { transactionSchema } from '../models/transactions.model'; 
 import { accountSchema } from '../models/account.model';
 import { investmentAccountSchema } from '../models/investmentAccount.model' 
+import { creditCardSchema } from '../models/creditCard.model' 
 // const userItems = await Item.find({ user: userId })
 
 const itemSchema = new mongoose.Schema({
     accessToken: {type: String, required: true}, 
-    accounts: [accountSchema], 
-    transactions: [transactionSchema],
-    investmentsAccounts: [investmentAccountSchema]
+    itemType: {type: String /*, required: true*/},
+    creditCards: [creditCardSchema]
+    // accounts: [accountSchema], 
+    // transactions: [transactionSchema],
+    // investmentsAccounts: [investmentAccountSchema]
     
 
     // transactions: [transactionSchema || new mongoose.Schema({})], 
