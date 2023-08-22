@@ -16,30 +16,26 @@ async function exchangePublicToken(req, res) {
     const accessToken = exchangeResponse?.data?.access_token;
     console.log("accessToken: ", accessToken);
 
-    if(accessToken){
-        await connectToDB(); 
-        try {
-            let newItem = {
-              accessToken,
-            };
-            if (!loggedInUser) throw new Error("user not found");
-            loggedInUser.items.push(newItem);
-            await loggedInUser.save();
-            console.log('item inserted')
-          } catch (error) {
-            console.error(error, "couldnt insert item for user");
-            throw new Error("couldnt insert item for user");
-          }
-
-    } else{
-        throw new Error("no access token")
-
+    if (accessToken) {
+      await connectToDB();
+      try {
+        let newItem = {
+          accessToken,
+        };
+        if (!loggedInUser) throw new Error("user not found");
+        loggedInUser.items.push(newItem);
+        await loggedInUser.save();
+        console.log("item inserted");
+      } catch (error) {
+        console.error(error, "couldnt insert item for user");
+        throw new Error("couldnt insert item for user");
+      }
+    } else {
+      throw new Error("no access token");
     }
     res.send({ ok: true });
     return accessToken;
   }
-
-
 }
 
 async function confirmLogin(userID) {

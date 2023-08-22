@@ -10,7 +10,10 @@ async function creditCardHandler(req, res) {
   try {
     const userID = req?.body?.userID;
     const loggedInUser = await User.findOne({ id: userID });
-
+    // const justAddedCreditCard = await User.findOne({ id: userID })
+    
+    // return res.status(200).json(justAddedCreditCard)
+    
     if (!loggedInUser) {
       return res.status(404).send({ error: "User not logged in" });
     }
@@ -23,8 +26,11 @@ async function creditCardHandler(req, res) {
       }
 
       await addCreditCardsToDb(loggedInUser, accessToken);
-      await addCreditCardTransactionsToDb(loggedInUser, accessToken)
-      return res.status(200).send("successful");
+      // const updatedUser = await User.findOne({ id: userID });
+      // const justAddedCreditCard = updatedUser?.items?.[updatedUser.items.length - 1]?.creditCards;
+      // return res.status(200).json(justAddedCreditCard);
+      return res.status(200)
+      
     } else {
       return res.status(400).send("User has no items");
     }
@@ -54,61 +60,12 @@ async function addCreditCardsToDb(loggedInUser, accessToken, res) {
       justAddedItem.creditCards = [];
     }
 
-    
     await User.updateOne(
-      {id: loggedInUser.id, 'items.accessToken': accessToken }, 
-      {$push: {'items.$.creditCards': {$each: newCreditCard}}}
-    )
-    console.log("credit card added");
+      { id: loggedInUser.id, "items.accessToken": accessToken },
+      { $push: { "items.$.creditCards": { $each: newCreditCard } } }
+    );
+    console.log("Just added credit card:", newCreditCard);
   } catch (error) {
-    console.error(error);
-    return res.status(500).send("server error");
-  }
-}
-
-
-async function addCreditCardTransactionsToDb(loggedInUser, accessToken, res){
-  try{
-
-    let cursor = null;
-    let added = [];
-    let modified = [];
-    let removed = [];
-    let hasMore = true;
-
-    while(hasMore){
-      const request = {
-        access_token: accessToken, 
-        cursor: cursor, 
-        options: {include_personal_finance_category: true},
-        count: 100
-
-      }
-      const transactions = await plaidClient.transactionsSync(request)
-      const data = transactions.data
-      added = added.concat(data.added)
-      modified = modified.concat(data.modified)
-      removed = removed.concat(data.removed)
-
-      hasMore = data.has_more
-      cursor = data.next_cursor
-
-      const newTransactions = data.added.map((transaction) => ({
-        date: transaction.date,
-        name: transaction.name,
-        category: transaction.category[0],
-        paymentChannel: transaction.payment_channel,
-        amount: transaction.amount,
-        pending: transaction.pending
-      }))
-
-      console.log(newTransactions)
-    }
-    
-
-
-
-  }catch(error){
     console.error(error);
     return res.status(500).send("server error");
   }
