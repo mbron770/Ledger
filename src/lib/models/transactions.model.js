@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 
 const transactionSchema = new mongoose.Schema({
-    // date: {type: String, required: true}, 
-    date: Date,
+    date: {type: Date, required: true}, 
     name: {type: String, required: true}, 
     category: {type: String, required: true}, 
-    amount: Number
+    paymentChannel: {type: String, required: true}, 
+    amount: {type: Number, required: true},
+    pending: {type: Boolean, required: true}
 })
 
 // const Transaction = mongoose.models.Transaction || mongoose.model('Transaction', transactionSchema)

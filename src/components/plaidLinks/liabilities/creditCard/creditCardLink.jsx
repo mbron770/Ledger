@@ -6,7 +6,7 @@ import { usePlaidLink } from "react-plaid-link";
 export default function CreditCardLink() {
   const [token, setToken] = useState(null);
   const { user } = useUser();
-  const products = ['liabilities']
+  const products = ['liabilities', 'transactions']
   const account_filters = {
     credit: {
         account_subtypes: ['credit card']

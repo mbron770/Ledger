@@ -3,87 +3,108 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import { connectToDB } from "../../lib/mongoose";
 import User from "../../lib/models/user.model";
 
-export default withIronSessionApiRoute(
-  liabilitiesAccountsAdded,
-  sessionOptions
-);
+export default withIronSessionApiRoute(creditCardHandler, sessionOptions);
 
-async function creditCardHandler(req, res){
+async function creditCardHandler(req, res) {
   await connectToDB();
   try {
     const userID = req?.body?.userID;
     const loggedInUser = await User.findOne({ id: userID });
-    if (loggedInUser?.items && loggedInUser?.items.length > 0) {
-      const justAddedItem = loggedInUser?.items[loggedInUser?.items.length - 1];
-      const accessToken = justAddedItem.accessToken;
-    return accessToken
+
+    if (!loggedInUser) {
+      return res.status(404).send({ error: "User not logged in" });
     }
 
-
-    await addItemAccountsToDB(loggedInUser, accessToken);
-    // await addItemTransactionsToDB(loggedInUser, accessToken, res);
-    // awaiaccessToken
-access_token
-    return res.status(200).json("linked item and pulled all data");
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "server error" });
-  }
-
-}
-
-async function liabilitiesAccountsAdded(req, res) {
-  const userID = req?.body?.userID;
-  await connectToDB();
-  const loggedInUser = await User.findOne({ id: userID });
-
-  try {
     if (loggedInUser?.items && loggedInUser?.items.length > 0) {
       const justAddedItem = loggedInUser?.items[loggedInUser?.items.length - 1];
       const accessToken = justAddedItem.accessToken;
+      if (!accessToken) {
+        return res.status(400).send({ error: "no access token" });
+      }
 
-      const creditCardAccounts = await plaidClient.liabilitiesGet({
-        access_token: accessToken,
-      });
+      await addCreditCardsToDb(loggedInUser, accessToken);
+      await addCreditCardTransactionsToDb(loggedInUser, accessToken)
+      return res.status(200).send("successful");
+    } else {
+      return res.status(400).send("User has no items");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("server error");
+  }
+}
 
-      const newCreditCard = creditCardAccounts.data.accounts.map((creditCardAccount) => ({
+async function addCreditCardsToDb(loggedInUser, accessToken, res) {
+  try {
+    const creditCardAccounts = await plaidClient.liabilitiesGet({
+      access_token: accessToken,
+    });
+
+    const newCreditCard = creditCardAccounts.data.accounts.map(
+      (creditCardAccount) => ({
         name: creditCardAccount.official_name,
         number: creditCardAccount.account_id,
         currentBalance: creditCardAccount.balances.current,
         creditLimit: creditCardAccount.balances.limit,
-        
-      }));
+      })
+    );
 
-
-    if (loggedInUser.items && loggedInUser.items.length > 0) {
     const justAddedItem = loggedInUser.items[loggedInUser.items.length - 1];
-    if (!justAddedItem) {
+    if (!justAddedItem.creditCards) {
       justAddedItem.creditCards = [];
     }
+
     justAddedItem.creditCards.push(...newCreditCard);
     await loggedInUser.save();
-    console.log("new credit card inserted");
-  } else {
-    throw new Error("User has no items");
-  }
-
-
-async function getCreditCardTransactions()
-
-      
-
-
-
-
-
-
-
-      
-    } else {
-      throw new Error("no items");
-    }
+    console.log("credit card added");
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "server error" });
+    return res.status(500).send("server error");
+  }
+}
+
+
+async function addCreditCardTransactionsToDb(loggedInUser, accessToken, res){
+  try{
+
+    let cursor = null;
+    let added = [];
+    let modified = [];
+    let removed = [];
+    let hasMore = true;
+
+    while(hasMore){
+      const request = {
+        access_token: accessToken, 
+        cursor: cursor, 
+        options: {include_personal_finance_category: true},
+        count: 100
+
+      }
+      const transactions = await plaidClient.transactionsSync(request)
+      const data = transactions.data
+      added = added.concat(data.added)
+      modified = modified.concat(data.modified)
+      removed = removed.concat(data.removed)
+
+      hasMore = data.has_more
+      cursor = data.next_cursor
+
+      const newTransactions = transactions.map((transaction) => ({
+        date: transaction.date,
+        name: transaction.name,
+        category: transaction.category[0],
+        paymentChannel: transaction.payment_channel,
+        amount: transaction.amount,
+        pending: transaction.pending
+      }))
+    }
+    
+
+
+
+  }catch(error){
+    console.error(error);
+    return res.status(500).send("server error");
   }
 }
