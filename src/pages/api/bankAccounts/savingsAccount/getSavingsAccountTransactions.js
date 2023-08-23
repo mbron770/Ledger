@@ -47,7 +47,7 @@ async function addSavingsAccountTransactionsToDb(
     let removed = [];
     let hasMore = true;
 
-    const lastItemIndex = loggedInUser.items.length - 1;
+    const lastItemIndex = loggedInUser.items.length - 1; 
     const lastSavingsAccountIndex =
       loggedInUser.items[lastItemIndex].savingsAccounts.length - 1;
 
