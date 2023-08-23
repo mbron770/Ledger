@@ -49,7 +49,8 @@ async function addSavingsAccountTransactionsToDb(
 
     const lastItemIndex = loggedInUser.items.length - 1; 
     const lastSavingsAccountIndex =
-      loggedInUser.items[lastItemIndex].savingsAccounts.length - 1;
+      loggedInUser.items[lastItemIndex].savingsAccounts.length - 1;  
+      //
 
     // while (hasMore) {
       const request = {
