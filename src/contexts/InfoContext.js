@@ -17,6 +17,8 @@ const InfoContext = createContext({
   setInvestmentAccount: () => {},
   investmentAccountTransactions: () => {},
   setInvestmentAccountTransactions: () => {},
+  loan: null,
+  setLoan: () => {},
   token: null,
   setToken: () => {},
 });

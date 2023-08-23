@@ -14,7 +14,7 @@ export const InfoProvider = ({ children }) => {
   const [investmentAccount, setInvestmentAccount] = useState(null);
   const [investmentAccountTransactions, setInvestmentAccountTransactions] =
           useState([]);
-
+  const [loan, setLoan] = useState(null);
   const [token, setToken] = useState(null);
 
   return (
@@ -37,7 +37,9 @@ export const InfoProvider = ({ children }) => {
         investmentAccount,
         setInvestmentAccount,
         investmentAccountTransactions, 
-        setInvestmentAccountTransactions
+        setInvestmentAccountTransactions,
+        loan,
+        setLoan
 
 
 

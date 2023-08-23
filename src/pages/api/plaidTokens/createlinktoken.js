@@ -11,6 +11,5 @@ export default async function handler(req, res) {
     country_codes: ["US"],
     account_filters,
   });
-  console.log(tokenResponse.data);
   return res.json(tokenResponse.data);
 }

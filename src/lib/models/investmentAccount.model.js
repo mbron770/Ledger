@@ -8,7 +8,7 @@ const investmentAccountSchema = new mongoose.Schema({
     dateAdded: {type: Date, default: Date.now()},
     name: {type: String, required: true}, 
     accountNumber: {type: String, required: true}, 
-    type: {type: String, required: true}, 
+    type: {type: String}, 
     balance: {type: Number, required: true},
     transactions: [investmentTransactionsSchema],
     holdings: [investmentHoldingsSchema],

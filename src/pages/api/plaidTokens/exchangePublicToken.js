@@ -17,8 +17,7 @@ async function exchangePublicToken(req, res) {
     const exchangeResponse = await plaidClient.itemPublicTokenExchange({
       public_token: req?.body?.public_token,
     });
-    console.log("exchangeResponse");
-    console.log(exchangeResponse);
+    
 
     const accessToken = exchangeResponse?.data?.access_token;
     console.log("accessToken: ", accessToken);

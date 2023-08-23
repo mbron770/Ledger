@@ -6,6 +6,7 @@ import CreditCardLink from "../components/plaidLinks/liabilities/creditCard/cred
 import CheckingAccountLink from "../components/plaidLinks/bankAccounts/checking/checkingAccountLink";
 import SavingsAccountLink from "../components/plaidLinks/bankAccounts/savings/savingsAccountLink";
 import InvestmentAccountLink from '../components/plaidLinks/investments/investmentAccountLink';
+import LoanLink from "../components/plaidLinks/liabilities/loans/loanLink"
 import InfoContext from "../contexts/InfoContext";
 
 
@@ -19,6 +20,7 @@ export default function Home() {
     savingsAccountTransactions,
     investmentAccount,
     investmentAccountTransactions,
+    loan
   } = useContext(InfoContext);
   const lastAccount = investmentAccount && investmentAccount[investmentAccount.length - 1];
 
@@ -173,7 +175,7 @@ export default function Home() {
       <br></br>
 
 
-<InvestmentAccountLink/>
+{/* <InvestmentAccountLink/> */}
 
 {}
 
@@ -224,6 +226,12 @@ export default function Home() {
             <h1>type: {transaction.type}</h1>
           </div>
         ))}
+
+
+
+        <LoanLink/>
+
+        <h2>Loan Details</h2>
 
 
 
