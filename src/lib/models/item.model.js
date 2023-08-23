@@ -11,7 +11,7 @@ const itemSchema = new mongoose.Schema({
     creditCards: [creditCardSchema], 
     checkingAccounts: [checkingAccountSchema], 
     savingsAccounts: [savingsAccountSchema], 
-    investmentAccounts: [investmentAccountSchema]
+    investmentAccounts: [investmentAccountSchema],
 
     // accounts: [accountSchema], 
     // transactions: [transactionSchema],

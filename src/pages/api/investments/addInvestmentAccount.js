@@ -39,75 +39,76 @@ async function investmentAccountHandler(req, res) {
 
 async function addInvestmentAccountsToDb(loggedInUser, accessToken, res) {
   try {
-    const investmentAccount = await plaidClient.investmentsHoldingsGet({
+
+    
+
+
+
+
+    const investmentAccounts = await plaidClient.investmentsHoldingsGet({
       access_token: accessToken,
     });
+  
+    
 
-    const iAccounts = investmentAccount.data.accounts;
-    const iHoldings = investmentAccount.data.holdings;
-    const iSecurities = investmentAccount.data.securities;
+    const iAccounts = investmentAccounts.data.accounts;
+    const iHoldings = investmentAccounts.data.holdings;
+    const iSecurities = investmentAccounts.data.securities;
 
     const newHoldings = (accountId) =>
-      iHoldings
-        .filter((iHolding) => iHolding.account_id === accountId)
-        .map((iHolding) => ({
-          account_id: iHolding.account_id,
-          cost_basis: iHolding.cost_basis,
-          institution_price: iHolding.institution_price,
-          institution_value: iHolding.institution_value,
-          quantity: iHolding.quantity,
-        }));
+    iHoldings
+      .filter((iHolding) => iHolding.account_id === accountId)
+      .map((iHolding) => ({
+        account_id: iHolding.account_id,
+        cost_basis: iHolding.cost_basis,
+        institution_price: iHolding.institution_price,
+        institution_value: iHolding.institution_value,
+        quantity: iHolding.quantity,
+      }));
 
-    const newSecurities = iSecurities.map((iSecurity) => ({
-      close_price: iSecurity.close_price,
-      name: iSecurity.name,
-      type: iSecurity.type,
-      ticker_symbol: iSecurity.ticker_symbol,
-    }));
+  const newSecurities = iSecurities.map((iSecurity) => ({
+    close_price: iSecurity.close_price,
+    name: iSecurity.name,
+    type: iSecurity.type,
+    ticker_symbol: iSecurity.ticker_symbol,
+  }));
+    
 
-    const newInvestmentAccount = iAccounts.map((iAccount) => ({
+    
+
+    const newInvestmentAccounts = iAccounts.map((iAccount) => ({
       name: iAccount.name,
-      accountNumber: iAccount.account_id,
+      accountNumber: `${iAccount.account_id}-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
       balance: iAccount.balances.current,
-      holdings: newHoldings(iAccount.account_id),
       securities: newSecurities,
-    }));
+      holdings: newHoldings(iAccount.account_id)
 
-    //add to db here
+    }));
+    console.log([])
+
+
+
+  
 
     const justAddedItem = loggedInUser.items[loggedInUser.items.length - 1];
     if (!justAddedItem.investmentAccounts) {
       justAddedItem.investmentAccounts = [];
     }
 
-    const updateResult = await User.updateOne(
+    const updateResult = await User.updateMany(
       { id: loggedInUser.id, "items.accessToken": accessToken },
       {
         $push: {
-          "items.$.investmentAccounts": { $each: newInvestmentAccount },
+          "items.$.investmentAccounts": { $each: newInvestmentAccounts },
         },
       }
     );
-    console.log("Just added investment account:", updateResult);
 
-    // const options = {
+    console.log(updateResult)
 
-    //   count: 10,
-    //   account_ids: ['74JDa8w3ZpClpWZEwreJFGdqjgpeZ7S8RPRBo']
-    // }
+    
 
-    // const request ={
-    //   access_token: 'access-sandbox-b81cb7a5-ba6e-4c8d-839b-67609254f45d',
-    //   start_date: '2022-09-01',
-    //   end_date: '2023-08-10',
-    //   options
-
-    // };
-
-    //   const response = await plaidClient.investmentsTransactionsGet(request)
-    //   console.log(response.data.investment_transactions)
-
-    return res.status(200).json(newInvestmentAccount);
+    return res.status(200).json(newInvestmentAccounts);
   } catch (error) {
     console.error(error);
     return res.status(500).send("server error");

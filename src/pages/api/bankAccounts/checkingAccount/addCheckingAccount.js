@@ -41,6 +41,7 @@ async function addCheckingAccountsToDb(loggedInUser, accessToken, res) {
     const checkingAccount = await plaidClient.accountsGet({
       access_token: accessToken,
     });
+    console.log(checkingAccount.data.accounts)
 
     const newCheckingAccount = checkingAccount.data.accounts.map(
       (account) => ({
@@ -50,7 +51,7 @@ async function addCheckingAccountsToDb(loggedInUser, accessToken, res) {
       })
     );
 
-    console.log(newCheckingAccount)
+    // console.log(newCheckingAccount)
 
     const justAddedItem = loggedInUser.items[loggedInUser.items.length - 1];
     if (!justAddedItem.checkingAccounts) {
@@ -61,7 +62,7 @@ async function addCheckingAccountsToDb(loggedInUser, accessToken, res) {
       { id: loggedInUser.id, "items.accessToken": accessToken },
       { $push: { "items.$.checkingAccounts": { $each: newCheckingAccount } } }
     );
-    console.log("Just added credit card:", newCheckingAccount);
+    console.log("Just added checking account:", newCheckingAccount);
     return res.status(200).json(newCheckingAccount)
   } catch (error) {
     console.error(error);

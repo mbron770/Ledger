@@ -20,6 +20,7 @@ export default function Home() {
     investmentAccount,
     investmentAccountTransactions,
   } = useContext(InfoContext);
+  const lastAccount = investmentAccount && investmentAccount[investmentAccount.length - 1];
 
   return (
     <>
@@ -127,6 +128,7 @@ export default function Home() {
       <br></br>
       <br></br>
       <br></br>
+
       <br></br>
 
       {/* <SavingsAccountLink /> */}
@@ -173,12 +175,12 @@ export default function Home() {
 
 <InvestmentAccountLink/>
 
-
+{}
 
 <h2>Investment Account Details</h2>
-{investmentAccount &&
+{/* {investmentAccount &&
         investmentAccount.map((iAccount) => (
-          <div key={iAccount.accountNumber}>
+          <div key={Date.now}>
             <p>
               <strong>Name:</strong> {iAccount.name}
             </p>
@@ -189,21 +191,40 @@ export default function Home() {
               <strong>Balance:</strong> {iAccount.balance}
             </p>
           </div>
-        ))}
+        ))} */}
+
+<div>
+    {lastAccount && (
+      <div key={Date.now()}>
+        <p>
+          <strong>Name:</strong> {lastAccount.name}
+        </p>
+        <p>
+          <strong>Account Number:</strong> {lastAccount.accountNumber}
+        </p>
+        <p>
+          <strong>Balance:</strong> {lastAccount.balance}
+        </p>
+      </div>
+    )}
+  </div>
+
+
 
 
 <h2>Investment Account Transactions</h2>
-      {/* {savingsAccountTransactions &&
-        savingsAccountTransactions.map((transaction) => (
+      {investmentAccountTransactions &&
+        investmentAccountTransactions.map((transaction) => (
           <div key={transaction.name}>
             <h1>date: {transaction.date}</h1>
             <h1>name: {transaction.name}</h1>
-            <h1>category: {transaction.category}</h1>
-            <h1>paymentChannel: {transaction.paymentChannel}</h1>
-            <h1>amount: {transaction.amount}</h1>
-            <h1>pending: {transaction.pending}</h1>
+            <h1>fees: {transaction.fees}</h1>
+            <h1>price: {transaction.price}</h1>
+            <h1>quantity: {transaction.quantity}</h1>
+            <h1>type: {transaction.type}</h1>
           </div>
-        ))} */}
+        ))}
+
 
 
 

@@ -69,7 +69,7 @@ export default function CreditCardLink() {
 
   async function addCreditCard() {
     try {
-      const response = await fetch("/api/liabilities//creditCard/addCreditCard", {
+      const response = await fetch("/api/liabilities/creditCard/addCreditCard", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export default function CreditCardLink() {
 
   async function getAddedCreditCard() {
     try {
-      const response = await fetch("/api/liabilities//creditCard/getAddedCreditCard", {
+      const response = await fetch("/api/liabilities/creditCard/getAddedCreditCard", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

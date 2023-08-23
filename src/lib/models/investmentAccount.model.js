@@ -12,7 +12,7 @@ const investmentAccountSchema = new mongoose.Schema({
     balance: {type: Number, required: true},
     transactions: [investmentTransactionsSchema],
     holdings: [investmentHoldingsSchema],
-    securities: [investmentSecuritiesSchema]
+    securities: [investmentSecuritiesSchema],
 
 })
 

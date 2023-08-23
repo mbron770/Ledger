@@ -9,43 +9,39 @@ async function exchangePublicToken(req, res) {
   await connectToDB();
   const userID = req?.body?.userID;
   const loggedInUser = await confirmLogin(userID);
-  if (loggedInUser) {
+  if (!loggedInUser) {
+    return res.status(403).send({ error: "user not logged in" });
+  }
+
+  try {
     const exchangeResponse = await plaidClient.itemPublicTokenExchange({
       public_token: req?.body?.public_token,
     });
+    console.log("exchangeResponse");
+    console.log(exchangeResponse);
 
     const accessToken = exchangeResponse?.data?.access_token;
     console.log("accessToken: ", accessToken);
 
-    if (accessToken) {
-      await connectToDB();
-      try {
-        let newItem = {
-          accessToken,
-        };
-        if (!loggedInUser) throw new Error("user not found");
-        loggedInUser.items.push(newItem);
-        await loggedInUser.save();
-        console.log("item inserted");
-        
-      } catch (error) {
-        console.error(error, "couldnt insert item for user");
-        throw new Error("couldnt insert item for user");
-      }
-    } else {
-      throw new Error("no access token");
+    if (!accessToken) {
+      return res.status(400).send({ error: "no access token" });
     }
+
+    let newItem = {
+      accessToken,
+    };
+
+    loggedInUser.items.push(newItem);
+    await loggedInUser.save();
+    console.log("item inserted");
+
     res.send({ ok: true });
-    return accessToken;
+    // return accessToken;
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "server error" });
   }
 }
-
-// async function confirmLogin(userID) {
-
-//   const loggedInUser = await User.findOne({ id: userID });
-//   if (!loggedInUser) throw new Error("not logged in");
-//   return loggedInUser;
-// }
 
 async function confirmLogin(userID) {
   await connectToDB();
@@ -55,6 +51,6 @@ async function confirmLogin(userID) {
     return loggedInUser;
   } catch (error) {
     console.error("Error fetching user:", error);
-    throw new Error("Database error while fetching user.");
+    throw new Error("Database error while fetching user");
   }
 }

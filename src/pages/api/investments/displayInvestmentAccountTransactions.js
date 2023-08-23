@@ -1,14 +1,14 @@
-import { plaidClient, sessionOptions } from "../../../../lib/plaid";
+import { plaidClient, sessionOptions } from "../../../lib/plaid";
 import { withIronSessionApiRoute } from "iron-session/next";
-import { connectToDB } from "../../../../lib/mongoose";
-import User from "../../../../lib/models/user.model";
+import { connectToDB } from "../../../lib/mongoose";
+import User from "../../../lib/models/user.model";
 
 export default withIronSessionApiRoute(
-  displayCheckingAccountTransactionsHandler,
+  displayInvestmentAccountTransactionsHandler,
   sessionOptions
 );
 
-async function displayCheckingAccountTransactionsHandler(req, res) {
+async function displayInvestmentAccountTransactionsHandler(req, res) {
   await connectToDB();
 
   const userID = req?.body?.userID;
@@ -24,14 +24,14 @@ async function displayCheckingAccountTransactionsHandler(req, res) {
     }
     if (loggedInUser.items && loggedInUser.items.length > 0) {
       const lastItem = loggedInUser.items[loggedInUser.items.length - 1];
-      if (lastItem.checkingAccounts && lastItem.checkingAccounts.length > 0) {
-        const justAddedCheckingAccount =
-          lastItem.checkingAccounts[lastItem.checkingAccounts.length - 1];
-        const justAddedTransactions = justAddedCheckingAccount.transactions;
+      if (lastItem.investmentAccounts && lastItem.investmentAccounts.length > 0) {
+        const justAddedInvestmentAccount =
+          lastItem.investmentAccounts[lastItem.investmentAccounts.length - 1];
+        const justAddedTransactions = justAddedInvestmentAccount.transactions;
         return res.status(200).json(justAddedTransactions);
       }
     }
-    return res.status(404).json({ error: "User has no checking accounts" });
+    return res.status(404).json({ error: "User has no investments" });
   } catch (error) {
     console.error(error);
     res.status(500).send("server error");
