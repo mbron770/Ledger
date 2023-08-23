@@ -4,11 +4,12 @@ import Router from "next/router";
 import { useState, useEffect, useCallback, useContext } from "react";
 import CreditCardLink from '../components/plaidLinks/liabilities/creditCard/creditCardLink'
 import CheckingAccountLink from '../components/plaidLinks/bankAccounts/checking/checkingAccountLink'
+import SavingsAccountLink from '../components/plaidLinks/bankAccounts/savings/savingsAccountLink'
 import InfoContext from '../contexts/InfoContext'
 
 
 export default function Home() {
-  const { creditCard, checkingAccount, creditCardTransactions, checkingAccountTransactions} = useContext(InfoContext);
+  const { creditCard, checkingAccount, creditCardTransactions, checkingAccountTransactions, savingsAccount, savingsAccountTransactions} = useContext(InfoContext);
 
 
   return (
@@ -71,7 +72,7 @@ export default function Home() {
         <br></br>
         <br></br>
 
-        <CheckingAccountLink/>
+        {/* <CheckingAccountLink/> */}
 
 <h2>Checking Account Details</h2>
 {checkingAccount &&
@@ -101,6 +102,60 @@ export default function Home() {
             <h1>pending: {transaction.pending}</h1>
           </div>
         ))}
+
+
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+
+        <SavingsAccountLink/>
+
+
+
+        <h2>Savings Account Details</h2>
+{savingsAccount &&
+        savingsAccount.map((account) => (
+          <div key={account.accountNumber}>
+            <p>
+              <strong>Name:</strong> {account.name}
+            </p>
+            <p>
+              <strong>Account Number:</strong> {account.accountNumber}
+            </p>
+            <p>
+              <strong>Balance:</strong> {account.balance}
+            </p>
+          </div>
+        ))}
+
+<h2>Savings Account Transactions</h2>
+{savingsAccountTransactions &&
+        savingsAccountTransactions.map((transaction) => (
+          <div key={transaction.name}>
+            <h1>date: {transaction.date}</h1>
+            <h1>name: {transaction.name}</h1>
+            <h1>category: {transaction.category}</h1>
+            <h1>paymentChannel: {transaction.paymentChannel}</h1>
+            <h1>amount: {transaction.amount}</h1>
+            <h1>pending: {transaction.pending}</h1>
+          </div>
+        ))}
+
+
+
 
 
 

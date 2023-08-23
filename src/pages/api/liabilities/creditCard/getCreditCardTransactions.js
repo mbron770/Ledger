@@ -41,13 +41,13 @@ async function addCreditCardTransactionsToDb(loggedInUser, accessToken, res) {
     let added = [];
     let modified = [];
     let removed = [];
-    let hasMore = true;
+    let hasMore = null;
 
     const lastItemIndex = loggedInUser.items.length - 1;
     const lastCreditCardIndex =
       loggedInUser.items[lastItemIndex].creditCards.length - 1;
 
-    while (hasMore) {
+    // while (hasMore) {
       const request = {
         access_token: accessToken,
         cursor: cursor,
@@ -85,7 +85,7 @@ async function addCreditCardTransactionsToDb(loggedInUser, accessToken, res) {
           },
         }
       );
-    }
+    // }
   } catch (error) {
     console.error(error);
     return res.status(500).send("server error");

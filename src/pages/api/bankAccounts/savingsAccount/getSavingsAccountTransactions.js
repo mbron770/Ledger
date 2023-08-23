@@ -4,11 +4,11 @@ import { connectToDB } from "../../../../lib/mongoose";
 import User from "../../../../lib/models/user.model";
 
 export default withIronSessionApiRoute(
-  checkingAccountTransactionsHandler,
+  savingsAccountTransactionsHandler,
   sessionOptions
 );
 
-async function checkingAccountTransactionsHandler(req, res) {
+async function savingsAccountTransactionsHandler(req, res) {
   await connectToDB();
   try {
     const userID = req?.body?.userID;
@@ -24,7 +24,7 @@ async function checkingAccountTransactionsHandler(req, res) {
       if (!accessToken) {
         return res.status(400).send({ error: "no access token" });
       }
-      await addCheckingAccountTransactionsToDb(loggedInUser, accessToken, res);
+      await addSavingsAccountTransactionsToDb(loggedInUser, accessToken, res);
       return res.status(200).send("successful");
     } else {
       return res.status(400).send("User has no items");
@@ -35,7 +35,7 @@ async function checkingAccountTransactionsHandler(req, res) {
   }
 }
 
-async function addCheckingAccountTransactionsToDb(
+async function addSavingsAccountTransactionsToDb(
   loggedInUser,
   accessToken,
   res
@@ -48,8 +48,8 @@ async function addCheckingAccountTransactionsToDb(
     let hasMore = true;
 
     const lastItemIndex = loggedInUser.items.length - 1;
-    const lastCheckingAccountIndex =
-      loggedInUser.items[lastItemIndex].checkingAccounts.length - 1;
+    const lastSavingsAccountIndex =
+      loggedInUser.items[lastItemIndex].savingsAccounts.length - 1;
 
     // while (hasMore) {
       const request = {
@@ -66,6 +66,7 @@ async function addCheckingAccountTransactionsToDb(
 
       hasMore = data.has_more;
       cursor = data.next_cursor;
+      
 
       const newTransactions = data.added.map((transaction) => ({
         date: transaction.date,
@@ -76,18 +77,20 @@ async function addCheckingAccountTransactionsToDb(
         pending: transaction.pending,
       }));
 
+      
+
       await User.updateOne(
         { id: loggedInUser.id },
         {
           $push: {
-            [`items.${lastItemIndex}.checkingAccounts.${lastCheckingAccountIndex}.transactions`]:
+            [`items.${lastItemIndex}.savingsAccounts.${lastSavingsAccountIndex}.transactions`]:
               {
                 $each: newTransactions,
               },
           },
         }
       );
-      console.log("checking account transactions inserted");
+      console.log("savings account transactions inserted");
     // }
   } catch (error) {
     console.error(error);

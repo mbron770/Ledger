@@ -8,6 +8,10 @@ export const InfoProvider = ({ children }) => {
   const [checkingAccountTransactions, setCheckingAccountTransactions] =
     useState([]);
 
+  const [savingsAccount, setSavingsAccount] = useState(null);
+  const [savingsAccountTransactions, setSavingsAccountTransactions] =
+      useState([]);
+
   const [token, setToken] = useState(null);
 
   return (
@@ -23,6 +27,10 @@ export const InfoProvider = ({ children }) => {
         setCheckingAccount,
         checkingAccountTransactions,
         setCheckingAccountTransactions,
+        savingsAccount,
+        setSavingsAccount,
+        savingsAccountTransactions,
+        setSavingsAccountTransactions,
       }}
     >
       {children}
