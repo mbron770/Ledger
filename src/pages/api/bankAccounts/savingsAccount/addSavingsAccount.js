@@ -60,7 +60,7 @@ async function addSavingsAccountsToDb(loggedInUser, accessToken, res) {
       { $push: { "items.$.savingsAccounts": { $each: newSavingsAccount } } }
     );
     console.log("Just added savings account:", newSavingsAccount);
-    return res.status(200).json(savingsAccount.data.accounts) //change this to map version
+    return res.status(200).json(newSavingsAccount) 
   } catch (error) {
     console.error(error);
     return res.status(500).send("server error");

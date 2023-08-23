@@ -13,6 +13,10 @@ const InfoContext = createContext({
   setSavingsAccount: () => {},
   savingsAccountTransactions: () => {},
   setSavingsAccountTransactions: () => {},
+  investmentAccount: null,
+  setInvestmentAccount: () => {},
+  investmentAccountTransactions: () => {},
+  setInvestmentAccountTransactions: () => {},
   token: null,
   setToken: () => {},
 });

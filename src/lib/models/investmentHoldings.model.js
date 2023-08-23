@@ -5,7 +5,7 @@ const investmentHoldingsSchema = new mongoose.Schema({
     institution_price: {type: Number, required: true}, 
     institution_value: {type: Number, required: true}, 
     quantity: {type: Number, required: true},
-    institution_price_as_of: {type: Date, required: true}
+    institution_price_as_of: {type: String}
 })
 
 export { investmentHoldingsSchema }
