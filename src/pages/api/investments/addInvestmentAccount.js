@@ -45,8 +45,8 @@ async function addInvestmentAccountsToDb(loggedInUser, accessToken, res) {
 
   
     const iAccounts = investmentAccount.data.accounts
-    const holdings = investmentAccount.data.holdings;
-    const securities = investmentAccount.data.securities;
+    const iHoldings = investmentAccount.data.holdings;
+    const iSecurities = investmentAccount.data.securities;
 
     const newInvestmentAccount = iAccounts.map(
       (iAccount) => ({
@@ -56,7 +56,27 @@ async function addInvestmentAccountsToDb(loggedInUser, accessToken, res) {
       })
     )
 
-    console.log(newInvestmentAccount)
+    //add to db here
+
+    // cost_basis: {type: Number, required: true},
+    // institution_price: {type: Number, required: true}, 
+    // institution_value: {type: Number, required: true}, 
+    // quantity: {type: Number, required: true},
+    // institution_price_as_of: {type: String}
+
+
+
+
+    // const newHoldings = iHoldings.map((iHolding) => (
+    //   {
+
+    //   }
+    // 
+    close_price: {type: Number, required: true}, 
+    name: {type: String, required: true}, 
+    type: { type: String},
+    ticker_symbol: {type: String, required: true},
+    console.log(investmentAccount.iHoldings)
 
     // const justAddedItem = loggedInUser.items[loggedInUser.items.length - 1];
     // if (!justAddedItem.investmentAccounts) {
