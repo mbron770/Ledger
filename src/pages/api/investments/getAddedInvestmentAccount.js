@@ -1,14 +1,14 @@
-import { plaidClient, sessionOptions } from "../../../../lib/plaid";
+import { plaidClient, sessionOptions } from "../../../lib/plaid"
 import { withIronSessionApiRoute } from "iron-session/next";
-import { connectToDB } from "../../../../lib/mongoose";
-import User from "../../../../lib/models/user.model";
+import { connectToDB } from "../../../lib/mongoose";
+import User from "../../../lib/models/user.model";
 
 export default withIronSessionApiRoute(
-  getAddedSavingsAccountHandler,
+  getAddedInvestmentAccountHandler,
   sessionOptions
 );
 
-async function getAddedSavingsAccountHandler(req, res) {
+async function getAddedInvestmentAccountHandler(req, res) {
   await connectToDB();
   const userID = req?.body?.userID;
 
@@ -23,12 +23,12 @@ async function getAddedSavingsAccountHandler(req, res) {
     }
 
     if (loggedInUser.items && loggedInUser.items.length > 0) {
-      const justAddedSavingsAccount =
-        loggedInUser.items[loggedInUser.items.length - 1]?.savingsAccounts;
+      const justAddedInvestmentAccount =
+        loggedInUser.items[loggedInUser.items.length - 1]?.investmentAccounts;
 
-      return res.status(200).json(justAddedSavingsAccount);
+      return res.status(200).json(justAddedInvestmentAccount);
     } else {
-      return res.status(404).json({ error: "User has no Savings accounts" });
+      return res.status(404).json({ error: "User has no Investment accounts" });
     }
   } catch (error) {
     console.error(error);

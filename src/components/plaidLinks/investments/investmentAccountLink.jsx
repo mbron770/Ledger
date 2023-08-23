@@ -103,7 +103,7 @@ export default function InvestmentAccountLink() {
         console.log("add Investment account");
         await addInvestmentAccount();
         console.log("get added Investment account");
-        // await getAddedInvestmentAccount();
+        await getAddedInvestmentAccount();
         console.log("get transactions");
         // await getTransactions();
         console.log("display transactions");
@@ -115,7 +115,7 @@ export default function InvestmentAccountLink() {
     [
       user,
       addInvestmentAccount,
-      // getAddedInvestmentAccount,
+      getAddedInvestmentAccount,
       // getTransactions,
       // displayTransactions
     ]

@@ -176,20 +176,20 @@ export default function Home() {
 
 
 <h2>Investment Account Details</h2>
-{/* {savingsAccount &&
-        savingsAccount.map((account) => (
-          <div key={account.accountNumber}>
+{investmentAccount &&
+        investmentAccount.map((iAccount) => (
+          <div key={iAccount.accountNumber}>
             <p>
-              <strong>Name:</strong> {account.name}
+              <strong>Name:</strong> {iAccount.name}
             </p>
             <p>
-              <strong>Account Number:</strong> {account.accountNumber}
+              <strong>Account Number:</strong> {iAccount.accountNumber}
             </p>
             <p>
-              <strong>Balance:</strong> {account.balance}
+              <strong>Balance:</strong> {iAccount.balance}
             </p>
           </div>
-        ))} */}
+        ))}
 
 
 <h2>Investment Account Transactions</h2>

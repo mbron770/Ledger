@@ -11,9 +11,11 @@ const itemSchema = new mongoose.Schema({
     creditCards: [creditCardSchema], 
     checkingAccounts: [checkingAccountSchema], 
     savingsAccounts: [savingsAccountSchema], 
+    investmentAccounts: [investmentAccountSchema]
+
     // accounts: [accountSchema], 
     // transactions: [transactionSchema],
-    // investmentsAccounts: [investmentAccountSchema]
+    
     
 
     // transactions: [transactionSchema || new mongoose.Schema({})], 
