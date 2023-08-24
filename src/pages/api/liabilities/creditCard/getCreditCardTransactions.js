@@ -48,43 +48,46 @@ async function addCreditCardTransactionsToDb(loggedInUser, accessToken, res) {
       loggedInUser.items[lastItemIndex].creditCards.length - 1;
 
     // while (hasMore) {
-      const request = {
-        access_token: accessToken,
-        cursor: cursor,
-        options: { include_personal_finance_category: true },
-        count: 100,
-      };
-      const transactions = await plaidClient.transactionsSync(request);
-      const data = transactions.data;
-      added = added.concat(data.added);
-      modified = modified.concat(data.modified);
-      removed = removed.concat(data.removed);
+    const request = {
+      access_token: accessToken,
+      cursor: cursor,
+      options: { include_personal_finance_category: true },
+      count: 100,
+    };
+    const transactions = await plaidClient.transactionsSync(request);
+    const data = transactions.data;
+    added = added.concat(data.added);
+    modified = modified.concat(data.modified);
+    removed = removed.concat(data.removed);
 
-      hasMore = data.has_more;
-      cursor = data.next_cursor;
+    hasMore = data.has_more;
+    cursor = data.next_cursor;
 
-      const newTransactions = data.added.map((transaction) => ({
-        date: transaction.date,
-        name: transaction.name,
-        category: (transaction.category && Array.isArray(transaction.category)) ? transaction.category[0] : 'default',
-        paymentChannel: transaction.payment_channel,
-        amount: transaction.amount,
-        pending: transaction.pending,
-      }));
+    const newTransactions = data.added.map((transaction) => ({
+      date: transaction.date,
+      name: transaction.name,
+      category:
+        transaction.category && Array.isArray(transaction.category)
+          ? transaction.category[0]
+          : "default",
+      paymentChannel: transaction.payment_channel,
+      amount: transaction.amount,
+      pending: transaction.pending,
+    }));
 
-      console.log(newTransactions);
+    console.log(newTransactions);
 
-      await User.updateOne(
-        { id: loggedInUser.id },
-        {
-          $push: {
-            [`items.${lastItemIndex}.creditCards.${lastCreditCardIndex}.transactions`]:
-              {
-                $each: newTransactions,
-              },
-          },
-        }
-      );
+    await User.updateOne(
+      { id: loggedInUser.id },
+      {
+        $push: {
+          [`items.${lastItemIndex}.creditCards.${lastCreditCardIndex}.transactions`]:
+            {
+              $each: newTransactions,
+            },
+        },
+      }
+    );
     // }
   } catch (error) {
     console.error(error);

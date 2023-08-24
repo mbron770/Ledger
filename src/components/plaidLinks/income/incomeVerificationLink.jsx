@@ -6,43 +6,28 @@ import InfoContext from "../../../contexts/InfoContext";
 
 export default function IncomeLink() {
   const { setIncome, token, setToken } = useContext(InfoContext);
-  const { userToken, setUserToken } = useState(null)
+  const { userToken, setUserToken } = useState(null);
   const { user } = useUser();
   const products = ["income_verification"];
 
   console.log(user?.id);
 
-//   useEffect(() => {
-//     const createUserForJob = async () => {
-//       const res = await fetch("/api/plaidToken/createUser", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ userID: user?.id }),
-//       });
-//       const { newUserToken } = await res.json()
-//       setUserToken(newUserToken);
-//     };
-//     createUserForJob();
-//   }, [user]);
+  const createUserToken = useCallback(async () => {
+    const res = await fetch("/api/plaidTokens/incomeLinkToken", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ products, user }),
+    });
+    const { link_token } = await res.json();
+
+    setToken(link_token);
+  }, [user]);
 
   useEffect(() => {
-    
-    const createLinkToken = async () => {
-      const res = await fetch("/api/plaidTokens/incomeLinkToken", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ products, user }),
-      });
-      const { link_token } = await res.json();
-
-      setToken(link_token);
-    };
-    createLinkToken();
-  }, [user]);
+    createUserToken();
+  }, [createUserToken]);
 
   const onSuccess = useCallback(
     async (public_token) => {
@@ -53,30 +38,20 @@ export default function IncomeLink() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            // public_token: public_token,
-            // userID: user?.id,
+            public_token: public_token,
+            userID: user?.id,
           }),
         });
 
-        console.log("add credit card");
+        console.log("add income");
         await addIncome();
-        console.log("get added credit card");
-        // await getAddedIncome();
-        console.log("get transactions");
-        // await getTransactions();
-        console.log("display transactions");
-        // await displayTransactions();
+        console.log("get added income");
+        await getAddedIncome();
       } catch (error) {
         console.error(error.message);
       }
     },
-    [
-      user,
-        addIncome,
-      //   getAddedIncome,
-      // getTransactions,
-      // displayTransactions,
-    ]
+    [user, addIncome, getAddedIncome]
   );
 
   async function addIncome() {
@@ -100,7 +75,7 @@ export default function IncomeLink() {
 
   async function getAddedIncome() {
     try {
-      const response = await fetch("/api/liabilities/Incomes/getAddedIncome", {
+      const response = await fetch("/api/income/getIncome", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,10 +96,9 @@ export default function IncomeLink() {
     }
   }
 
-
-
   const { open, ready } = usePlaidLink({
     token,
+    createUserToken,
     onSuccess,
   });
 

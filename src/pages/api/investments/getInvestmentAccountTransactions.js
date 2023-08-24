@@ -37,50 +37,49 @@ async function investmentTransactionsHandler(req, res) {
 
 async function addInvestmentTransactionsToDb(loggedInUser, accessToken, res) {
   try {
-   
-
     const lastItemIndex = loggedInUser.items.length - 1;
     const lastInvestmentIndex =
       loggedInUser.items[lastItemIndex].investmentAccounts.length - 1;
 
-      const options = {
+    const options = {
+      count: 100,
+    };
 
-  count: 100,
-}
+    const request = {
+      access_token: accessToken,
+      start_date: "2022-09-01",
+      end_date: "2023-08-10",
+      options,
+    };
 
-const request ={
-  access_token: accessToken,
-  start_date: '2022-09-01',
-  end_date: '2023-08-10',
-  options}
+    const investmentTransactions = await plaidClient.investmentsTransactionsGet(
+      request
+    );
 
-  const investmentTransactions = await plaidClient.investmentsTransactionsGet(request)
-  
-
-  
-
-  const iTransactions = investmentTransactions.data.investment_transactions.map((iTransaction) => ({
-    date: iTransaction.date,
-    name: iTransaction.name, 
-    amount: iTransaction.amount, 
-    fees: iTransaction.fees, 
-    price: iTransaction.price, 
-    quantity: iTransaction.quantity, 
-    type: iTransaction.type
-  }))
-
-      await User.updateMany(
-        { id: loggedInUser.id },
-        {
-          $push: {
-            [`items.${lastItemIndex}.investmentAccounts.${lastInvestmentIndex}.transactions`]:
-              {
-                $each: iTransactions,
-              },
-          },
-        }
+    const iTransactions =
+      investmentTransactions.data.investment_transactions.map(
+        (iTransaction) => ({
+          date: iTransaction.date,
+          name: iTransaction.name,
+          amount: iTransaction.amount,
+          fees: iTransaction.fees,
+          price: iTransaction.price,
+          quantity: iTransaction.quantity,
+          type: iTransaction.type,
+        })
       );
-    
+
+    await User.updateMany(
+      { id: loggedInUser.id },
+      {
+        $push: {
+          [`items.${lastItemIndex}.investmentAccounts.${lastInvestmentIndex}.transactions`]:
+            {
+              $each: iTransactions,
+            },
+        },
+      }
+    );
   } catch (error) {
     console.error(error);
     return res.status(500).send("server error");

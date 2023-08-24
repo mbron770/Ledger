@@ -9,11 +9,13 @@ export const InfoProvider = ({ children }) => {
     useState([]);
 
   const [savingsAccount, setSavingsAccount] = useState(null);
-  const [savingsAccountTransactions, setSavingsAccountTransactions] =
-      useState([]);
+  const [savingsAccountTransactions, setSavingsAccountTransactions] = useState(
+    []
+  );
   const [investmentAccount, setInvestmentAccount] = useState(null);
   const [investmentAccountTransactions, setInvestmentAccountTransactions] =
-          useState([]);
+    useState([]);
+  const [income, setIncome] = useState(null);
   const [loan, setLoan] = useState(null);
   const [token, setToken] = useState(null);
 
@@ -36,14 +38,12 @@ export const InfoProvider = ({ children }) => {
         setSavingsAccountTransactions,
         investmentAccount,
         setInvestmentAccount,
-        investmentAccountTransactions, 
+        investmentAccountTransactions,
         setInvestmentAccountTransactions,
         loan,
-        setLoan
-
-
-
-
+        setLoan,
+        income,
+        setIncome,
       }}
     >
       {children}

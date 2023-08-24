@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       user_token: await createUser(userID),
       // user_token: "user-sandbox-c27d98a8-f149-4998-bc7f-a6b57ba9f115",
       country_codes: ["US"],
-      account_filters,
+      // account_filters,
     });
 
     return res.json(tokenResponse.data);

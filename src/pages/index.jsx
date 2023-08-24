@@ -22,7 +22,8 @@ export default function Home() {
     savingsAccountTransactions,
     investmentAccount,
     investmentAccountTransactions,
-    loan
+    loan, 
+    income
   } = useContext(InfoContext);
   const lastAccount = investmentAccount && investmentAccount[investmentAccount.length - 1];
 
@@ -34,7 +35,7 @@ export default function Home() {
 
       <h1>homepage</h1>
 
-      <CreditCardLink />
+      {/* <CreditCardLink /> */}
 
       <h2>Credit Card Details</h2>
       {creditCard &&
@@ -248,10 +249,27 @@ export default function Home() {
 
 
         <IncomeVerificationLink/>
-
-
-
-  
+        <h1>Job Details</h1>
+      {income &&
+        income.map((job) => (
+          <div key={job.employerName}>
+            <p>
+              <strong>Date Added:</strong> {job.dateAdded}
+            </p>
+            <p>
+              <strong>employerName:</strong> {job.employerName}
+            </p>
+            <p>
+              <strong>title:</strong> {job.title}
+            </p>
+            <p>
+              <strong>Pay</strong> {job.pay}
+            </p>
+            <p>
+              <strong>Rate</strong> {job.rate}
+            </p>
+          </div>
+        ))}
     </>
   );
 }
