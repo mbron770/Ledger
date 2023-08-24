@@ -7,7 +7,9 @@ import CheckingAccountLink from "../components/plaidLinks/bankAccounts/checking/
 import SavingsAccountLink from "../components/plaidLinks/bankAccounts/savings/savingsAccountLink";
 import InvestmentAccountLink from '../components/plaidLinks/investments/investmentAccountLink';
 import LoanLink from "../components/plaidLinks/liabilities/loans/loanLink"
+import IncomeVerificationLink from '../components/plaidLinks/income/incomeVerificationLink'
 import InfoContext from "../contexts/InfoContext";
+
 
 
 export default function Home() {
@@ -32,7 +34,7 @@ export default function Home() {
 
       <h1>homepage</h1>
 
-      {/* <CreditCardLink /> */}
+      <CreditCardLink />
 
       <h2>Credit Card Details</h2>
       {creditCard &&
@@ -229,10 +231,23 @@ export default function Home() {
 
 
 
-        <LoanLink/>
+        {/* <LoanLink/> */}
 
         <h2>Loan Details</h2>
 
+    {loan &&
+       loan.map((l) => (
+          <div key={loan.name}>
+            <h1>date: {l.dateAdded}</h1>
+            <h1>name: {l.name}</h1>
+            <h1>account number: {l.accountNumber}</h1>
+            <h1>balance: {l.currentBalance}</h1>
+          </div>
+        ))}
+
+
+
+        <IncomeVerificationLink/>
 
 
 

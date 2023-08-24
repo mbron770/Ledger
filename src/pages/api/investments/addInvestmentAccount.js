@@ -39,56 +39,42 @@ async function investmentAccountHandler(req, res) {
 
 async function addInvestmentAccountsToDb(loggedInUser, accessToken, res) {
   try {
-
-    
-
-
-
-
     const investmentAccounts = await plaidClient.investmentsHoldingsGet({
       access_token: accessToken,
     });
-  
-    
 
     const iAccounts = investmentAccounts.data.accounts;
     const iHoldings = investmentAccounts.data.holdings;
     const iSecurities = investmentAccounts.data.securities;
 
     const newHoldings = (accountId) =>
-    iHoldings
-      .filter((iHolding) => iHolding.account_id === accountId)
-      .map((iHolding) => ({
-        account_id: iHolding.account_id,
-        cost_basis: iHolding.cost_basis,
-        institution_price: iHolding.institution_price,
-        institution_value: iHolding.institution_value,
-        quantity: iHolding.quantity,
-      }));
+      iHoldings
+        .filter((iHolding) => iHolding.account_id === accountId)
+        .map((iHolding) => ({
+          account_id: iHolding.account_id,
+          cost_basis: iHolding.cost_basis,
+          institution_price: iHolding.institution_price,
+          institution_value: iHolding.institution_value,
+          quantity: iHolding.quantity,
+        }));
 
-  const newSecurities = iSecurities.map((iSecurity) => ({
-    close_price: iSecurity.close_price,
-    name: iSecurity.name,
-    type: iSecurity.type,
-    ticker_symbol: iSecurity.ticker_symbol,
-  }));
-    
-
-    
+    const newSecurities = iSecurities.map((iSecurity) => ({
+      close_price: iSecurity.close_price,
+      name: iSecurity.name,
+      type: iSecurity.type,
+      ticker_symbol: iSecurity.ticker_symbol,
+    }));
 
     const newInvestmentAccounts = iAccounts.map((iAccount) => ({
       name: iAccount.name,
-      accountNumber: `${iAccount.account_id}-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      accountNumber: `${iAccount.account_id}-${Date.now()}-${Math.floor(
+        Math.random() * 1000
+      )}`,
       balance: iAccount.balances.current,
       securities: newSecurities,
-      holdings: newHoldings(iAccount.account_id)
-
+      holdings: newHoldings(iAccount.account_id),
     }));
-    console.log([])
-
-
-
-  
+    console.log([]);
 
     const justAddedItem = loggedInUser.items[loggedInUser.items.length - 1];
     if (!justAddedItem.investmentAccounts) {
@@ -104,9 +90,7 @@ async function addInvestmentAccountsToDb(loggedInUser, accessToken, res) {
       }
     );
 
-    console.log(updateResult)
-
-    
+    console.log(updateResult);
 
     return res.status(200).json(newInvestmentAccounts);
   } catch (error) {

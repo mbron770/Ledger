@@ -10,7 +10,7 @@ async function loanHandler(req, res) {
   try {
     const userID = req?.body?.userID;
     const loggedInUser = await User.findOne({ id: userID });
-    
+
     if (!loggedInUser) {
       return res.status(404).send({ error: "User not logged in" });
     }
@@ -23,8 +23,7 @@ async function loanHandler(req, res) {
       }
 
       await addLoansToDb(loggedInUser, accessToken, res);
-      return res.status(200)
-      
+      return res.status(200);
     } else {
       return res.status(400).send("User has no items");
     }
@@ -39,15 +38,12 @@ async function addLoansToDb(loggedInUser, accessToken, res) {
     const loans = await plaidClient.liabilitiesGet({
       access_token: accessToken,
     });
-    
+
     const newLoan = loans.data.accounts.map((loan) => ({
       name: loan.name,
-      accountNumber: loan.account_id, 
+      accountNumber: loan.account_id,
       balances: loan.balances.current,
-    }))
-
-
-  
+    }));
 
     const justAddedItem = loggedInUser.items[loggedInUser.items.length - 1];
     if (!justAddedItem.loans) {
@@ -59,7 +55,8 @@ async function addLoansToDb(loggedInUser, accessToken, res) {
       { $push: { "items.$.loans": { $each: newLoan } } }
     );
     console.log("Just added loan:", newLoan);
-    return res.status(200).json(newLoan)
+
+    return res.status(200).json("newLoan");
   } catch (error) {
     console.error(error);
     return res.status(500).send("server error");

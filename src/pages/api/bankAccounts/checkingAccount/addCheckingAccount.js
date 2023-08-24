@@ -51,8 +51,6 @@ async function addCheckingAccountsToDb(loggedInUser, accessToken, res) {
       })
     );
 
-    // console.log(newCheckingAccount)
-
     const justAddedItem = loggedInUser.items[loggedInUser.items.length - 1];
     if (!justAddedItem.checkingAccounts) {
       justAddedItem.checkingAccounts = [];

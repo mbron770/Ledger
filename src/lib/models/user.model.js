@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { itemSchema } from "../models/item.model";
+import { jobsSchema } from "./jobs.model";
 
 const userSchema = new mongoose.Schema(
   {
@@ -9,6 +10,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     items: [itemSchema],
+    jobs: [jobsSchema],
     data: mongoose.Schema.Types.Mixed,
   },
   { strict: false, timestamps: true }

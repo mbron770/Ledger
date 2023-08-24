@@ -2,39 +2,40 @@ import { useUser } from "@clerk/nextjs";
 import Router from "next/router";
 import { useState, useEffect, useCallback, useContext } from "react";
 import { usePlaidLink } from "react-plaid-link";
-import InfoContext from "../../../../contexts/InfoContext"
+import InfoContext from "../../../contexts/InfoContext";
 
-export default function LoanLink() {
-  const { setLoan, token, setToken } = useContext(InfoContext);
+export default function IncomeLink() {
+  const { setIncome, token, setToken } = useContext(InfoContext);
+  const { userToken, setUserToken } = useState(null)
   const { user } = useUser();
-  const products = ["liabilities"];
-  const account_filters = {
-    loan: {
-      account_subtypes: [
-        "auto",
-        "business",
-        "commercial",
-        "construction",
-        "consumer",
-        "home equity",
-        "loan",
-        "mortgage",
-        "line of credit",
-        "student",
-      ],
-    },
-  };
+  const products = ["income_verification"];
 
   console.log(user?.id);
 
+//   useEffect(() => {
+//     const createUserForJob = async () => {
+//       const res = await fetch("/api/plaidToken/createUser", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ userID: user?.id }),
+//       });
+//       const { newUserToken } = await res.json()
+//       setUserToken(newUserToken);
+//     };
+//     createUserForJob();
+//   }, [user]);
+
   useEffect(() => {
+    
     const createLinkToken = async () => {
-      const res = await fetch("/api/plaidTokens/createlinktoken", {
+      const res = await fetch("/api/plaidTokens/incomeLinkToken", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ products, account_filters }),
+        body: JSON.stringify({ products, user }),
       });
       const { link_token } = await res.json();
 
@@ -52,29 +53,35 @@ export default function LoanLink() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            public_token: public_token,
-            userID: user?.id,
+            // public_token: public_token,
+            // userID: user?.id,
           }),
         });
 
-        console.log("add loan");
-        await addLoan();
-        console.log("get added loans");
-        await getAddedLoan()
+        console.log("add credit card");
+        await addIncome();
+        console.log("get added credit card");
+        // await getAddedIncome();
+        console.log("get transactions");
+        // await getTransactions();
+        console.log("display transactions");
+        // await displayTransactions();
       } catch (error) {
         console.error(error.message);
       }
     },
     [
       user,
-      addLoan,
-      getAddedLoan
+        addIncome,
+      //   getAddedIncome,
+      // getTransactions,
+      // displayTransactions,
     ]
   );
 
-  async function addLoan() {
+  async function addIncome() {
     try {
-      const response = await fetch("/api/liabilities/loans/addLoan", {
+      const response = await fetch("/api/income/addIncome", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -91,9 +98,9 @@ export default function LoanLink() {
     }
   }
 
-  async function getAddedLoan() {
+  async function getAddedIncome() {
     try {
-      const response = await fetch("/api/liabilities/loans/getAddedLoan", {
+      const response = await fetch("/api/liabilities/Incomes/getAddedIncome", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -106,13 +113,15 @@ export default function LoanLink() {
         throw new Error("failed to get added credit card");
       }
 
-      const newLoan = await response.json();
-      setLoan(newLoan);
-      console.log("Received from API:", newLoan);
+      const newIncome = await response.json();
+      setIncome(newIncome);
+      console.log("Received from API:", newIncome);
     } catch (error) {
       console.error(error);
     }
   }
+
+
 
   const { open, ready } = usePlaidLink({
     token,
@@ -122,7 +131,7 @@ export default function LoanLink() {
   return (
     <>
       <button onClick={() => open()} disabled={!ready}>
-        add loan button
+        add Income button
       </button>
     </>
   );

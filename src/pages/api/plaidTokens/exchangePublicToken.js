@@ -17,7 +17,6 @@ async function exchangePublicToken(req, res) {
     const exchangeResponse = await plaidClient.itemPublicTokenExchange({
       public_token: req?.body?.public_token,
     });
-    
 
     const accessToken = exchangeResponse?.data?.access_token;
     console.log("accessToken: ", accessToken);
@@ -33,9 +32,7 @@ async function exchangePublicToken(req, res) {
     loggedInUser.items.push(newItem);
     await loggedInUser.save();
     console.log("item inserted");
-
     res.send({ ok: true });
-    // return accessToken;
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: "server error" });
