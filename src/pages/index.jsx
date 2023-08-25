@@ -1,5 +1,5 @@
 import { UserButton } from "@clerk/nextjs";
-import { useUser } from "@clerk/nextjs";
+import Link from 'next/link';
 import Router from "next/router";
 import { useState, useEffect, useCallback, useContext } from "react";
 import CreditCardLink from "../components/plaidLinks/liabilities/creditCard/creditCardLink";
@@ -30,10 +30,41 @@ export default function Home() {
   return (
     <>
       <header>
+        
         <UserButton afterSignOutUrl="/" />
       </header>
 
       <h1>homepage</h1>
+
+      <Link style={{ 
+            backgroundColor: 'blue', 
+            color: 'white', 
+            padding: '10px 20px', 
+            border: 'none', 
+            borderRadius: '5px',
+            textDecoration: 'none',
+            cursor: 'pointer'
+          }}href="/sign-in">
+       
+          Sign In
+        
+      </Link>
+
+
+
+      <Link style={{ 
+            backgroundColor: 'blue', 
+            color: 'white', 
+            padding: '10px 20px', 
+            border: 'none', 
+            borderRadius: '5px',
+            textDecoration: 'none',
+            cursor: 'pointer'
+          }}href="/sign-in">
+       
+          Sign Up
+        
+      </Link>
 
       {/* <CreditCardLink /> */}
 

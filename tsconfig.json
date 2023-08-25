@@ -17,6 +17,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/index.jsx", "src/lib/models/user.model.js", "src/lib/actions/user.actions.js", "src/lib/mongoose.js", "src/pages/api/uploadthing.js", "src/pages/_app.jsx", "src/pages/_document.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/index.jsx", "src/lib/models/user.model.js", "src/lib/actions/user.actions.js", "src/lib/mongoose.js", "src/pages/api/uploadthing.js", "src/pages/_app.jsx", "src/pages/_document.jsx", "src/middleware.js", "src/pages/sign-up/[[...index]].jsx", "src/pages/sign-in/[[...index]].jsx"],
   "exclude": ["node_modules"]
 }

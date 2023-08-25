@@ -4,7 +4,7 @@ import User from "../../../lib/models/user.model";
 
 export default async function handler(req, res) {
   const products = req?.body?.products;
-  const account_filters = req?.body?.account_filters;
+  // const account_filters = req?.body?.account_filters;
   const userID = req?.body?.user?.id;
 
   try {
