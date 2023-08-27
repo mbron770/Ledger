@@ -9,17 +9,4 @@ const transactionSchema = new mongoose.Schema({
     pending: {type: Boolean, required: true}
 })
 
-// const Transaction = mongoose.models.Transaction || mongoose.model('Transaction', transactionSchema)
-// export default (Transaction, transactionSchema)
-
-// let Transaction;
-
-// if (mongoose.models && mongoose.models.Transaction) {
-//     Transaction = mongoose.models.Transaction;
-// } else {
-//     Transaction = mongoose.model('Transaction', transactionSchema);
-// }
-// console.log("Transactions model loaded");
-// export default Transaction; 
-
 export { transactionSchema }

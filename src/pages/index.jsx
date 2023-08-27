@@ -66,7 +66,7 @@ export default function Home() {
         
       </Link>
 
-      {/* <CreditCardLink /> */}
+      <CreditCardLink />
 
       <h2>Credit Card Details</h2>
       {creditCard &&
@@ -279,7 +279,7 @@ export default function Home() {
 
 
 
-        <IncomeVerificationLink/>
+        {/* <IncomeVerificationLink/> */}
         <h1>Job Details</h1>
       {income &&
         income.map((job) => (

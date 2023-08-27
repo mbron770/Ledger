@@ -12,7 +12,7 @@ export default function NavBar() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 500) {
+      if (window.innerWidth >= 768) {
         setOpenSideBar(false);
       }
     };
@@ -27,6 +27,7 @@ export default function NavBar() {
   }, []);
 
   return (
+    // {/* <div className="relative bg-sky-100 min-h-[100vh]"> */}
     // <nav className="fixed top-0 left-0 right-0 z-50 h-[25vh] bg-custom-gray border-gray-200">
       <nav className="fixed top-0 left-0 right-0 z-50 h-[25vh] bg-custom-gray border-gray-200">
     
@@ -52,7 +53,7 @@ export default function NavBar() {
     </div>
 
     {/* Navigation Items for desktop */}
-    <div className="hidden xl:flex lg:flex" id="navbar-desktop">
+    <div className="hidden lg:flex" id="navbar-desktop">
         <ul className="flex space-x-2 font-medium bg-emerald-500">
         <li>
                     <Link href="/dashboard" className="block py-2 pl-3 pr-4 text-white rounded">
@@ -97,7 +98,7 @@ export default function NavBar() {
         <button
             onClick={toggleSideBar}
             type="button"
-            className="inline-flex items-center mr-2 p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200  "
+            className="inline-flex items-center mr-2 p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
         >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -126,7 +127,7 @@ export default function NavBar() {
 
       {/* Navigation Items for mobile */}
       <div
-        className={`transition-transform  transform ml-4  mr-4  ${openSideBar ? 'block' : 'hidden'}`}
+        className={`transition-transform transform ml-4 mr-4 ${openSideBar ? 'block' : 'hidden'}`}
         id="navbar-mobile"
       >
         <ul className="flex flex-col font-medium p-4 mt-4 border border-gray-100 rounded-lg bg-emerald-500">
