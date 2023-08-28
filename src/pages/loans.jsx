@@ -1,84 +1,121 @@
+import Layout from "./layout";
+import {useState, useEffect, useContext} from "react";
+import MainPageDisplay from "../components/shared/displays/mainPageDisplay";
+import LoanLink from "../components/plaidLinks/liabilities/loans/loanLink";
 import NavBar from "../components/shared/topbarnav";
-import { useState } from "react";
+import {useUser} from "@clerk/nextjs";
+
+import InfoContext from "../contexts/InfoContext";
 
 export default function Loans() {
-    const [showDropdown, setShowDropdown] = useState([]);
+    const [allLoans, setAllLoans] = useState([]);
+    const {fetchedData, setFetchedData, searchTerm, setSearchTerm} = useContext(InfoContext);
+    const {user} = useUser();
+    const [displayedTransactions, setDisplayedTransactions] = useState([]);
+    const [selectedLoan, setSelectedLoan] = useState(null);
+
+    console.log(allLoans);
+
+    const fetchAllLoans = async () => {
+        try {
+            const response = await fetch("/api/liabilities/loans/getAllLoans", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },
+                body: JSON.stringify(
+                    {
+                        userID: user ?. id
+                    }
+                )
+            });
+
+            if (! response.ok) {
+                throw new Error("failed to get all Loan cards");
+            }
+
+            const fetchedLoans = await response.json();
+            setAllLoans(fetchedLoans);
+            setFetchedData(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    console.log('loans', allLoans)
+
+    useEffect(() => {
+        fetchAllLoans();
+    }, [user, fetchedData]);
+
+    // useEffect(() => {
+    //     const allTransactions = allLoans?.flatMap((card) => card?.transactions);
+    //     setDisplayedTransactions(allTransactions);
+    //     setSelectedLoan(allLoans[0]);
+    //     setFetchedData(false);
+    // }, [allLoans, setFetchedData]);
+
+    // const filteredTransactions = !searchTerm ? displayedTransactions : displayedTransactions.filter((transaction) => transaction?.amount.toString().includes(searchTerm) || transaction?.category.toLowerCase().includes(searchTerm?.toLowerCase()) || transaction?.name.toLowerCase().includes(searchTerm.toLowerCase()) || transaction?.date.toString().includes(searchTerm.toLowerCase()) || transaction?.paymentChannel.toLowerCase().includes(searchTerm.toLowerCase()) || transaction?.pending.toString().includes(searchTerm.toLowerCase()));
 
     return (
         <>
-            <NavBar />
+        <NavBar/>
             {/* <div className="relative bg-sky-100 min-h-[100vh]"> */}
-            <div className="relative bg-sky-100 pt-[25vh] h-full w-screen ">
-
-
-            <div className="px-4  lg:px-[10vw] pt-[5vh] flex flex-col lg:flex-row items-start lg:space-x-16">
-
-                    {/* Side Card */}
-                    <div className="mb-8 w-full lg:w-[20vw] h-[70vh] p-6 mt-8 lg:mt-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        {/* ... content for the side card ... */}
-                    </div>
-
-                    {/* Main Cards Container */}
-                    <div className="w-full lg:w-[70vw] flex flex-col space-y-8  lg:h-[60vh]">
+            {/* <div className="relative bg-sky-100 pt-[25vh] h-full w-screen "> */}
+            <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[5vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
+                {/* Side account */}
+                <div className="w-full  xl:w-[30vw]lg:w-[30vw] p-6 bg-white border border-gray-200 rounded-lg shadow-2xl overflow-y-auto">
+                <div className="flex flex-col lg:w-full md:w-[70vw]">
+                        <h5 className="mb-8 text-2xl text-center font-bold text-black">
+                            Loans
+                        </h5>
+                        <LoanLink/>
                         
-                        {/* First Card */}
-                        <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                            <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                Accounts
-                            </h5>
-                            {/* ... rest of the card's content ... */}
-                        </div>
 
-                        {/* Second Card */}
-                        <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                            <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                New Card Title
-                            </h5>
-                            {/* ... rest of the card's content ... */}
-                        </div>
+                        <div className="flex flex-col lg:w-full md:w-[70vw]">
+                            {
+                            allLoans && allLoans.map((card) => (
+                                <div key={
+                                        card?.name
+                                    }
+                                    className="mb-2 pt-10 pb-10 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
+                                    href="#"
+                                    onClick={
+                                        () => {
+                                            setDisplayedTransactions(card?.transactions);
+                                            setSelectedLoan(card);
+                                        }
+                                }>
+                                    <h2 className="mb-2 text-l font-bold tracking-tight text-gray-900 dark:text-white w-full truncate whitespace-nowrap">
+                                        {
+                                        card?.name
+                                    }
+                                        {" "} </h2>
+                                </div>
+                            ))
+                        }
 
-                        {/* Third Row - Two Cards Side by Side on Larger Screens */}
-                        <div className="w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-                            <div className="w-full md:w-[50%] p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                    New Card Title
-                                </h5>
-                                {/* ... rest of the card's content ... */}
+                            <div className="mb-2 pt-10 pb-10 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
+                                onClick={
+                                    () => {
+                                        const allTransactions = allLoans?.flatMap((card) => card?.transactions);
+                                        setDisplayedTransactions(allTransactions);
+                                    }
+                            }>
+                                <h3 className="mb-2 text-xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
+                                    View All Loans
+                                </h3>
                             </div>
-                            <div className="w-full md:w-[50%] p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                    New Card Title
-                                </h5>
-                                {/* ... rest of the card's content ... */}
-                            </div>
-                        </div>
 
-                        {/* Fourth Card */}
-                        <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                            <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                Another Wide Card
-                            </h5>
-                            {/* ... rest of the card's content ... */}
                         </div>
-
-                        {/* Fifth Row - Two More Cards */}
-                        <div className="w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-                            <div className="w-full md:w-[50%] p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                    New Card Title
-                                </h5>
-                                {/* ... rest of the card's content ... */}
-                            </div>
-                            <div className="w-full md:w-[50%] p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                    New Card Title
-                                </h5>
-                                {/* ... rest of the card's content ... */}
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
+
+                {/* <MainPageDisplay transactions={filteredTransactions}
+                    card={selectedLoan}/> */}
             </div>
-        </>
-    )
+            {/* </div> */}
+          </>
+    );
 }

@@ -2,6 +2,7 @@ import Layout from "./layout";
 import {useState, useEffect, useContext} from "react";
 import MainPageDisplay from "../components/shared/displays/mainPageDisplay";
 import CreditCardLink from "../components/plaidLinks/liabilities/creditCard/creditCardLink";
+import NavBar from "../components/shared/topbarnav";
 import {useUser} from "@clerk/nextjs";
 
 import InfoContext from "../contexts/InfoContext";
@@ -56,12 +57,13 @@ export default function CreditCards() {
     const filteredTransactions = !searchTerm ? displayedTransactions : displayedTransactions.filter((transaction) => transaction?.amount.toString().includes(searchTerm) || transaction?.category.toLowerCase().includes(searchTerm?.toLowerCase()) || transaction?.name.toLowerCase().includes(searchTerm.toLowerCase()) || transaction?.date.toString().includes(searchTerm.toLowerCase()) || transaction?.paymentChannel.toLowerCase().includes(searchTerm.toLowerCase()) || transaction?.pending.toString().includes(searchTerm.toLowerCase()));
 
     return (
-        <Layout className="bg-sky-100 min-h-[100vh]">
+        <>
+        <NavBar/>
             {/* <div className="relative bg-sky-100 min-h-[100vh]"> */}
             {/* <div className="relative bg-sky-100 pt-[25vh] h-full w-screen "> */}
-            <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[30vh] h-full   flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
+            <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[5vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
                 {/* Side account */}
-                <div className="w-full h-[95.5%] xl:w-[30vw] lg:w-[30vw] p-6 bg-white border border-gray-200 rounded-lg shadow-2xl overflow-y-scroll max-h-[95.5%]">
+                <div className="w-full  xl:w-[30vw]lg:w-[30vw] p-6 bg-white border border-gray-200 rounded-lg shadow-2xl overflow-y-auto">
                 <div className="flex flex-col lg:w-full md:w-[70vw]">
                         <h5 className="mb-8 text-2xl text-center font-bold text-black">
                             Credit Cards
@@ -75,7 +77,7 @@ export default function CreditCards() {
                                 <div key={
                                         card?.name
                                     }
-                                    className="mb-2 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
+                                    className="mb-2 pt-10 pb-10 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
                                     href="#"
                                     onClick={
                                         () => {
@@ -92,7 +94,7 @@ export default function CreditCards() {
                             ))
                         }
 
-                            <div className="mb-2 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
+                            <div className="mb-2 pt-10 pb-10 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
                                 onClick={
                                     () => {
                                         const allTransactions = allCreditCards?.flatMap((card) => card?.transactions);
@@ -103,8 +105,9 @@ export default function CreditCards() {
                                     View All Credit Cards
                                 </h3>
                             </div>
+
                         </div>
-                        <CreditCardLink/>
+                        
                     </div>
                 </div>
 
@@ -112,6 +115,6 @@ export default function CreditCards() {
                     card={selectedCard}/>
             </div>
             {/* </div> */}
-           </Layout>
+          </>
     );
 }

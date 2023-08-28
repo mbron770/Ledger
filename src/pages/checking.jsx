@@ -76,7 +76,7 @@ export default function CheckingAccounts() {
                                 <div key={
                                         account?.name
                                     }
-                                    className="mb-2 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
+                                    className="mb-2 pt-10 pb-10 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
                                     href="#"
                                     onClick={
                                         () => {
@@ -93,7 +93,7 @@ export default function CheckingAccounts() {
                             ))
                         }
 
-                            <div className="mb-2 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
+                            <div className="mb-2 pt-10 pb-10 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
                                 onClick={
                                     () => {
                                         const allTransactions = allCheckingAccounts?.flatMap((account) => account?.transactions);

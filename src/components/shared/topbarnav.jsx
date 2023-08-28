@@ -29,9 +29,9 @@ export default function NavBar() {
   return (
     // {/* <div className="relative bg-sky-100 min-h-[100vh]"> */}
     // <nav className="fixed top-0 left-0 right-0 z-50 h-[25vh] bg-custom-gray border-gray-200">
-      <nav className="fixed top-0 left-0 right-0 z-50 h-[25vh] bg-custom-gray border-gray-200">
+      <nav className="sticky top-0 left-0 right-0 z-50 h-[10vh] bg-black ">
     
-      <div className="absolute top-[10vh] w-full h-[.5px] ">
+      <div className="absolute top-[25vh] w-full h-[.5px] ">
 
 
 
@@ -40,21 +40,16 @@ export default function NavBar() {
       <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4 space-x-4">
     {/* Grouping Logo */}
     <div className="flex-shrink-0">
-        <a href="https://flowbite.com/" className="flex items-center">
-            <img
-                src="https://flowbite.com/docs/images/logo.svg"
-                className="h-8 mr-3"
-                alt="Flowbite Logo"
-            />
-            <span className="self-center text-xl font-calibri whitespace-nowrap dark:text-white">
+        
+            <span className="self-center text-3xl font-calibri whitespace-nowrap dark:text-white">
                 Flowbite
             </span>
-        </a>
+        
     </div>
 
     {/* Navigation Items for desktop */}
     <div className="hidden lg:flex" id="navbar-desktop">
-        <ul className="flex space-x-2 font-medium bg-emerald-500">
+        <ul className="flex space-x-1 font-medium bg-black">
         <li>
                     <Link href="/dashboard" className="block py-2 pl-3 pr-4 text-white rounded">
                         Dashboard

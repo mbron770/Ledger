@@ -5,7 +5,10 @@ import { usePlaidLink } from "react-plaid-link";
 import InfoContext from "../../../../contexts/InfoContext"
 
 export default function LoanLink() {
-  const { setLoan, token, setToken } = useContext(InfoContext);
+  const { setLoan, 
+    token,
+    setFetchedData, 
+    setToken } = useContext(InfoContext);
   const { user } = useUser();
   const products = ["liabilities"];
   const account_filters = {
@@ -61,6 +64,7 @@ export default function LoanLink() {
         await addLoan();
         console.log("get added loans");
         await getAddedLoan()
+        setFetchedData(true);
       } catch (error) {
         console.error(error.message);
       }
@@ -68,7 +72,8 @@ export default function LoanLink() {
     [
       user,
       addLoan,
-      getAddedLoan
+      getAddedLoan,
+      setFetchedData,
     ]
   );
 
@@ -121,8 +126,13 @@ export default function LoanLink() {
 
   return (
     <>
-      <button onClick={() => open()} disabled={!ready}>
-        add loan button
+      <button
+        onClick={() => open()}
+        disabled={!ready}
+        type="button"
+        className="text-white mt-3 bg-black hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-700 font-medium rounded-lg text-sm px-5 py-2.5  mb-3"
+      >
+        Connect a Loan Through Plaid
       </button>
     </>
   );

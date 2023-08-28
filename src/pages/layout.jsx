@@ -4,7 +4,7 @@ function Layout({ children }) {
   return (
     <div className="h-screen flex flex-col">
       <NavBar />
-      <main className="bg-blue-200 flex-grow p-0">
+      <main className="flex-grow p-0">
         {children}
       </main>
     </div>
