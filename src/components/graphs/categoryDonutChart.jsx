@@ -15,13 +15,16 @@ const predefinedColors = [
 
 const getCategoryTotals = (transactions) => {
     const categoryTotals = {}
+    // console.log('checking', transactions)
 
-    transactions.forEach(transaction => {
-        if(!categoryTotals[transaction.category]){
-            categoryTotals[transaction.category] = 0
+    transactions?.forEach(transaction => {
+        const categoryValue = Math.abs(transaction?.amount)
+        if(!categoryTotals[transaction?.category]){
+            categoryTotals[transaction?.category] = 0
         }
-        categoryTotals[transaction.category] += transaction.amount
+        categoryTotals[transaction?.category] += categoryValue
     });
+    console.log('checking', categoryTotals)
 
     return categoryTotals;
 }
@@ -39,12 +42,22 @@ export const CategoryDonutChart = ({ transactions }) => {
         dynamicColors[category] = predefinedColors[index % predefinedColors.length];
     });
 
-    const chartData = categories.map(category => ({
+    const chartData = categories?.map(category => ({
         name: category,
         value: categoryTotals[category]
     }));
+    console.log('actual', chartData)
+    const chartData1 = [
+        { name: 'Group A', value: 400 },
+        { name: 'Group B', value: 300 },
+        { name: 'Group C', value: 300 },
+        
+      ];
+      console.log('1', chartData1);
+    
 
     return (
+        
             <ResponsiveContainer width="100%" height={250}>
                 <PieChart>
                     <Pie
@@ -58,8 +71,8 @@ export const CategoryDonutChart = ({ transactions }) => {
                         fill="#8884d8"
                     >
                         {
-                            chartData.map((entry, index) => (
-                                <Cell key={index} fill={dynamicColors[entry.name] || "#8884d8"} />
+                            chartData?.map((entry, index) => (
+                                <Cell key={index} fill={dynamicColors[entry?.name] || "#8884d8"} />
                             ))
                         }
                     </Pie>

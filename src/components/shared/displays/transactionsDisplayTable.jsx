@@ -6,7 +6,9 @@ import InfoContext from "../../../contexts/InfoContext"
 
 export default function TransactionsDisplayTable({transactions}) {
     
-    
+    const {
+        searchTerm, setSearchTerm
+       } = useContext(InfoContext);
 
     return (
         <>

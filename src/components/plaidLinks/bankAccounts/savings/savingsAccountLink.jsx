@@ -5,7 +5,14 @@ import { usePlaidLink } from "react-plaid-link";
 import InfoContext from "../../../../contexts/InfoContext";
 
 export default function SavingsAccountLink() {
-  const { setSavingsAccount, setSavingsAccountTransactions, token, setToken } =
+  const { setSavingsAccount, 
+    setSavingsAccountTransactions, 
+    token, 
+    setToken, 
+    setFetchedData,
+  
+  
+  } =
     useContext(InfoContext);
   const { user } = useUser();
   const products = ['auth', 'transactions'];
@@ -54,6 +61,7 @@ export default function SavingsAccountLink() {
         await getTransactions();
         console.log("display transactions");
         await displayTransactions();
+        setFetchedData(true);
       } catch (error) {
         console.error(error.message);
       }
@@ -63,7 +71,8 @@ export default function SavingsAccountLink() {
       addSavingsAccount,
       getAddedSavingsAccount,
       getTransactions,
-      displayTransactions
+      displayTransactions, 
+      setFetchedData, 
     ]
   );
 
@@ -171,8 +180,13 @@ export default function SavingsAccountLink() {
 
   return (
     <>
-      <button onClick={() => open()} disabled={!ready}>
-        add savings account
+      <button
+        onClick={() => open()}
+        disabled={!ready}
+        type="button"
+        className="text-white mt-3 bg-black hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-700 font-medium rounded-lg text-sm px-5 py-2.5  mb-3"
+      >
+        Connect a Savings Account Through Plaid
       </button>
     </>
   );

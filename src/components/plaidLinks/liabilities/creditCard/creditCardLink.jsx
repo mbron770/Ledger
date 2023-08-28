@@ -2,10 +2,18 @@ import { useUser } from "@clerk/nextjs";
 import Router from "next/router";
 import { useState, useEffect, useCallback, useContext } from "react";
 import { usePlaidLink } from "react-plaid-link";
-import InfoContext from '../../../../contexts/InfoContext'
+import InfoContext from "../../../../contexts/InfoContext";
 
 export default function CreditCardLink() {
-  const { setCreditCard, setCreditCardTransactions, token, setToken } = useContext(InfoContext);
+  const {
+    setCreditCard,
+    creditCard,
+    setFetchedData,
+    setCreditCardTransactions,
+    token,
+    setToken,
+  } = useContext(InfoContext);
+  console.log(creditCard);
   const { user } = useUser();
   const products = ["liabilities", "transactions"];
   const account_filters = {
@@ -14,7 +22,7 @@ export default function CreditCardLink() {
     },
   };
 
-  console.log(user?.id);
+  console.log(creditCard);
 
   useEffect(() => {
     const createLinkToken = async () => {
@@ -54,6 +62,7 @@ export default function CreditCardLink() {
         await getTransactions();
         console.log("display transactions");
         await displayTransactions();
+        setFetchedData(true);
       } catch (error) {
         console.error(error.message);
       }
@@ -64,19 +73,23 @@ export default function CreditCardLink() {
       getAddedCreditCard,
       getTransactions,
       displayTransactions,
+      setFetchedData,
     ]
   );
 
   async function addCreditCard() {
     try {
-      const response = await fetch("/api/liabilities/creditCard/addCreditCard", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({ userID: user?.id }),
-      });
+      const response = await fetch(
+        "/api/liabilities/creditCard/addCreditCard",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ userID: user?.id }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("failed to get added credit card");
@@ -88,14 +101,17 @@ export default function CreditCardLink() {
 
   async function getAddedCreditCard() {
     try {
-      const response = await fetch("/api/liabilities/creditCard/getAddedCreditCard", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({ userID: user?.id }),
-      });
+      const response = await fetch(
+        "/api/liabilities/creditCard/getAddedCreditCard",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ userID: user?.id }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("failed to get added credit card");
@@ -111,14 +127,17 @@ export default function CreditCardLink() {
 
   async function getTransactions() {
     try {
-      const response = await fetch("/api/liabilities/creditCard/getCreditCardTransactions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({ userID: user?.id }),
-      });
+      const response = await fetch(
+        "/api/liabilities/creditCard/getCreditCardTransactions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ userID: user?.id }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("failed to get transactions");
@@ -130,15 +149,18 @@ export default function CreditCardLink() {
 
   async function displayTransactions() {
     try {
-      const response = await fetch("/api/liabilities/creditCard/displayCreditCardTransactions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
+      const response = await fetch(
+        "/api/liabilities/creditCard/displayCreditCardTransactions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
 
-        body: JSON.stringify({ userID: user?.id }),
-      });
+          body: JSON.stringify({ userID: user?.id }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("failed to add transactions");
@@ -159,14 +181,14 @@ export default function CreditCardLink() {
 
   return (
     <>
-        <button onClick={() => open()} disabled={!ready} type="button" className="text-white mt-3 bg-black hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-700 font-medium rounded-lg text-sm px-5 py-2.5  mb-3">Connect a Credit Card Through Plaid</button>
-
-      
-      
-    
-
-
-
+      <button
+        onClick={() => open()}
+        disabled={!ready}
+        type="button"
+        className="text-white mt-3 bg-black hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-700 font-medium rounded-lg text-sm px-5 py-2.5  mb-3"
+      >
+        Connect a Credit Card Through Plaid
+      </button>
     </>
   );
 }

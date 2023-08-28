@@ -25,6 +25,8 @@ const InfoContext = createContext({
   setToken: () => {},
   searchTerm: '', 
   setSearchTerm: () => {},
+  fetchedData: false, 
+  setFetchedData: () => {},
 });
 
 export default InfoContext;

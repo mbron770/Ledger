@@ -5,7 +5,11 @@ import { usePlaidLink } from "react-plaid-link";
 import InfoContext from "../../../../contexts/InfoContext";
 
 export default function CheckingAccountLink() {
-  const { setCheckingAccount, setCheckingAccountTransactions, token, setToken } =
+  const { setCheckingAccount, 
+    setCheckingAccountTransactions, 
+    setFetchedData, 
+    token, 
+    setToken } =
     useContext(InfoContext);
   const { user } = useUser();
   const products = ['auth', 'transactions'];
@@ -54,6 +58,7 @@ export default function CheckingAccountLink() {
         await getTransactions();
         console.log("display transactions");
         await displayTransactions();
+        setFetchedData(true);
       } catch (error) {
         console.error(error.message);
       }
@@ -63,7 +68,8 @@ export default function CheckingAccountLink() {
       addCheckingAccount,
       getAddedCheckingAccount,
       getTransactions,
-      displayTransactions
+      displayTransactions,
+      setFetchedData,
     ]
   );
 
@@ -171,8 +177,13 @@ export default function CheckingAccountLink() {
 
   return (
     <>
-      <button onClick={() => open()} disabled={!ready}>
-        add checking account
+      <button
+        onClick={() => open()}
+        disabled={!ready}
+        type="button"
+        className="text-white mt-3 bg-black hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-700 font-medium rounded-lg text-sm px-5 py-2.5  mb-3"
+      >
+        Connect a Checking Account Through Plaid
       </button>
     </>
   );

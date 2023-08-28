@@ -90,19 +90,19 @@ export default function Dashboard() {
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <tbody>
                     {allRecentTransactions &&
-                        allRecentTransactions.map((transaction) => (
+                        allRecentTransactions?.map((transaction) => (
                             <tr
-                                key={transaction.date}
+                                key={transaction?.date}
                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                             >
                                 <th
                                     scope="row"
                                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                 >
-                                    <div>{transaction.name}</div>
-                                    <div>{`$${transaction.amount}`}</div>
+                                    <div>{transaction?.name}</div>
+                                    <div>{`$${transaction?.amount}`}</div>
                                     <div>
-                                        {new Date(transaction.date).toLocaleDateString(
+                                        {new Date(transaction?.date).toLocaleDateString(
                                             "en-US",
                                             { year: "numeric", month: "long", day: "numeric" }
                                         )}
@@ -171,26 +171,26 @@ export default function Dashboard() {
 
 
 {
-  allItems.map((item) =>
-    item.checkingAccounts && item.checkingAccounts.map((account) => (
+  allItems?.map((item) =>
+    item?.checkingAccounts && item?.checkingAccounts.map((account) => (
       <ul
-        key={account.name}
+        key={account?.name}
         className="flex mb-2 items-center justify-between py-1 text-sm text-white"
       >
         <li className="flex items-center">
           <div className="flex flex-col items-start">
-            <div className="ml-0">{account.name}</div>
-            <div className="ml-0">{`Current Balance: $${account.balance}`}</div>
+            <div className="ml-0">{account?.name}</div>
+            <div className="ml-0">{`Current Balance: $${account?.balance}`}</div>
           </div>
         </li>
 
         <li className="flex items-center">
           <div className="flex flex-col items-end">
-            <span className="mr-0">{`Date Added: ${new Date(account.dateAdded).toLocaleDateString(
+            <span className="mr-0">{`Date Added: ${new Date(account?.dateAdded).toLocaleDateString(
                                             "en-US",
                                             { year: "numeric", month: "long", day: "numeric" }
                                         )}`}</span>
-            <span className="mr-0">{account.accountNumber}</span>
+            <span className="mr-0">{account?.accountNumber}</span>
           </div>
         </li>
       </ul>
@@ -199,26 +199,26 @@ export default function Dashboard() {
 }
 
 {
-  allItems.map((item) =>
-    item.savingsAccounts && item.savingsAccounts.map((account) => (
+  allItems?.map((item) =>
+    item?.savingsAccounts && item?.savingsAccounts?.map((account) => (
       <ul
-        key={account.name}
+        key={account?.name}
         className="flex mb-2 items-center justify-between py-1 text-sm text-white"
       >
         <li className="flex items-center">
           <div className="flex flex-col items-start">
-            <div className="ml-0">{account.name}</div>
-            <div className="ml-0">{`Current Balance: $${account.balance}`}</div>
+            <div className="ml-0">{account?.name}</div>
+            <div className="ml-0">{`Current Balance: $${account?.balance}`}</div>
           </div>
         </li>
 
         <li className="flex items-center">
           <div className="flex flex-col items-end">
-            <span className="mr-0">{`Date Added: ${new Date(account.dateAdded).toLocaleDateString(
+            <span className="mr-0">{`Date Added: ${new Date(account?.dateAdded).toLocaleDateString(
                                             "en-US",
                                             { year: "numeric", month: "long", day: "numeric" }
                                         )}`}</span>
-            <span className="mr-0">{account.accountNumber}</span>
+            <span className="mr-0">{account?.accountNumber}</span>
           </div>
         </li>
       </ul>
@@ -289,27 +289,27 @@ export default function Dashboard() {
 
 
 {
-  allItems.map((item) =>
-    item.creditCards && item.creditCards.map((card) => (
+  allItems?.map((item) =>
+    item?.creditCards && item?.creditCards?.map((card) => (
       <ul
-        key={card.name}
+        key={card?.name}
         className="flex mb-2 items-center justify-between py-1 text-sm text-white"
       >
         <li className="flex items-center">
           <div className="flex flex-col items-start">
-            <div className="ml-0">{card.name}</div>
-            <div className="ml-0">{`Current Balance: $${card.currentBalance}`}</div>
-            <div className="ml-0">{`Credit Limit: $${card.creditLimit}`}</div>
+            <div className="ml-0">{card?.name}</div>
+            <div className="ml-0">{`Current Balance: $${card?.currentBalance}`}</div>
+            <div className="ml-0">{`Credit Limit: $${card?.creditLimit}`}</div>
           </div>
         </li>
 
         <li className="flex items-center">
           <div className="flex flex-col items-end">
-            <span className="mr-0">{`Date Added: ${new Date(card.dateAdded).toLocaleDateString(
+            <span className="mr-0">{`Date Added: ${new Date(card?.dateAdded).toLocaleDateString(
                                             "en-US",
                                             { year: "numeric", month: "long", day: "numeric" }
                                         )}`}</span>
-            <span className="mr-0">{card.number}</span>
+            <span className="mr-0">{card?.number}</span>
           </div>
         </li>
       </ul>
@@ -370,8 +370,8 @@ export default function Dashboard() {
 
 
 {
-  allItems.map((item) =>
-    item.loans && item.loans.map((loan) => (
+  allItems?.map((item) =>
+    item?.loans && item?.loans?.map((loan) => (
       <ul
         key={loan.name}
         className="flex mb-2 items-center justify-between py-1 text-sm text-white"
@@ -384,11 +384,11 @@ export default function Dashboard() {
 
         <li className="flex items-center">
           <div className="flex flex-col items-end">
-            <span className="mr-0">{`Date Added: ${new Date(loan.dateAdded).toLocaleDateString(
+            <span className="mr-0">{`Date Added: ${new Date(loan?.dateAdded).toLocaleDateString(
                                             "en-US",
                                             { year: "numeric", month: "long", day: "numeric" }
                                         )}`}</span>
-            <span className="mr-0">{loan.accountNumber}</span>
+            <span className="mr-0">{loan?.accountNumber}</span>
           </div>
         </li>
       </ul>
@@ -452,25 +452,25 @@ export default function Dashboard() {
 
 
 {
-  allItems.map((item) =>
-    item.investmentAccounts && item.investmentAccounts.map((invesment) => (
+  allItems?.map((item) =>
+    item?.investmentAccounts && item?.investmentAccounts.map((investment) => (
       <ul
-        key={invesment.name}
+        key={investment?.name}
         className="flex mb-2 items-center justify-between py-1 text-sm text-white"
       >
         <li className="flex items-center">
           <div className="flex flex-col items-start">
-            <div className="ml-0">{invesment.name}</div>
+            <div className="ml-0">{investment?.name}</div>
           </div>
         </li>
 
         <li className="flex items-center">
           <div className="flex flex-col items-end">
-            <span className="mr-0">{`Date Added: ${new Date(invesment.dateAdded).toLocaleDateString(
+            <span className="mr-0">{`Date Added: ${new Date(investment?.dateAdded).toLocaleDateString(
                                             "en-US",
                                             { year: "numeric", month: "long", day: "numeric" }
                                         )}`}</span>
-            <span className="mr-0">{invesment.accountNumber}</span>
+            <span className="mr-0">{investment?.accountNumber}</span>
           </div>
         </li>
       </ul>

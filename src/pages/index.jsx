@@ -167,7 +167,7 @@ export default function Home() {
 
       <br></br>
 
-      {/* <SavingsAccountLink /> */}
+      <SavingsAccountLink />
 
       <h2>Savings Account Details</h2>
       {savingsAccount &&
