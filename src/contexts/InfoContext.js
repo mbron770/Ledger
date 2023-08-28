@@ -23,6 +23,8 @@ const InfoContext = createContext({
   setIncome: () => {},
   token: null,
   setToken: () => {},
+  searchTerm: '', 
+  setSearchTerm: () => {},
 });
 
 export default InfoContext;

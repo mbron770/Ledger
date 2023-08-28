@@ -1,4 +1,3 @@
-import NavBar from "../components/shared/topbarnav";
 import Layout from "./layout";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -10,6 +9,8 @@ import { MerchantsHorizontalGraph } from "../components/graphs/merchantsHorizont
 export default function Dashboard() {
   const [showDropdown, setShowDropdown] = useState([]);
   const [allRecentTransactions, setAllRecentTransactions] = useState(null);
+  const [allItems, setAllItems] = useState(null);
+  
   const { user } = useUser();
   console.log(user?.id);
 
@@ -17,7 +18,7 @@ export default function Dashboard() {
     const fetchAllRecentTransactions = async () => {
       try {
         const response = await fetch(
-          "/api/liabilities/creditCard/recentTransactions",
+          "/api/dashboard/recentCreditCardTransactions",
           {
             method: "POST",
             headers: {
@@ -42,53 +43,87 @@ export default function Dashboard() {
     fetchAllRecentTransactions();
   }, [user]);
 
-  console.log(allRecentTransactions);
+  useEffect(() => {
+    const fetchAllItems = async () => {
+      try {
+        const response = await fetch("/api/dashboard/displayAllItems", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ userID: user?.id }),
+        });
+
+        if (!response.ok) {
+          throw new Error("failed to get all items");
+        }
+
+        const allFetchedItems = await response.json();
+        setAllItems(allFetchedItems);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchAllItems();
+  }, [user]);
+
+  console.log(allItems);
 
   return (
     <Layout className="bg-sky-100 min-h-[100vh]">
       {/* <div className="relative bg-sky-100 min-h-[100vh] overflow-x-auto"> */}
       {/* <div className="relative bg-sky-100 pt-[25vh] h-full w-screen "> */}
 
-      <div className="lg:mb-[10vh] px-4 lg:px-[10vw]  pt-[30vh] flex flex-col lg:flex-row items-start lg:space-x-8">
-        {/* Side Card */}
-        <div className="lg:ml-8 lg:order-1 md:ml-0 md:order-none w-full lg:w-[30vw] h-[80vh] p-6 mt-8 lg:mt-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-          <h5 className="mb-2 text-2xl text-center font-bold text-gray-900 dark:text-white">
-            Recent Transactions
-          </h5>
+      <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[30vh] flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
 
-          <div className="relative overflow-y-auto shadow-md sm:rounded-lg max-h-[60vh]">
+
+
+      <div className="w-full md:h-[50vh] lg:h-[70vh] lg:w-[30vw] p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 overflow-y-auto">
+      <div className="h-full overflow-y-auto">
+
+        <h5 className="mb-2 text-2xl text-center font-bold text-gray-900 dark:text-white">
+            Recent Transactions
+        </h5>
+
+        <div className="relative overflow-y-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <tbody>
-                {allRecentTransactions &&
-                  allRecentTransactions.map((transaction) => (
-                    <tr
-                      key={transaction.date}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                    >
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        <div>{transaction.name}</div>
-                        <div>{`$${transaction.amount}`}</div>
-                        <div>
-                          {new Date(transaction.date).toLocaleDateString(
-                            "en-US",
-                            { year: "numeric", month: "long", day: "numeric" }
-                          )}
-                        </div>
-                      </th>
-                    </tr>
-                  ))}
-              </tbody>
+                <tbody>
+                    {allRecentTransactions &&
+                        allRecentTransactions.map((transaction) => (
+                            <tr
+                                key={transaction.date}
+                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                                <th
+                                    scope="row"
+                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
+                                    <div>{transaction.name}</div>
+                                    <div>{`$${transaction.amount}`}</div>
+                                    <div>
+                                        {new Date(transaction.date).toLocaleDateString(
+                                            "en-US",
+                                            { year: "numeric", month: "long", day: "numeric" }
+                                        )}
+                                    </div>
+                                </th>
+                            </tr>
+                        ))}
+                </tbody>
             </table>
-          </div>
         </div>
+    </div>
+    </div>
+
+
 
         {/* Main Cards Container */}
-        <div className="w-full   flex flex-col space-y-8  lg:h-[70vh]">
+        <div className="w-full lg:w-2/3 md:h-[100vh] lg:h-[70vh] flex flex-col space-y-4 overflow-y-auto">
+        {/* ... contents of the main cards ... */}
+
           {/* First Card */}
-          <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
               Accounts
             </h5>
@@ -104,11 +139,10 @@ export default function Dashboard() {
                       : null
                   )
                 }
-                className="flex flex-col sm:flex-row items-center  justify-between bg-sky-500 text-left text-white px-4 py-2"
+                className="flex w-[50w] flex-col sm:flex-row items-center  justify-between bg-sky-500 text-left text-white px-4 py-2"
               >
                 Checking and Savings
                 <div className="flex items-center space-x-2">
-                  <span>$10000</span>
                   <svg
                     className="w-2.5 h-2.5"
                     aria-hidden="true"
@@ -128,57 +162,105 @@ export default function Dashboard() {
               </button>
 
               {showDropdown === "Checking and Savings" && (
-                <div
-                  id="dropdown"
-                  className=" w-full bg-white divide-y divide-gray-100 dark:bg-gray-700"
-                >
-                  <div
-                    id="dropdown"
-                    className=" w-[30vw] bg-white divide-y divide-gray-100 dark:bg-gray-700 mx-auto"
-                  >
-                    <ul
-                      className="flex items-center space-x-2 py-2 text-sm text-white w-full"
-                      aria-labelledby="dropdownDefaultButton"
-                    >
-                      <li class="flex justify-between w-full px-2">
-                        <div class="flex flex-col">
-                          <span className="ml-2">Dashboard</span>
-                          <span className="ml-2">balance</span>
-                          <Link
-                            href="/checking"
-                            className="block py-2 pl-3 pr-4 text-white rounded"
-                          >
-                            Connect A Checking Account
-                          </Link>
-                          <Link
-                            href="/savings"
-                            className="block py-2 pl-3 pr-4 text-white rounded"
-                          >
-                            Connect A Savings Account
-                          </Link>
-                        </div>
+               <div className="w-full bg-white dark:bg-gray-700">
+                  <div className="w-11/12 bg-white dark:bg-gray-700 mx-auto">
 
-                        <div class="flex flex-col">
-                          <span className="mr-2">bank</span>
-                          <span className="mr-2">updated</span>
-                        </div>
-                      </li>
-                    </ul>
+                    
+
+
+
+
+{
+  allItems.map((item) =>
+    item.checkingAccounts && item.checkingAccounts.map((account) => (
+      <ul
+        key={account.name}
+        className="flex mb-2 items-center justify-between py-1 text-sm text-white"
+      >
+        <li className="flex items-center">
+          <div className="flex flex-col items-start">
+            <div className="ml-0">{account.name}</div>
+            <div className="ml-0">{`Current Balance: $${account.balance}`}</div>
+          </div>
+        </li>
+
+        <li className="flex items-center">
+          <div className="flex flex-col items-end">
+            <span className="mr-0">{`Date Added: ${new Date(account.dateAdded).toLocaleDateString(
+                                            "en-US",
+                                            { year: "numeric", month: "long", day: "numeric" }
+                                        )}`}</span>
+            <span className="mr-0">{account.accountNumber}</span>
+          </div>
+        </li>
+      </ul>
+    ))
+  )
+}
+
+{
+  allItems.map((item) =>
+    item.savingsAccounts && item.savingsAccounts.map((account) => (
+      <ul
+        key={account.name}
+        className="flex mb-2 items-center justify-between py-1 text-sm text-white"
+      >
+        <li className="flex items-center">
+          <div className="flex flex-col items-start">
+            <div className="ml-0">{account.name}</div>
+            <div className="ml-0">{`Current Balance: $${account.balance}`}</div>
+          </div>
+        </li>
+
+        <li className="flex items-center">
+          <div className="flex flex-col items-end">
+            <span className="mr-0">{`Date Added: ${new Date(account.dateAdded).toLocaleDateString(
+                                            "en-US",
+                                            { year: "numeric", month: "long", day: "numeric" }
+                                        )}`}</span>
+            <span className="mr-0">{account.accountNumber}</span>
+          </div>
+        </li>
+      </ul>
+    ))
+  )
+}
+
+
+
+
+
+                    <div className=" flex mt-4 mb-4 items-center flex-col items-start">
+                            <Link href="/checking">
+                              <button className="block  pb-2 py-2 pl-10 pr-10 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent rounded">
+                                Add A Checking Account
+                              </button>
+                            </Link>
+
+                            <div className="pt-2">
+                              <Link href="/savings">
+                                <button className="block py-2 pl-10 pr-10 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent rounded">
+                                  Add A Savings Account
+                                </button>
+                              </Link>
+                            </div>
+                          </div>
                   </div>
                 </div>
               )}
 
-              <button
+<button
                 onClick={() =>
                   setShowDropdown(
-                    showDropdown !== "Credit Cards" ? "Credit Cards" : null
+                    showDropdown !== "Credit Cards"
+                      ? "Credit Cards"
+                      : null
                   )
                 }
-                className="flex flex-col sm:flex-row items-center justify-between w-full bg-sky-500 text-left text-white px-4 py-2"
+                className="flex w-[50w] flex-col sm:flex-row items-center  justify-between bg-sky-500 text-left text-white px-4 py-2"
               >
                 Credit Cards
                 <div className="flex items-center space-x-2">
-                  <span>$10000</span>
                   <svg
                     className="w-2.5 h-2.5"
                     aria-hidden="true"
@@ -198,49 +280,68 @@ export default function Dashboard() {
               </button>
 
               {showDropdown === "Credit Cards" && (
-                <div
-                  id="dropdown"
-                  className="w-full bg-white divide-y divide-gray-100 dark:bg-gray-700"
-                >
-                  <div
-                    id="dropdown"
-                    className="w-[30vw] bg-white divide-y divide-gray-100 dark:bg-gray-700 mx-auto"
-                  >
-                    <ul
-                      className="flex items-center space-x-2 py-2 text-sm text-white w-full"
-                      aria-labelledby="dropdownDefaultButton"
-                    >
-                      <li class="flex justify-between w-full px-2">
-                        <div class="flex flex-col">
-                          <span className="ml-2">Dashboard</span>
-                          <span className="ml-2">balance</span>
-                          <Link
-                            href="/creditcards"
-                            className="block py-2 pl-3 pr-4 text-white rounded"
-                          >
-                            Connect A Credit Card
-                          </Link>
-                        </div>
+               <div className="w-full bg-white dark:bg-gray-700">
+                  <div className="w-11/12 bg-white dark:bg-gray-700 mx-auto">
 
-                        <div class="flex flex-col">
-                          <span className="mr-2">bank</span>
-                          <span className="mr-2">updated</span>
-                        </div>
-                      </li>
-                    </ul>
+                    
+
+
+
+
+{
+  allItems.map((item) =>
+    item.creditCards && item.creditCards.map((card) => (
+      <ul
+        key={card.name}
+        className="flex mb-2 items-center justify-between py-1 text-sm text-white"
+      >
+        <li className="flex items-center">
+          <div className="flex flex-col items-start">
+            <div className="ml-0">{card.name}</div>
+            <div className="ml-0">{`Current Balance: $${card.currentBalance}`}</div>
+            <div className="ml-0">{`Credit Limit: $${card.creditLimit}`}</div>
+          </div>
+        </li>
+
+        <li className="flex items-center">
+          <div className="flex flex-col items-end">
+            <span className="mr-0">{`Date Added: ${new Date(card.dateAdded).toLocaleDateString(
+                                            "en-US",
+                                            { year: "numeric", month: "long", day: "numeric" }
+                                        )}`}</span>
+            <span className="mr-0">{card.number}</span>
+          </div>
+        </li>
+      </ul>
+    ))
+  )
+}
+                    <div className=" flex mt-4 mb-4 items-center flex-col items-start">
+                            <Link href="/creditcards">
+                              <button className="block  pb-2 py-2 pl-10 pr-10 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent rounded">
+                                Add A Credit Card
+                              </button>
+                            </Link>
+
+                           
+                          </div>
                   </div>
                 </div>
               )}
 
-              <button
+
+<button
                 onClick={() =>
-                  setShowDropdown(showDropdown !== "Loans" ? "Loans" : null)
+                  setShowDropdown(
+                    showDropdown !== "Loans"
+                      ? "Loans"
+                      : null
+                  )
                 }
-                className="flex flex-col sm:flex-row items-center justify-between w-full bg-sky-500 text-left text-white px-4 py-2"
+                className="flex w-[50w] flex-col sm:flex-row items-center  justify-between bg-sky-500 text-left text-white px-4 py-2"
               >
                 Loans
                 <div className="flex items-center space-x-2">
-                  <span>$10000</span>
                   <svg
                     className="w-2.5 h-2.5"
                     aria-hidden="true"
@@ -260,51 +361,69 @@ export default function Dashboard() {
               </button>
 
               {showDropdown === "Loans" && (
-                <div
-                  id="dropdown"
-                  className="w-full bg-white divide-y divide-gray-100 dark:bg-gray-700"
-                >
-                  <div
-                    id="dropdown"
-                    className="w-[30vw] bg-white divide-y divide-gray-100 dark:bg-gray-700 mx-auto"
-                  >
-                    <ul
-                      className="flex items-center space-x-2 py-2 text-sm text-white w-full"
-                      aria-labelledby="dropdownDefaultButton"
-                    >
-                      <li class="flex justify-between w-full px-2">
-                        <div class="flex flex-col">
-                          <span className="ml-2">Dashboard</span>
-                          <span className="ml-2">balance</span>
-                          <Link
-                            href="/loans"
-                            className="block py-2 pl-3 pr-4 text-white rounded"
-                          >
-                            Connect A Loan
-                          </Link>
-                        </div>
+               <div className="w-full bg-white dark:bg-gray-700">
+                  <div className="w-11/12 bg-white dark:bg-gray-700 mx-auto">
 
-                        <div class="flex flex-col">
-                          <span className="mr-2">bank</span>
-                          <span className="mr-2">updated</span>
-                        </div>
-                      </li>
-                    </ul>
+                    
+
+
+
+
+{
+  allItems.map((item) =>
+    item.loans && item.loans.map((loan) => (
+      <ul
+        key={loan.name}
+        className="flex mb-2 items-center justify-between py-1 text-sm text-white"
+      >
+        <li className="flex items-center">
+          <div className="flex flex-col items-start">
+            <div className="ml-0">{loan.name}</div>
+          </div>
+        </li>
+
+        <li className="flex items-center">
+          <div className="flex flex-col items-end">
+            <span className="mr-0">{`Date Added: ${new Date(loan.dateAdded).toLocaleDateString(
+                                            "en-US",
+                                            { year: "numeric", month: "long", day: "numeric" }
+                                        )}`}</span>
+            <span className="mr-0">{loan.accountNumber}</span>
+          </div>
+        </li>
+      </ul>
+    ))
+  )
+}
+                    <div className=" flex mt-4 mb-4 items-center flex-col items-start">
+                            <Link href="/loans">
+                              <button className="block  pb-2 py-2 pl-10 pr-10 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent rounded">
+                                Add A Loan
+                              </button>
+                            </Link>
+
+                           
+                          </div>
                   </div>
                 </div>
               )}
 
-              <button
+
+
+
+
+<button
                 onClick={() =>
                   setShowDropdown(
-                    showDropdown !== "Investments" ? "Investments" : null
+                    showDropdown !== "Investments"
+                      ? "Investments"
+                      : null
                   )
                 }
-                className="flex flex-col sm:flex-row items-center justify-between w-full bg-sky-500 text-left text-white px-4 py-2"
+                className="flex w-[50w] flex-col sm:flex-row items-center  justify-between bg-sky-500 text-left text-white px-4 py-2"
               >
                 Investments
                 <div className="flex items-center space-x-2">
-                  <span>$10000</span>
                   <svg
                     className="w-2.5 h-2.5"
                     aria-hidden="true"
@@ -324,39 +443,59 @@ export default function Dashboard() {
               </button>
 
               {showDropdown === "Investments" && (
-                <div
-                  id="dropdown"
-                  className="w-full  bg-white divide-y divide-gray-100 dark:bg-gray-700"
-                >
-                  <div
-                    id="dropdown"
-                    className="w-[30vw] bg-white divide-y divide-gray-100 dark:bg-gray-700 mx-auto"
-                  >
-                    <ul
-                      className="flex items-center space-x-2 py-2 text-sm text-white w-full"
-                      aria-labelledby="dropdownDefaultButton"
-                    >
-                      <li class="flex justify-between w-full px-2">
-                        <div class="flex flex-col">
-                          <span className="ml-2">Dashboard</span>
-                          <span className="ml-2">balance</span>
-                          <Link
-                            href="/investments"
-                            className="block py-2 pl-3 pr-4 text-white rounded"
-                          >
-                            Connect Investments
-                          </Link>
-                        </div>
+               <div className="w-full bg-white dark:bg-gray-700">
+                  <div className="w-11/12 bg-white dark:bg-gray-700 mx-auto">
 
-                        <div class="flex flex-col">
-                          <span className="mr-2">bank</span>
-                          <span className="mr-2">updated</span>
-                        </div>
-                      </li>
-                    </ul>
+                    
+
+
+
+
+{
+  allItems.map((item) =>
+    item.investmentAccounts && item.investmentAccounts.map((invesment) => (
+      <ul
+        key={invesment.name}
+        className="flex mb-2 items-center justify-between py-1 text-sm text-white"
+      >
+        <li className="flex items-center">
+          <div className="flex flex-col items-start">
+            <div className="ml-0">{invesment.name}</div>
+          </div>
+        </li>
+
+        <li className="flex items-center">
+          <div className="flex flex-col items-end">
+            <span className="mr-0">{`Date Added: ${new Date(invesment.dateAdded).toLocaleDateString(
+                                            "en-US",
+                                            { year: "numeric", month: "long", day: "numeric" }
+                                        )}`}</span>
+            <span className="mr-0">{invesment.accountNumber}</span>
+          </div>
+        </li>
+      </ul>
+    ))
+  )
+}
+                    <div className=" flex mt-4 mb-4 items-center flex-col items-start">
+                            <Link href="/investments">
+                              <button className="block  pb-2 py-2 pl-10 pr-10 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent rounded">
+                                Add Investments
+                              </button>
+                            </Link>
+
+                           
+                          </div>
                   </div>
                 </div>
               )}
+
+
+
+
+
+
+             
             </div>
           </div>
 
@@ -384,13 +523,7 @@ export default function Dashboard() {
               <CategoryDonutChart transactions={allRecentTransactions} />
             </div>
 
-            {/* <div className="w-full md:w-[50%] p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                New Card Title
-              </h5>
-              <MerchantsHorizontalGraph transactions={allRecentTransactions}/>
-            </div>
-          </div> */}
+           
 
             <div className="w-full md:w-[50%] p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
               <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">

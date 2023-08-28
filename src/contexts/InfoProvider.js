@@ -18,6 +18,7 @@ export const InfoProvider = ({ children }) => {
   const [income, setIncome] = useState(null);
   const [loan, setLoan] = useState(null);
   const [token, setToken] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('')
 
   return (
     <InfoContext.Provider
@@ -44,6 +45,8 @@ export const InfoProvider = ({ children }) => {
         setLoan,
         income,
         setIncome,
+        searchTerm,
+        setSearchTerm,
       }}
     >
       {children}

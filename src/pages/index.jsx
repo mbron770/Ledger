@@ -2,8 +2,8 @@ import { UserButton } from "@clerk/nextjs";
 import Link from 'next/link';
 import Router from "next/router";
 import { useState, useEffect, useCallback, useContext } from "react";
-import CreditCardLink from "../components/plaidLinks/liabilities/creditCard/creditCardLink";
-import CheckingAccountLink from "../components/plaidLinks/bankAccounts/checking/checkingAccountLink";
+
+
 import SavingsAccountLink from "../components/plaidLinks/bankAccounts/savings/savingsAccountLink";
 import InvestmentAccountLink from '../components/plaidLinks/investments/investmentAccountLink';
 import LoanLink from "../components/plaidLinks/liabilities/loans/loanLink"
@@ -66,7 +66,7 @@ export default function Home() {
         
       </Link>
 
-      <CreditCardLink />
+      
 
       <h2>Credit Card Details</h2>
       {creditCard &&
@@ -263,7 +263,7 @@ export default function Home() {
 
 
 
-        {/* <LoanLink/> */}
+        <LoanLink/>
 
         <h2>Loan Details</h2>
 
