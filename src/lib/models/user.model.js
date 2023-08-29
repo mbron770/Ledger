@@ -25,4 +25,3 @@ if (mongoose.models && mongoose.models.User) {
 }
 
 export default User;
-console.log("User model loaded");

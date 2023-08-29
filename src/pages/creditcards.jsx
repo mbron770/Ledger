@@ -63,15 +63,16 @@ export default function CreditCards() {
             {/* <div className="relative bg-sky-100 pt-[25vh] h-full w-screen "> */}
             <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[5vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
                 {/* Side account */}
-                <div className="w-full  xl:w-[30vw]lg:w-[30vw] p-6 bg-white border border-gray-200 rounded-lg shadow-2xl overflow-y-auto">
-                <div className="flex flex-col lg:w-full md:w-[70vw]">
+                <div className="w-full  md:w-full xl:w-[30vw]lg:w-[30vw] p-6 bg-white   rounded-lg shadow-2xl overflow-y-auto">
+                
+                <div className="flex flex-col lg:w-full md:w-full ">
                         <h5 className="mb-8 text-2xl text-center font-bold text-black">
                             Credit Cards
                         </h5>
                         <CreditCardLink/>
                         
 
-                        <div className="flex flex-col lg:w-full md:w-[70vw]">
+                        <div className="flex flex-col lg:w-full md:w-full">
                             {
                             allCreditCards && allCreditCards.map((card) => (
                                 <div key={

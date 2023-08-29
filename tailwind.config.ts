@@ -16,19 +16,17 @@ const config: Config = {
 
       backgroundColor: {
         'custom-gray': '#676879',
+        'custom-purple': '#21253e',
+        'custom-blue': '#e9eff5'
+      },
+
+      fontFamily: {
+        'goldman': ['Goldman Sans', 'sans-serif'],
       },
     },
   },
   variants: {},
   plugins: [],
-
-
-  // darkMode: ["class"],
-  // theme: {
-  //   extend: {},
-  // },
-  // plugins: [],
-
-
 }
-export default config
+
+export default config;

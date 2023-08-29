@@ -69,9 +69,9 @@ export default function Loans() {
     return (
         <>
         <NavBar/>
-            {/* <div className="relative bg-sky-100 min-h-[100vh]"> */}
+            <div className="absolute bg-custom-blue w-full h-[100]">
             {/* <div className="relative bg-sky-100 pt-[25vh] h-full w-screen "> */}
-            <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[5vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
+            <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[20vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
                 {/* Side account */}
                 <div className="w-full  md:w-full xl:w-[30vw]lg:w-[30vw] p-6 bg-white   rounded-lg shadow-2xl overflow-y-auto">
                 <div className="flex flex-col lg:w-full md:w-full ">
@@ -125,7 +125,7 @@ export default function Loans() {
                 <MainPageDisplay 
                     card={selectedLoan}/>
             </div>
-            {/* </div> */}
+            </div>
           </>
     );
 }

@@ -59,10 +59,10 @@ export default function SavingsAccounts() {
     const filteredTransactions = !searchTerm ? displayedSavingsTransactions : displayedSavingsTransactions.filter((transaction) => transaction.amount.toString().includes(searchTerm) || transaction.category.toLowerCase().includes(searchTerm.toLowerCase()) || transaction.name.toLowerCase().includes(searchTerm.toLowerCase()) || transaction.date.toString().includes(searchTerm.toLowerCase()) || transaction.paymentChannel.toLowerCase().includes(searchTerm.toLowerCase()));
 
     return (
-        <Layout className="bg-sky-100 min-h-[100vh]">
+        <Layout className="bg-sky-500 min-h-[100vh]">
             {/* <div className="relative bg-sky-100 min-h-[100vh]"> */}
             {/* <div className="relative bg-sky-100 pt-[25vh] h-full w-screen "> */}
-            <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[30vh] h-full   flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
+            <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[10vh] h-full   flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
                 {/* Side account */}
                 <div className="w-full h-[95.5%] xl:w-[30vw] lg:w-[30vw] p-6 bg-white border border-gray-200 rounded-lg shadow-2xl overflow-y-scroll max-h-[95.5%]">
                     <div className="flex flex-col justify-center-top items-center h-full">
