@@ -93,7 +93,7 @@ export default function NavBar() {
         <button
             onClick={toggleSideBar}
             type="button"
-            className="inline-flex items-center mr-2 p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            className="inline-flex items-center mr-2 p-2 w-10 h-full justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
         >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -125,7 +125,7 @@ export default function NavBar() {
         className={`transition-transform transform ml-4 mr-4 ${openSideBar ? 'block' : 'hidden'}`}
         id="navbar-mobile"
       >
-        <ul className="flex flex-col font-medium p-4 mt-4 border border-gray-100 rounded-lg bg-emerald-500">
+        <ul className="flex flex-col font-medium p-4 mt-4 border  rounded-lg bg-black">
         <li>
                
 

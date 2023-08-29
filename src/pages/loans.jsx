@@ -42,20 +42,29 @@ export default function Loans() {
             console.error(error);
         }
     };
-    console.log('loans', allLoans)
+    
 
     useEffect(() => {
         fetchAllLoans();
     }, [user, fetchedData]);
 
-    // useEffect(() => {
-    //     const allTransactions = allLoans?.flatMap((card) => card?.transactions);
-    //     setDisplayedTransactions(allTransactions);
-    //     setSelectedLoan(allLoans[0]);
-    //     setFetchedData(false);
-    // }, [allLoans, setFetchedData]);
 
-    // const filteredTransactions = !searchTerm ? displayedTransactions : displayedTransactions.filter((transaction) => transaction?.amount.toString().includes(searchTerm) || transaction?.category.toLowerCase().includes(searchTerm?.toLowerCase()) || transaction?.name.toLowerCase().includes(searchTerm.toLowerCase()) || transaction?.date.toString().includes(searchTerm.toLowerCase()) || transaction?.paymentChannel.toLowerCase().includes(searchTerm.toLowerCase()) || transaction?.pending.toString().includes(searchTerm.toLowerCase()));
+    const filteredLoans = !searchTerm ? allLoans : 
+    allLoans.filter((loan) => loan?.name.toLowerCase().includes(searchTerm) 
+    // || loan?.number.toLowerCase().includes(searchTerm) 
+    // || loan?.dateAdded.toString().toLowerCase().includes(searchTerm) 
+    );
+
+    console.log(filteredLoans)
+
+    useEffect(() => {
+        // const allTransactions = allLoans?.flatMap((card) => card?.transactions);
+        // setDisplayedTransactions(allTransactions);
+        setSelectedLoan(filteredLoans[0]);
+        setFetchedData(false);
+    }, [allLoans, setFetchedData]);
+
+    
 
     return (
         <>
@@ -64,17 +73,17 @@ export default function Loans() {
             {/* <div className="relative bg-sky-100 pt-[25vh] h-full w-screen "> */}
             <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[5vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
                 {/* Side account */}
-                <div className="w-full  xl:w-[30vw]lg:w-[30vw] p-6 bg-white border border-gray-200 rounded-lg shadow-2xl overflow-y-auto">
-                <div className="flex flex-col lg:w-full md:w-[70vw]">
+                <div className="w-full  md:w-full xl:w-[30vw]lg:w-[30vw] p-6 bg-white   rounded-lg shadow-2xl overflow-y-auto">
+                <div className="flex flex-col lg:w-full md:w-full ">
                         <h5 className="mb-8 text-2xl text-center font-bold text-black">
                             Loans
                         </h5>
                         <LoanLink/>
                         
 
-                        <div className="flex flex-col lg:w-full md:w-[70vw]">
+                        <div className="flex flex-col lg:w-full md:w-full">
                             {
-                            allLoans && allLoans.map((card) => (
+                            filteredLoans.map((card) => (
                                 <div key={
                                         card?.name
                                     }
@@ -82,7 +91,7 @@ export default function Loans() {
                                     href="#"
                                     onClick={
                                         () => {
-                                            setDisplayedTransactions(card?.transactions);
+                                            // setDisplayedTransactions(card?.transactions);
                                             setSelectedLoan(card);
                                         }
                                 }>
@@ -90,7 +99,7 @@ export default function Loans() {
                                         {
                                         card?.name
                                     }
-                                        {" "} </h2>
+                                        </h2>
                                 </div>
                             ))
                         }
@@ -98,10 +107,11 @@ export default function Loans() {
                             <div className="mb-2 pt-10 pb-10 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
                                 onClick={
                                     () => {
-                                        const allTransactions = allLoans?.flatMap((card) => card?.transactions);
-                                        setDisplayedTransactions(allTransactions);
+                                        // const allTransactions = allLoans?.flatMap((card) => card?.transactions);
+                                        setSelectedLoan(filteredLoans);
                                     }
-                            }>
+                            } 
+                            >
                                 <h3 className="mb-2 text-xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
                                     View All Loans
                                 </h3>
@@ -112,8 +122,8 @@ export default function Loans() {
                     </div>
                 </div>
 
-                {/* <MainPageDisplay transactions={filteredTransactions}
-                    card={selectedLoan}/> */}
+                <MainPageDisplay 
+                    card={selectedLoan}/>
             </div>
             {/* </div> */}
           </>

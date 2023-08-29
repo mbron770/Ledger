@@ -1,14 +1,12 @@
 import { useContext, useState, useEffect } from "react";
 import InfoContext from "../../../contexts/InfoContext"
 
-
-
-
-export default function TransactionsDisplayTable({transactions}) {
+export default function LoanDisplayTable({card}) {
     
-    const {
-        searchTerm, setSearchTerm
-       } = useContext(InfoContext);
+     const {
+    searchTerm, setSearchTerm
+   } = useContext(InfoContext);
+   console.log
 
     return (
         <>
@@ -39,58 +37,73 @@ export default function TransactionsDisplayTable({transactions}) {
                         <tr>
 
                             <th scope="col" className="px-3 py-2">
-                                Transaction
+                                Loan
                             </th>
                             <th scope="col" className="px-3 py-2">
-                                Amount
+                                Account Number
                             </th>
                             <th scope="col" className="px-3 py-2">
-                                Category
+                                Date Added
                             </th>
-                            <th scope="col" className="px-3 py-2">
-                                Method
-                            </th>
-                            <th scope="col" className="px-3 py-2">
-                                Pending
-                            </th>
-                            <th scope="col" className="px-3 py-3">
-                                Date
-                            </th>
+                            
                         </tr>
                     </thead>
-                    <tbody> {
-                        transactions?.map((transaction) => (
-
+                    {card && card.length > 0 ? <tbody>
+                        {card && card.map((loan) => (
                             <tr key={
-                                    transaction.date
+                                loan?.name
+                            }
+                            className="bg-white  dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+
+                            <th scope="row" className="px-3 py-3 font-medium text-gray-900  dark:text-white">
+                                {
+                                loan?.name
+                            } </th>
+                            <td className="px-3 py-3">
+                                {
+                                `$${
+                                    loan?.number
+                                }`
+                            }</td>
+                            
+                            <td className="px-3 py-3">
+                                {
+                                new Date(loan?.dateAdded).toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric"
+                                })
+                            }</td>
+
+                        </tr>
+
+
+
+                        ))}
+                            
+
+
+                       
+                     </tbody> : <tbody> 
+                            <tr key={
+                                    card?.name
                                 }
                                 className="bg-white  dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
                                 <th scope="row" className="px-3 py-3 font-medium text-gray-900  dark:text-white">
                                     {
-                                    transaction.name
+                                    card?.name
                                 } </th>
                                 <td className="px-3 py-3">
                                     {
                                     `$${
-                                        transaction.amount
+                                        card?.number
                                     }`
                                 }</td>
+                                
                                 <td className="px-3 py-3">
                                     {
-                                    transaction.category
-                                }</td>
-                                <td className="px-3 py-3">
-                                    {
-                                    transaction.paymentChannel
-                                }</td>
-                                <td className="px-3 py-3">
-                                    {
-                                    transaction.pending
-                                }</td>
-                                <td className="px-3 py-3">
-                                    {
-                                    new Date(transaction.date).toLocaleDateString("en-US", {
+                                    new Date(card?.dateAdded).toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "long",
                                         day: "numeric"
@@ -100,8 +113,13 @@ export default function TransactionsDisplayTable({transactions}) {
                             </tr>
 
 
-                        ))
-                    } </tbody>
+                       
+                     </tbody>
+
+
+
+                    }
+                    
                 </table>
             </div>
         </>
