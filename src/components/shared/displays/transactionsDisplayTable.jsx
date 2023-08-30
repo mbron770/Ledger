@@ -12,48 +12,48 @@ export default function TransactionsDisplayTable({transactions}) {
 
     return (
         <>
-            <div className="overflow-y-auto flex-grow shadow-md sm:rounded-lg">
-                <div className=" pt-3 pl-3 pr-3 flex justify-center items-center pb-4 bg-white w-full">
+             <div className="overflow-y-auto flex-grow">
+                <div className=" pt-3 pl-3 pr-3 flex justify-center items-center pb-4 bg-custom-blue w-full">
                     <label htmlFor="table-search" className="sr-only">
                         Search
                     </label>
                     <div className="relative w-full mt-0">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill='#e9eff5' viewBox="0 0 20 20">
+                                <path stroke='#21253e' strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
                         <input 
                         type="text" 
                         onChange={(e) => {setSearchTerm(e.target.value)}}
                         id="table-search" 
-                        className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                        className="block p-2 pl-10 text-sm font-thin text-custom-purple  w-full bg-custom-blue focus:ring-custom-purple border-custom-purple" 
                         placeholder="Search..."/>
                     </div>
                 </div>
 
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <table className="w-full text-sm text-leftfont-thin font-goldman text-custom-purple">
+        
 
-
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <thead className="text-xs uppercase bg-custom-blue ">
                         <tr>
 
-                            <th scope="col" className="px-3 py-2">
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">
                                 Transaction
                             </th>
-                            <th scope="col" className="px-3 py-2">
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">
                                 Amount
                             </th>
-                            <th scope="col" className="px-3 py-2">
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">
                                 Category
                             </th>
-                            <th scope="col" className="px-3 py-2">
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">
                                 Method
                             </th>
-                            <th scope="col" className="px-3 py-2">
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">
                                 Pending
                             </th>
-                            <th scope="col" className="px-3 py-3">
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">
                                 Date
                             </th>
                         </tr>
@@ -64,31 +64,31 @@ export default function TransactionsDisplayTable({transactions}) {
                             <tr key={
                                     transaction.date
                                 }
-                                className="bg-white  dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                className="bg-custom-blue py-2 duration-300 hover:scale-105 hover:shadow-xl">
 
-                                <th scope="row" className="px-3 py-3 font-medium text-gray-900  dark:text-white">
+                                <th scope="row" className="px-3 py-3 font-thin font-goldman text-custom-purple ">
                                     {
                                     transaction.name
                                 } </th>
-                                <td className="px-3 py-3">
+                                <td className="px-3 py-3 font-thin font-goldman text-green-700 ">
                                     {
                                     `$${
                                         transaction.amount
                                     }`
                                 }</td>
-                                <td className="px-3 py-3">
+                                <td className="px-3 py-3 font-thin font-goldman text-custom-purple ">
                                     {
                                     transaction.category
                                 }</td>
-                                <td className="px-3 py-3">
+                                <td className="px-3 py-3 font-thin font-goldman text-custom-purple ">
                                     {
                                     transaction.paymentChannel
                                 }</td>
-                                <td className="px-3 py-3">
+                                <td className="px-3 py-3 font-thin font-goldman text-custom-purple ">
                                     {
                                     transaction.pending
                                 }</td>
-                                <td className="px-3 py-3">
+                                <td className="px-3 py-3 font-thin font-goldman text-custom-purple ">
                                     {
                                     new Date(transaction.date).toLocaleDateString("en-US", {
                                         year: "numeric",

@@ -24,52 +24,73 @@ const predefinedColors = [
 const getMerchantTotals = (transactions) => {
   const totalsByMerchant = {};
 
-  transactions.forEach((transaction) => {
-    if (!totalsByMerchant[transaction.name]) {
-      totalsByMerchant[transaction.name] = 0;
+  transactions?.forEach((transaction) => {
+    if (!totalsByMerchant[transaction?.name]) {
+      totalsByMerchant[transaction?.name] = 0;
     }
-    totalsByMerchant[transaction.name] += transaction.amount;
+    totalsByMerchant[transaction?.name] += transaction?.amount;
   });
 
   const sortedMerchants = Object.keys(totalsByMerchant)
     .map((merchant) => ({ name: merchant, amount: totalsByMerchant[merchant] }))
-    .sort((a, b) => b.amount - a.amount);
+    .sort((a, b) => b?.amount - a?.amount);
+
+ 
 
   return sortedMerchants;
 };
 
-export const MerchantsHorizontalGraph = ({ transactions }) => {
-  if (!transactions || transactions.length === 0) {
-    return <div>No data available</div>;
-  }
-  const chartData = getMerchantTotals(transactions);
+export const MerchantsHorizontalGraph = ({ transactions, investmentTransactions }) => {
+  
+  let chartData
 
+  if(transactions && transactions?.length > 0){
+    chartData = getMerchantTotals(transactions)
+
+  } else if(investmentTransactions && investmentTransactions?.length > 0){
+    chartData = getMerchantTotals(investmentTransactions)
+  }
+// close_price
+// : 
+// 0.011
+// name
+// : 
+// "Nflx Feb 01'18 $355 Call"
+// ticker_symbol
+// : 
+// "NFLX180201C00355000"
+// type
+// : 
+// "derivative"
 
 
  
 
   return (
+    <div className="bg-custom-blue p-4">
     <ResponsiveContainer width="100%" height={300}> 
     <BarChart
   layout="vertical"
   width={500}
   data={chartData}
   margin={{ top: 5, right: 25, left: 25, bottom: 5 }}
+  className="text-md font-thin font-goldman text-custom-purple"
 >
-      <XAxis type="number" />
-      <YAxis dataKey="name" type="category" width={0} />
-      <Tooltip
-        formatter={(value) => [`$${value.toFixed(2)}`, "Amount"]}
-        contentStyle={{
-          background: "white",
-          border: "none",
-          borderRadius: "0.5rem",
-        }}
-        cursor={{ fill: "rgba(0, 0, 0, 0.1)" }}
-        itemStyle={{ color: "gray-600" }}
-      />
+      <XAxis type="number" tick={{ fill: '#21253e' }} stroke="#21253e" />
+      <YAxis dataKey="name" type="category" width={0} tick={{ fill: '#21253e' }} stroke="#21253e" />
+      <Tooltip 
+    formatter={(value) => [`$${value}`, 'Amount']}
+    contentStyle={{ 
+        background: '#21253e', 
+        border: 'none', 
+        borderRadius: '0.5rem', 
+        color: '#e9eff5'  
+    }}
+    cursor={{ fill: '#21253e', background: '#e9eff5' }}
+    itemStyle={{ color: '#e9eff5', background: '#21253e' }}
+/>
       <Bar dataKey="amount" barSize={30}>
-        {chartData.map((entry, index) => (
+        {chartData?.map((entry, index) => (
           <Cell
             key={`cell-${index}`}
             fill={predefinedColors[index % predefinedColors.length]}
@@ -78,5 +99,6 @@ export const MerchantsHorizontalGraph = ({ transactions }) => {
       </Bar>
     </BarChart>
   </ResponsiveContainer>
+  </div>
   );
 };

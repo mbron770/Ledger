@@ -11,11 +11,12 @@ export default function CreditCards() {
     const {fetchedData, setFetchedData, searchTerm, setSearchTerm} = useContext(InfoContext);
     const {user} = useUser();
     const [displayedInvestmentTransactions, setDisplayedInvestmentTransactions] = useState([]);
-    const [displayedHoldings, setDisplayedHoldings] = useState([]);
-    const [displayedSecurities, setDisplayedSecurities] = useState([]);
+    const [displayedHoldings, setDisplayedHoldings] = useState(null);
+    const [displayedSecurities, setDisplayedSecurities] = useState(null);
     const [selectedInvestmentAccount, setSelectedInvestmentAccount] = useState(null);
-console.log(selectedInvestmentAccount)
-    console.log(allInvestmentAccounts);
+
+    console.log(selectedInvestmentAccount)
+    
 
     const fetchAllInvestmentAccounts = async () => {
         try {
@@ -50,29 +51,50 @@ console.log(selectedInvestmentAccount)
 
     useEffect(() => {
         const allInvestmentTransactions = allInvestmentAccounts?.flatMap((investment) => investment?.transactions);
-        const allSecurities = allInvestmentAccounts?.flatMap((investment) => investment?.holdings);
-        const allHoldings = allInvestmentAccounts?.flatMap((investment) => investment?.securities);
+        const allSecurities = allInvestmentAccounts?.flatMap((investment) => investment?.securities);
+        const allHoldings = allInvestmentAccounts?.flatMap((investment) => investment?.holdings);
         setDisplayedInvestmentTransactions(allInvestmentTransactions);
+        setDisplayedHoldings(allHoldings)
+        setDisplayedSecurities(allSecurities)
         setSelectedInvestmentAccount(allInvestmentAccounts[0]);
         setFetchedData(false);
     }, [allInvestmentAccounts, setFetchedData]);
 
     const filteredTransactions = !searchTerm ? displayedInvestmentTransactions : displayedInvestmentTransactions.filter((transaction) => transaction?.amount.toString().includes(searchTerm) || transaction?.category.toLowerCase().includes(searchTerm?.toLowerCase()) || transaction?.name.toLowerCase().includes(searchTerm.toLowerCase()) || transaction?.date.toString().includes(searchTerm.toLowerCase()) || transaction?.paymentChannel.toLowerCase().includes(searchTerm.toLowerCase()) || transaction?.pending.toString().includes(searchTerm.toLowerCase()));
-
+    // const filteredHoldings 
+    // const filteredSecurities
     return (
         <>
         <NavBar/>
-            {/* <div className="relative bg-sky-100 min-h-[100vh]"> */}
-            {/* <div className="relative bg-sky-100 pt-[25vh] h-full w-screen "> */}
-            <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[5vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
-                {/* Side account */}
-                <div className="duration-300 hover:scale-105 hover:shadow-xl w-full  md:w-full xl:w-[30vw]lg:w-[30vw] p-6 bg-white   rounded-lg shadow-2xl overflow-y-auto">
+        <div className="absolute bg-custom-blue w-full h-[100]">
+            <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[20vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
+                {/* Side Card */}
+                <div className="duration-300 hover:scale-105 hover:shadow-xl w-full  md:w-full xl:w-[30vw]lg:w-[30vw] p-6 bg-white shadow-2xl overflow-y-auto">
                 <div className="flex flex-col lg:w-full md:w-full ">
-                        <h5 className="mb-8 text-2xl text-center font-bold text-black">
-                           Investments
-                        </h5>
+                <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+                Investments
+              </h5>
                         <InvestmentAccountLink/>
-                        
+
+                        <div className="mb-2 pt-10 pb-10 text-center bg-custom-purple shadow-l transition active:bg-blue-300"
+                                onClick={
+                                    () => {
+        const allInvestmentTransactions = allInvestmentAccounts?.flatMap((investment) => investment?.transactions);
+        const allSecurities = allInvestmentAccounts?.flatMap((investment) => investment?.securities);
+        const allHoldings = allInvestmentAccounts?.flatMap((investment) => investment?.holdings);
+                                        
+
+                                        setDisplayedInvestmentTransactions(allInvestmentTransactions);
+                                        setDisplayedHoldings(allHoldings);
+                                        setDisplayedSecurities(allSecurities);
+                                    }
+                            }
+                            
+                            >
+                                <h3 className="mb-2 text-l font-thin font-goldman text-white tracking-tight w-full truncate whitespace-nowrap">
+                                    View All Investments
+                                </h3>
+                            </div>
 
                         <div className="flex flex-col lg:w-full md:w-full">
                             {
@@ -80,7 +102,7 @@ console.log(selectedInvestmentAccount)
                                 <div key={
                                     investment?.name
                                     }
-                                    className="mb-2 pt-10 pb-10 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
+                                    className="mb-2 pt-10 pb-10 text-center bg-custom-blue shadow-l transition active:bg-blue-300"
                                     href="#"
                                     onClick={
                                         () => {
@@ -92,32 +114,19 @@ console.log(selectedInvestmentAccount)
                                 }
                                 
                                 >
-                                    <h2 className="mb-2 text-l font-bold tracking-tight text-gray-900 dark:text-white w-full truncate whitespace-nowrap">
+                                    <h2 className="mb-2 text-l font-thin font-goldman text-custom-purple tracking-tight w-full truncate whitespace-nowrap">
                                         {
                                         investment?.name
                                     }
-                                        {" "} </h2>
+                                         </h2>
                                 </div>
+
+
+
                             ))
                         }
 
-                            <div className="mb-2 pt-10 pb-10 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
-                                onClick={
-                                    () => {
-                                        const allHoldings = allInvestmentAccounts?.flatMap((investment) => investment?.transactions);
-                                        const allSecurities = allInvestmentAccounts?.flatMap((investment) => investment?.transactions);
-                                        const allInvestmentTransactions = allInvestmentAccounts?.flatMap((investment) => investment?.transactions);
-                                        setDisplayedInvestmentTransactions(allInvestmentTransactions);
-                                        setDisplayedHoldings(allHoldings);
-                                        setDisplayedSecurities(allSecurities);
-                                    }
-                            }
                             
-                            >
-                                <h3 className="mb-2 text-xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
-                                    View All Investments
-                                </h3>
-                            </div>
 
                         </div>
                         
@@ -127,11 +136,13 @@ console.log(selectedInvestmentAccount)
                 <MainPageDisplay 
                     card={selectedInvestmentAccount}
                     investmentTransactions={displayedInvestmentTransactions}
+                    securities={displayedSecurities}
+                    holdings={displayedHoldings}
                     
                     />
                     
             </div>
-            {/* </div> */}
+            </div>
           </>
     );
 }

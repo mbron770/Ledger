@@ -10,6 +10,7 @@ export default function InvestmentAccountLink() {
     setInvestmentAccountTransactions,
     token,
     setToken,
+    setFetchedData,
   } = useContext(InfoContext);
   const { user } = useUser();
   const products = ["investments", "transactions"];
@@ -108,6 +109,8 @@ export default function InvestmentAccountLink() {
         await getTransactions();
         console.log("display transactions");
         await displayTransactions();
+        setFetchedData()
+
       } catch (error) {
         console.error(error.message);
       }
@@ -117,7 +120,8 @@ export default function InvestmentAccountLink() {
       addInvestmentAccount,
       getAddedInvestmentAccount,
       getTransactions,
-      displayTransactions
+      displayTransactions,
+      setFetchedData
     ]
   );
 
@@ -226,9 +230,9 @@ export default function InvestmentAccountLink() {
         onClick={() => open()}
         disabled={!ready}
         type="button"
-        className="text-white mt-3 bg-black hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-700 font-medium rounded-lg text-sm px-5 py-2.5  mb-3"
+        className="text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  text-sm px-5 py-2.5  mb-3"
       >
-        Connect Investments Through Plaid
+        Add Investment
       </button>
     </>
   );

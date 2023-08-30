@@ -104,8 +104,13 @@ export default function IncomeLink() {
 
   return (
     <>
-      <button onClick={() => open()} disabled={!ready}>
-        add Income button
+       <button
+        onClick={() => open()}
+        disabled={!ready}
+        type="button"
+        className="text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  text-sm px-5 py-2.5  mb-3"
+      >
+        Add Job
       </button>
     </>
   );

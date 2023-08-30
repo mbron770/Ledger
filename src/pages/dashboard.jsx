@@ -1,5 +1,5 @@
 import Layout from "./layout";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 import { WeeklySpendingChart } from "../components/graphs/weeklySpendingChart";
@@ -9,8 +9,10 @@ import NavBar from "../components/shared/topbarnav";
 
 export default function Dashboard() {
   const [showDropdown, setShowDropdown] = useState([]);
+  const [showPlaidLinks, setShowPlaidLinks] = useState(false)
   const [allRecentTransactions, setAllRecentTransactions] = useState(null);
   const [allItems, setAllItems] = useState(null);
+  const buttonRef = useRef(null);
 
   const { user } = useUser();
   console.log(user);
@@ -69,7 +71,7 @@ export default function Dashboard() {
     fetchAllItems();
   }, [user]);
 
-  console.log(allItems);
+
 
   return (
     <>
@@ -80,23 +82,66 @@ export default function Dashboard() {
         <section className="bg-custom-purple">
           <div className="pt-1 py-48 px-4 max-w-screen-xl text-justify-left lg:py-12">
             <h5 className=" pt-none  pb-0  text-7xl font-thin leading-none text-white">{`Welcome ${user?.firstName}!`}</h5>
-
-            {/* <p className="mb-8 text-10xl font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p> */}
+            <div className="ml-10 mr-10 pt-10  relative inline-block">
+            <button 
+                onClick={() => setShowPlaidLinks(!showPlaidLinks)}
+                className="bg-white border-2 border-transparent hover:border-blue-700 focus:border-blue-700 focus:outline-none  block" 
+                type="button"
+            >
+              <p className='ml-5 mr-5 mt-2 mb-2 font-thin text-lg text-center font-goldman text-custom-purple'>Add an Account</p>
+            </button>
+            
+            {/* Dropdown menu */}
+            {showPlaidLinks && (
+                <div 
+                    id="dropdown" 
+                    className="absolute z-10 bg-white divide-y  shadow w-full mt-0"
+                >
+                    <ul 
+                        className="py-2 font-medium bg-white font-goldman text-sm"
+                    >
+                      
+            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
+                <Link href="/checking" className="block pl-3 pr-4 text-custom-purple">Checking</Link>
+            </li>
+            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
+                <Link href="/savings" className="block pl-3 pr-4 text-custom-purple">Savings</Link>
+            </li>
+            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
+                <Link href="/creditcards" className="block pl-3 pr-4 text-custom-purple">Credit Card</Link>
+            </li>
+            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
+                <Link href="/loans" className="block pl-3 pr-4 text-custom-purple">Loan</Link>
+            </li>
+            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
+                <Link href="/investments" className="block pl-3 pr-4 text-custom-purple">Investment</Link>
+            </li>
+            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
+                <Link href="/budgets" className="block pl-3 pr-4 text-custom-purple">Job</Link>
+            </li>
+                    </ul>
+                </div>
+            )}
+        </div>
+            
             <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-              {/* <a href="#" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
-                Get started
-                <svg className="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                </svg>
-            </a>
-            <a href="#" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                Learn more
-            </a> */}
+             
+
+
+
+
+
+
+
+
+
+
+
             </div>
           </div>
         </section>
 
-        <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[10vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
+        <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[5vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
           <div className=" py-2 duration-300 hover:scale-105 hover:shadow-xl w-full md:h-[50vh] lg:h-[100vh] lg:w-[30vw] p-6 bg-white  shadow-2xl  overflow-y-auto">
             <div className="h-full overflow-y-auto">
               <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
@@ -161,7 +206,7 @@ export default function Dashboard() {
                   className="text-md font-thin font-goldman text-custom-purple bg-transparent hover:bg-blue-500   hover:text-white border border-blue-500 hover:border-transparent flex w-[50w] flex-col sm:flex-row items-center  justify-between  text-left  px-4 py-2"
                 >
                   Checking and Savings
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center  space-x-2">
                     <svg
                       className="w-2.5 h-2.5"
                       aria-hidden="true"
@@ -181,8 +226,8 @@ export default function Dashboard() {
                 </button>
 
                 {showDropdown === "Checking and Savings" && (
-                  <div className="w-full bg-white">
-                    <div className="w-11/12 bg-white mx-auto">
+                   <div className="w-full  bg-custom-blue">
+                   <div className="w-11/12 bg-custom-blue mx-auto">
                       {allItems?.map(
                         (item) =>
                           item?.checkingAccounts &&
@@ -301,8 +346,8 @@ export default function Dashboard() {
                 </button>
 
                 {showDropdown === "Credit Cards" && (
-                  <div className="w-full bg-white dark:bg-gray-700">
-                    <div className="w-11/12 bg-white dark:bg-gray-700 mx-auto">
+                  <div className="w-full  bg-custom-blue">
+                    <div className="w-11/12 bg-custom-blue mx-auto">
                       {allItems?.map(
                         (item) =>
                           item?.creditCards &&
@@ -376,8 +421,8 @@ export default function Dashboard() {
                 </button>
 
                 {showDropdown === "Loans" && (
-                  <div className="w-full bg-white dark:bg-gray-700">
-                    <div className="w-11/12 bg-white dark:bg-gray-700 mx-auto">
+                    <div className="w-full  bg-custom-blue">
+                    <div className="w-11/12 bg-custom-blue mx-auto">
                       {allItems?.map(
                         (item) =>
                           item?.loans &&
@@ -451,8 +496,8 @@ export default function Dashboard() {
                 </button>
 
                 {showDropdown === "Investments" && (
-                  <div className="w-full bg-white dark:bg-gray-700">
-                    <div className="w-11/12 bg-white dark:bg-gray-700 mx-auto">
+                   <div className="w-full  bg-custom-blue">
+                   <div className="w-11/12 bg-custom-blue mx-auto">
                       {allItems?.map(
                         (item) =>
                           item?.investmentAccounts &&
@@ -509,7 +554,7 @@ export default function Dashboard() {
             </div>
 
             <div className="  duration-300 hover:scale-105 hover:shadow-xl w-full p-4 text-center overflow-scrollable  bg-white shadow-2xl">
-            <h5 className="mb-2 font-thin text-2xl text-justify-left font-goldman text-custom-purple">
+            <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
                 Top Places
               </h5>
               <MerchantsHorizontalGraph transactions={allRecentTransactions} />
@@ -518,14 +563,14 @@ export default function Dashboard() {
             {/* Third Row - Two Cards Side by Side on Larger Screens */}
             <div className=" w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
               <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
-              <h5 className="mb-2 font-thin text-2xl text-justify-left font-goldman text-custom-purple">
+              <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
                   Spending Categories
                 </h5>
                 <CategoryDonutChart transactions={allRecentTransactions} />
               </div>
 
-              <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white rounded-lg shadow-2xl">
-                <h5 className="mb-2 font-thin text-2xl text-left font-goldman text-custom-purple">
+              <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white shadow-2xl">
+                <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
                   Weekly Spending
                 </h5>
               </div>
@@ -534,18 +579,18 @@ export default function Dashboard() {
             {/* Fourth Card */}
 
             {/* Fifth Row - Two More Cards */}
-            <div className=" duration-300 hover:scale-105 hover:shadow-xl w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-              <div className="w-full md:w-[50%] p-4 text-center bg-white shadow-2xl">
-                <h5 className="mb-2 font-thin text-2xl text-left font-goldman text-custom-purple">
-                  Weekly Spending
+            <div className=" w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
+              <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
+              <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+                  Spending Categories
                 </h5>
-                {/* ... rest of the card's content ... */}
+                <CategoryDonutChart transactions={allRecentTransactions} />
               </div>
-              <div className=" duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white shadow-2xl">
-                <h5 className="mb-2 font-thin text-2xl text-left font-goldman text-custom-purple">
+
+              <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white shadow-2xl">
+                <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
                   Weekly Spending
                 </h5>
-                {/* ... rest of the card's content ... */}
               </div>
             </div>
           </div>

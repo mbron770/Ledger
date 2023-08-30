@@ -1,27 +1,88 @@
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { useUser } from "@clerk/nextjs";
 import { WeeklySpendingChart } from "../../../components/graphs/weeklySpendingChart";
 import { CategoryDonutChart } from "../../../components/graphs/categoryDonutChart";
 import { MerchantsHorizontalGraph } from "../../../components/graphs/merchantsHorizontalGraph";
 import TransactionsDisplayTable from "./transactionsDisplayTable";
 import InvestmentTransactionsDisplayTable from "./investmentTransactionsTable";
+import InvestmentHoldingsDisplayTable from "./investmentHoldingsDisplayTable"
+import InvestmentSecuritiesDisplayTable from "./investmentSecuritiesDisplayTable"
 import LoanDisplayTable from "./loanDisplayTable";
 
-function FirstRow({ transactions, card, investmentTransactions }) {
-  if (transactions && transactions.length > 0) {
+export default function MainPageDisplay({
+  transactions,
+  card,
+  investmentTransactions,
+  holdings,
+  securities
+}) {
+  
+  return (
+    <>
+      {" "}
+      {/* Main Cards Container */}
+      <div className="flex-grow lg:flex-basis-0 w-full lg:w-2/3 flex flex-col space-y-4">
+        {/* First Row */}
+
+        <FirstRow
+          transactions={transactions}
+          card={card}
+          investmentTransactions={investmentTransactions}
+          holdings={holdings}
+          securities={securities}
+        />{" "}
+        {/* Second Row */}
+        <SecondRow
+          transactions={transactions}
+          card={card}
+          investmentTransactions={investmentTransactions}
+          holdings={holdings}
+          securities={securities}
+        />{" "}
+        {/* Third Row */}
+        <ThirdRow
+          transactions={transactions}
+          card={card}
+          investmentTransactions={investmentTransactions}
+          holdings={holdings}
+          securities={securities}
+        />{" "}
+        {/* Fourth Row */}
+        <FourthRow
+          transactions={transactions}
+          card={card}
+          investmentTransactions={investmentTransactions}
+          holdings={holdings}
+          securities={securities}
+        />
+        
+        <HoldingsAndSecurities
+          transactions={transactions}
+          card={card}
+          investmentTransactions={investmentTransactions}
+          holdings={holdings}
+          securities={securities}
+        />
+
+
+      </div>
+    </>
+  );
+}
+
+
+function FirstRow({ transactions, card, investmentTransactions, holdings, securities }) {
+  if (transactions && transactions?.length > 0) {
     return (
-      <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col h-[50vh]">
-        <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4  shadow-2xl bg-white flex flex-col h-[50vh]">
+        <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
           Transactions
         </h5>
         <TransactionsDisplayTable transactions={transactions} />
       </div>
     );
-  } else if (investmentTransactions && investmentTransactions.length > 0) {
+  } else if (investmentTransactions && investmentTransactions?.length > 0) {
     return (
-      <div className="w-full p-4 bg-black  border  rounded-lg shadow-2xl   flex flex-col h-[50vh]">
-        <h5 className="mb-2 text-2xl text-left font-bold  text-white">
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4  shadow-2xl bg-white flex flex-col h-[50vh]">
+        <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
           Investment Transactions
         </h5>
         <InvestmentTransactionsDisplayTable
@@ -29,10 +90,28 @@ function FirstRow({ transactions, card, investmentTransactions }) {
         />
       </div>
     );
-  } else {
+  }else if(transactions?.length == 0){
+    return(
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4  shadow-2xl bg-white flex flex-col h-[50vh]">
+        <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+          Transactions
+        </h5>
+      </div>
+
+    )
+  } else if(investmentTransactions?.length == 0){
+    return(
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4  shadow-2xl bg-white flex flex-col h-[50vh]">
+        <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+          Investment Transactions
+        </h5>
+      </div>
+
+    )
+  }else if(card?.name === 'Plaid Mortgage' || card?.name === 'Plaid Student Loan'){
     return (
-      <div className="duration-300 hover:scale-105 hover:shadow-xl ease-in-out w-full p-4  text-white bg-black  rounded-lg shadow-2xl flex-col h-full">
-        <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 bg-white shadow-2xl bg-white flex flex-col h-[50vh]">
+        <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
           Loan Details
         </h5>
         <LoanDisplayTable card={card} />
@@ -41,71 +120,107 @@ function FirstRow({ transactions, card, investmentTransactions }) {
   }
 }
 
-function SecondRow({ transactions, card, investmentTransactions }) {
-  if (transactions && transactions.length > 0) {
+function SecondRow({ transactions, card, investmentTransactions, holdings, securities }) {
+  if (transactions && transactions?.length > 0) {
     return (
-      <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 text-center bg-white  shadow-2xl">
+        <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
           Weekly Spending
         </h5>
         {<WeeklySpendingChart transactions={transactions} />}{" "}
       </div>
     );
+  } else if(investmentTransactions?.length == 0){
+    return(
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 text-center bg-white  shadow-2xl">
+        <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+        Weekly Investment Spending
+        </h5>
+        {
+          
+        }{" "}
+      </div>
+
+    )
+  } else if (investmentTransactions && investmentTransactions?.length > 0) {
+    return (
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 text-center bg-white  shadow-2xl">
+        <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+          Weekly Investment Spending
+        </h5>
+        {
+          <WeeklySpendingChart
+            investmentTransactions={investmentTransactions}
+          />
+        }{" "}
+      </div>
+    );
+  }else if(investmentTransactions?.length == 0){
+    return(
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 text-center bg-white  shadow-2xl">
+        <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+          Weekly Investment Spending
+        </h5>
+        {
+          
+        }{" "}
+      </div>
+
+    )
   }
 }
 
-function ThirdRow({ transactions, card, investmentTransactions }) {
-  return (
-    <div className="w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-      {transactions ? (
-        <div className="w-full md:w-[50%] p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-          <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
+function ThirdRow({ transactions, card, investmentTransactions, holdings, securities }) {
+  if (transactions && transactions.length > 0) {
+    return (
+      <div className="w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
+        <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
+          <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
             Spending Categories
           </h5>
           <CategoryDonutChart transactions={transactions} />
         </div>
-      ) : null}
-      {transactions ? (
-        <div className="w-full md:w-[50%] p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-          <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
+
+        <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
+          <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
             Account Info
           </h5>
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full mt-4 text-sm text-left text-gray-500 dark:text-gray-400">
+          <div className="relative overflow-x-auto">
+            <table className="w-full mt-4 text-sm text-left ">
               <tbody>
-                <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <tr className="bg-custom-blue">
                   <th
                     scope="row"
-                    className="px-2 py-4 text-xs text-gray-900 whitespace-nowrap dark:text-white"
+                    className="px-2 py-4 text-xs text-custom-purple font-goldman whitespace-nowrap "
                   >
                     {card?.name}{" "}
                   </th>
                 </tr>
                 {card?.currentBalance ? (
-                  <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <tr className="bg-custom-blue">
                     <th
                       scope="row"
-                      className="px-2 py-4 text-xs text-gray-900 whitespace-nowrap dark:text-white"
+                      className="px-2 py-4 text-xs text-custom-purple font-thin font-goldman whitespace-nowrap "
                     >
                       {`Current Balance: $${card?.currentBalance}`}{" "}
                     </th>
                   </tr>
                 ) : null}
                 {card?.creditLimit ? (
-                  <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <tr className="bg-custom-blue">
                     <th
                       scope="row"
-                      className="px-2 py-4 text-xs text-gray-900 whitespace-nowrap dark:text-white"
+                      className="px-2 py-4 text-xs text-custom-purple font-thin font-goldman whitespace-nowrap "
                     >
                       {`Credit Limit: $${card?.creditLimit}`}{" "}
                     </th>
                   </tr>
                 ) : null}
 
-                <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <tr className="bg-custom-blue">
                   <th
                     scope="row"
-                    className="px-2 py-4 text-xs text-gray-900 whitespace-nowrap dark:text-white"
+                    className="px-2 py-4 text-xs text-custom-purple font-thin font-goldman whitespace-nowrap "
                   >
                     {`Date Added: ${new Date(
                       card?.dateAdded
@@ -120,79 +235,273 @@ function ThirdRow({ transactions, card, investmentTransactions }) {
             </table>
           </div>
         </div>
-      ) : null}{" "}
+      </div>
+    );
+  } else if (transactions?.length == 0){
+    return(
+      <div className="w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
+      <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
+        <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+          Spending Categories
+        </h5>
+        
+      </div>
+
+      <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
+        <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+          Account Info
+        </h5>
+        <div className="relative overflow-x-auto">
+          <table className="w-full mt-4 text-sm text-left ">
+            <tbody>
+              <tr className="bg-custom-blue">
+                <th
+                  scope="row"
+                  className="px-2 py-4 text-xs text-custom-purple font-goldman whitespace-nowrap "
+                >
+                  
+                </th>
+              </tr>
+              
+                <tr className="bg-custom-blue">
+                  <th
+                    scope="row"
+                    className="px-2 py-4 text-xs text-custom-purple font-thin font-goldman whitespace-nowrap "
+                  >
+                    
+                  </th>
+                </tr>
+              
+              
+                <tr className="bg-custom-blue">
+                  <th
+                    scope="row"
+                    className="px-2 py-4 text-xs text-custom-purple font-thin font-goldman whitespace-nowrap "
+                  >
+                  
+                  </th>
+                </tr>
+             
+
+              <tr className="bg-custom-blue">
+                <th
+                  scope="row"
+                  className="px-2 py-4 text-xs text-custom-purple font-thin font-goldman whitespace-nowrap "
+                >
+                
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  );
+
+    )
+  } else if(investmentTransactions && investmentTransactions.length > 0){
+    return(
+      <div className="w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
+        <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
+          <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+            Buy Vs Sell Vs Cash
+          </h5>
+          <CategoryDonutChart investmentTransactions={investmentTransactions} />
+        </div>
+        <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
+          <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+            Investment Info
+          </h5>
+          <div className="relative overflow-x-auto">
+            <table className="w-full mt-4 text-sm text-left ">
+              <tbody>
+                <tr className="bg-custom-blue">
+                  <th
+                    scope="row"
+                    className="px-2 py-4 text-xs text-custom-purple font-goldman whitespace-nowrap "
+                  >
+                    {card?.name}{" "}
+                  </th>
+                </tr>
+                
+                  <tr className="bg-custom-blue">
+                    <th
+                      scope="row"
+                      className="px-2 py-4 text-xs text-custom-purple font-thin font-goldman whitespace-nowrap "
+                    >
+                      {`Balance: $${card?.currentBalance}`}{" "}
+                    </th>
+                  </tr>
+                <tr className="bg-custom-blue">
+                  <th
+                    scope="row"
+                    className="px-2 py-4 text-xs text-custom-purple font-thin font-goldman whitespace-nowrap "
+                  >
+                    {`Date Added: ${new Date(
+                      card?.dateAdded
+                    ).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}`}{" "}
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    )
+  }else if (investmentTransactions?.length == 0){
+    return(
+      <div className="w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
+      <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
+        <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+        Buy Vs Sell Vs Cash
+        </h5>
+        
+      </div>
+
+      <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
+        <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+          Investment Info
+        </h5>
+        <div className="relative overflow-x-auto">
+          <table className="w-full mt-4 text-sm text-left ">
+            <tbody>
+              <tr className="bg-custom-blue">
+                <th
+                  scope="row"
+                  className="px-2 py-4 text-xs text-custom-purple font-goldman whitespace-nowrap "
+                >
+                  
+                </th>
+              </tr>
+              
+                <tr className="bg-custom-blue">
+                  <th
+                    scope="row"
+                    className="px-2 py-4 text-xs text-custom-purple font-thin font-goldman whitespace-nowrap "
+                  >
+                    
+                  </th>
+                </tr>
+              
+              
+                <tr className="bg-custom-blue">
+                  <th
+                    scope="row"
+                    className="px-2 py-4 text-xs text-custom-purple font-thin font-goldman whitespace-nowrap "
+                  >
+                  
+                  </th>
+                </tr>
+             
+
+              <tr className="bg-custom-blue">
+                <th
+                  scope="row"
+                  className="px-2 py-4 text-xs text-custom-purple font-thin font-goldman whitespace-nowrap "
+                >
+                
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    )
+  }
+  
 }
 
-function FourthRow({ transactions, card, investmentTransactions }) {
-  return (
-    <>
-      {" "}
-      {transactions ? (
-        <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-          <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
+function FourthRow({ transactions, card, investmentTransactions, holdings, securities }) {
+  if(transactions && transactions?.length > 0){
+    return(
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 text-center bg-white  shadow-2xl">
+          <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
             Top Places
           </h5>
           <MerchantsHorizontalGraph transactions={transactions} />
         </div>
-      ) : null}{" "}
-    </>
-  );
+
+    )
+  }else if(transactions?.length == 0){
+    return(
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 text-center bg-white  shadow-2xl">
+          <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+            Top Places
+          </h5>
+          
+        </div>
+    )
+
+  } else if(investmentTransactions && investmentTransactions?.length > 0){
+    return(
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 text-center bg-white  shadow-2xl">
+          <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+            Top Investments
+          </h5>
+          <MerchantsHorizontalGraph investmentTransactions={investmentTransactions} />
+        </div>
+
+    )
+  }else if(investmentTransactions?.length == 0){
+    return(
+      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 text-center bg-white  shadow-2xl">
+          <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+            Top Investments
+          </h5>
+          
+        </div>
+    )
+
+  }
+  
+  
 }
 
-export default function MainPageDisplay({
-  transactions,
-  card,
-  investmentTransactions,
-}) {
-  console.log(card);
-
-  // HoldingsSchema = new mongoose.Schema({
-  //     account_id: {type: String, required: true},
-  //     cost_basis: {type: Number, required: true},
-  //     institution_price: {type: Number, required: true},
-  //     institution_value: {type: Number, required: true},
-  //     cost_basis: {type: Number, required: true},
-  //     quantity: {type: Number, required: true},
-  //     institution_price_as_of: {type: String}
-
-  // SecuritiesSchema = new mongoose.Schema({
-  //     close_price: {type: Number},
-  //     name: {type: String},
-  //     type: { type: String},
-  //     ticker_symbol: {type: String},
-
+function HoldingsAndSecurities({ transactions, card, investmentTransactions, holdings, securities }) {
   return (
-    <>
-      {" "}
-      {/* Main Cards Container */}
-      <div className="flex-grow lg:flex-basis-0 w-full lg:w-2/3 flex flex-col space-y-4">
-        {/* First Row */}
-        <FirstRow
-          transactions={transactions}
-          card={card}
-          investmentTransactions={investmentTransactions}
-        />{" "}
-        {/* Second Row */}
-        <SecondRow
-          transactions={transactions}
-          card={card}
-          investmentTransactions={investmentTransactions}
-        />{" "}
-        {/* Third Row */}
-        <ThirdRow
-          transactions={transactions}
-          card={card}
-          investmentTransactions={investmentTransactions}
-        />{" "}
-        {/* Fourth Row */}
-        <FourthRow
-          transactions={transactions}
-          card={card}
-          investmentTransactions={investmentTransactions}
-        />
-      </div>
-    </>
+    <div>
+      {(holdings && holdings.length > 0) && (
+        <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 shadow-2xl bg-white flex flex-col h-[50vh] mb-4">
+          <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+            Investment Holdings
+          </h5>
+          <InvestmentHoldingsDisplayTable holdings={holdings} />
+        </div>
+      )}
+      
+      {(securities && securities.length > 0) && (
+        <>
+          <div className="py-2 mt-4 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 shadow-2xl bg-white flex flex-col h-[50vh] mb-4">
+            <h5 className="pt-4  mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+              Investment Securities
+            </h5>
+            <InvestmentSecuritiesDisplayTable securities={securities} />
+          </div>
+          <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 shadow-2xl bg-white flex flex-col h-[50vh] mb-4">
+            <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+              Securities Types
+            </h5>
+            <CategoryDonutChart securities={securities} />
+          </div>
+        </>
+      )}
+      
+     
+  
+  
+
+    </div>
   );
 }
+
+
+
+
+
+
+

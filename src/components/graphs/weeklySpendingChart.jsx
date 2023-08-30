@@ -1,4 +1,4 @@
-import { BarChart, LabelList, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { BarChart, LabelList, Bar, Cell, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 function weeklySpending(transactions) {
   const weeklyTotals = {};
@@ -29,8 +29,29 @@ function weeklySpending(transactions) {
   });
 }
 
-export const WeeklySpendingChart = ({ transactions }) => {
-  const chartData = transactions ? weeklySpending(transactions) : [];
+export const WeeklySpendingChart = ({ transactions, investmentTransactions }) => {
+  let chartData
+  if (transactions && transactions?.length > 0){
+    chartData = weeklySpending(transactions)
+  }else if(investmentTransactions && investmentTransactions?.length > 0){
+    chartData = weeklySpending(investmentTransactions)
+  }else{
+    chartData = []
+  }
+ 
+  
+
+  const predefinedColors = [
+    "#48BB78", // green-500
+    "#38B2AC", // teal-500
+    "#4299E1", // blue-500
+    "#667EEA", // indigo-500
+    "#F56565", // red-500
+    "#ED8936", // orange-500
+    "#ECC94B", // yellow-500
+    "#9F7AEA", // purple-500
+    "#ED64A6", // pink-500
+  ];
 
   const renderCustomizedLabel = (props) => {
     const { x, y, width, value } = props;
@@ -44,25 +65,34 @@ export const WeeklySpendingChart = ({ transactions }) => {
   };
 
   return (
-    <div className="bg-gray-50 p-4 rounded-lg">
+    <div className="bg-custom-blue p-4">
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={chartData}
           margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-          className="text-gray-600"
+          className="text-md font-thin font-goldman text-custom-purple"
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="gray-200" />
-          <XAxis dataKey="name" tick={{ fill: 'gray-500' }} stroke="gray-300" />
-          <YAxis tick={{ fill: 'gray-500' }} stroke="gray-300" />
+          <XAxis dataKey="name" tick={{ fill: '#21253e' }} stroke="#21253e" />
+          <YAxis tick={{ fill: '#21253e' }} stroke="#21253e" />
           <Tooltip 
-            formatter={(value) => [`$${value}`, 'Amount']}
-            contentStyle={{ background: 'white', border: 'none', borderRadius: '0.5rem' }}
-            cursor={{ fill: 'rgba(0, 0, 0, 0.1)' }}
-            itemStyle={{ color: 'gray-600' }}
-          />
-          <Bar dataKey="amount" fill="#2563EB">
-            <LabelList dataKey="amount" content={renderCustomizedLabel} />
-          </Bar>
+    formatter={(value) => [`$${value}`, 'Amount']}
+    contentStyle={{ 
+        background: '#21253e', 
+        border: 'none', 
+        borderRadius: '0.5rem', 
+        color: '#e9eff5'  
+    }}
+    cursor={{ fill: '#21253e', background: '#e9eff5' }}
+    itemStyle={{ color: '#e9eff5', background: '#21253e' }}
+/>
+
+
+        <Bar dataKey="amount" fill="#21253e">
+    <LabelList dataKey="amount" fill="#21253e" position="top" />
+    {chartData?.map((entry, index) => (
+        <Cell key={`cell-${index}`} fill={predefinedColors[index % predefinedColors.length]} />
+    ))}
+</Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>
