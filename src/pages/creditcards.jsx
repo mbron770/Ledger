@@ -1,4 +1,3 @@
-import Layout from "./layout";
 import {useState, useEffect, useContext} from "react";
 import MainPageDisplay from "../components/shared/displays/mainPageDisplay";
 import CreditCardLink from "../components/plaidLinks/liabilities/creditCard/creditCardLink";
@@ -54,31 +53,46 @@ export default function CreditCards() {
         setFetchedData(false);
     }, [allCreditCards, setFetchedData]);
 
-    const filteredTransactions = !searchTerm ? displayedTransactions : displayedTransactions.filter((transaction) => transaction?.amount.toString().includes(searchTerm) || transaction?.category.toLowerCase().includes(searchTerm?.toLowerCase()) || transaction?.name.toLowerCase().includes(searchTerm.toLowerCase()) || transaction?.date.toString().includes(searchTerm.toLowerCase()) || transaction?.paymentChannel.toLowerCase().includes(searchTerm.toLowerCase()) || transaction?.pending.toString().includes(searchTerm.toLowerCase()));
+    const filteredTransactions = !searchTerm ? displayedTransactions : displayedTransactions.filter((transaction) => transaction?.amount.toString().includes(searchTerm) 
+    || transaction?.category.toLowerCase().includes(searchTerm) 
+    || transaction?.name.toLowerCase().includes(searchTerm) 
+    || transaction?.date.toString().includes(searchTerm) 
+    || transaction?.paymentChannel.toLowerCase().includes(searchTerm) 
+    || transaction?.pending.toString().includes(searchTerm));
 
     return (
         <>
         <NavBar/>
-            {/* <div className="relative bg-sky-100 min-h-[100vh]"> */}
-            {/* <div className="relative bg-sky-100 pt-[25vh] h-full w-screen "> */}
-            <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[5vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
+        <div className="absolute bg-custom-blue w-full h-[100]">
+        <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[20vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
                 {/* Side account */}
-                <div className="w-full  md:w-full xl:w-[30vw]lg:w-[30vw] p-6 bg-white   rounded-lg shadow-2xl overflow-y-auto">
-                
+                <div className="duration-300 hover:scale-105 hover:shadow-xl w-full  md:w-full xl:w-[30vw]lg:w-[30vw] p-6 bg-white shadow-2xl overflow-y-auto">
                 <div className="flex flex-col lg:w-full md:w-full ">
-                        <h5 className="mb-8 text-2xl text-center font-bold text-black">
-                            Credit Cards
-                        </h5>
+                <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+                Credit Cards
+              </h5>
                         <CreditCardLink/>
+
+                        <div className="mb-2 pt-10 pb-10 text-center bg-custom-purple shadow-l transition active:bg-blue-300"
+                                onClick={
+                                    () => {
+                                        const allTransactions = allCreditCards?.flatMap((card) => card?.transactions);
+                                        setDisplayedTransactions(allTransactions);
+                                    }
+                            }>
+                                 <h3 className="mb-2 text-l font-thin font-goldman text-white tracking-tight w-full truncate whitespace-nowrap">
+                                    View All Credit Cards
+                                </h3>
+                            </div>
                         
 
-                        <div className="flex flex-col lg:w-full md:w-full">
+                        <div className="flex max-h-[100vh]  flex-col lg:w-full md:w-full">
                             {
                             allCreditCards && allCreditCards.map((card) => (
                                 <div key={
                                         card?.name
                                     }
-                                    className="mb-2 pt-10 pb-10 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
+                                    className="mb-2 pt-10 pb-10 text-center bg-custom-blue shadow-l transition active:bg-blue-300"
                                     href="#"
                                     onClick={
                                         () => {
@@ -86,7 +100,7 @@ export default function CreditCards() {
                                             setSelectedCard(card);
                                         }
                                 }>
-                                    <h2 className="mb-2 text-l font-bold tracking-tight text-gray-900 dark:text-white w-full truncate whitespace-nowrap">
+                                    <h2 className="mb-2 text-l font-thin font-goldman text-custom-purple tracking-tight w-full truncate whitespace-nowrap">
                                         {
                                         card?.name
                                     }
@@ -95,17 +109,7 @@ export default function CreditCards() {
                             ))
                         }
 
-                            <div className="mb-2 pt-10 pb-10 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition active:bg-blue-700"
-                                onClick={
-                                    () => {
-                                        const allTransactions = allCreditCards?.flatMap((card) => card?.transactions);
-                                        setDisplayedTransactions(allTransactions);
-                                    }
-                            }>
-                                <h3 className="mb-2 text-xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
-                                    View All Credit Cards
-                                </h3>
-                            </div>
+                           
 
                         </div>
                         
@@ -115,7 +119,7 @@ export default function CreditCards() {
                 <MainPageDisplay transactions={filteredTransactions}
                     card={selectedCard}/>
             </div>
-            {/* </div> */}
+            </div>
           </>
     );
 }

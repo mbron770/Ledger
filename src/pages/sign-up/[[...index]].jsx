@@ -10,9 +10,15 @@ export default function Page() {
   };
 
   return (
-    <div style={styles}>
+    <div style={styles} className='bg-custom-purple'>
       <SignUp
-        afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}
+        afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL} appearance={{
+          elements: {
+            formButtonPrimary:
+              "bg-custom-purple font-goldman text-lg font-thin normal-case",
+              
+          },
+        }}
       />
     </div>
   );

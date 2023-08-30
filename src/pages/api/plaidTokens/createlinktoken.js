@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   const account_filters = req.body.account_filters;
   const tokenResponse = await plaidClient.linkTokenCreate({
     user: { client_user_id: process.env.PLAID_CLIENT_ID },
-    client_name: "Spent",
+    client_name: "Ledger",
     language: "en",
     products,
     country_codes: ["US"],

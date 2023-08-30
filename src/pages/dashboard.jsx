@@ -76,10 +76,10 @@ export default function Dashboard() {
   return (
     <>
       <NavBar />
-      <div className="absolute bg-custom-blue w-full mt-[15vh] h-[100]">
+      <div className="absolute bg-custom-blue w-full h-[100]">
         {/* <div className="relative bg-sky-100 pt-[25vh] mt-20vh] h-full w-screen "> */}
 
-        <section className="bg-custom-purple">
+        <section className="bg-custom-purple mt-[15vh]">
           <div className="pt-1 py-48 px-4 max-w-screen-xl text-justify-left lg:py-12">
             <h5 className=" pt-none  pb-0  text-7xl font-thin leading-none text-white">{`Welcome ${user?.firstName}!`}</h5>
             <div className="ml-10 mr-10 pt-10  relative inline-block">
@@ -141,9 +141,11 @@ export default function Dashboard() {
           </div>
         </section>
 
+        
+
         <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[5vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
-          <div className=" py-2 duration-300 hover:scale-105 hover:shadow-xl w-full md:h-[50vh] lg:h-[100vh] lg:w-[30vw] p-6 bg-white  shadow-2xl  overflow-y-auto">
-            <div className="h-full overflow-y-auto">
+                <div className="duration-300 hover:scale-105 hover:shadow-xl w-full  md:w-full xl:w-[30vw]lg:w-[30vw] p-6 bg-white shadow-2xl overflow-y-auto">
+                <div className="flex max-h-[100vh] flex-col lg:w-full md:w-full">
               <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
                 Recent Transactions
               </h5>
@@ -544,7 +546,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Second Card */}
+          
             <div className=" duration-300 hover:scale-105 hover:shadow-xl w-full p-4 text-center bg-white shadow-2xl">
             <h5 className="mb-2 font-thin text-2xl text-justify-left font-goldman text-custom-purple">
                 Weekly Spending
@@ -560,7 +562,7 @@ export default function Dashboard() {
               <MerchantsHorizontalGraph transactions={allRecentTransactions} />
             </div>
 
-            {/* Third Row - Two Cards Side by Side on Larger Screens */}
+            {/* Third Row - Two Cards Side by Side on Larger Screens
             <div className=" w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
               <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
               <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
@@ -574,12 +576,20 @@ export default function Dashboard() {
                   Weekly Spending
                 </h5>
               </div>
+            </div> */}
+
+<div className=" duration-300 hover:scale-105 hover:shadow-xl w-full p-4 text-center bg-white shadow-2xl">
+            <h5 className="mb-2 font-thin text-2xl text-justify-left font-goldman text-custom-purple">
+                Spending Categories
+              </h5>
+
+              <CategoryDonutChart transactions={allRecentTransactions} />
             </div>
 
             {/* Fourth Card */}
 
             {/* Fifth Row - Two More Cards */}
-            <div className=" w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
+            {/* <div className=" w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
               <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
               <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
                   Spending Categories
@@ -592,7 +602,7 @@ export default function Dashboard() {
                   Weekly Spending
                 </h5>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

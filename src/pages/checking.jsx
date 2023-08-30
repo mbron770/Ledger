@@ -56,7 +56,12 @@ export default function CheckingAccounts() {
 
     
 
-    const filteredTransactions = !searchTerm ? displayedCheckingTransactions : displayedCheckingTransactions.filter((transaction) => transaction.amount.toString().includes(searchTerm) || transaction.category.toLowerCase().includes(searchTerm.toLowerCase()) || transaction.name.toLowerCase().includes(searchTerm.toLowerCase()) || transaction.date.toString().includes(searchTerm.toLowerCase()) || transaction.paymentChannel.toLowerCase().includes(searchTerm.toLowerCase()));
+    const filteredTransactions = !searchTerm ? displayedCheckingTransactions : 
+    displayedCheckingTransactions.filter((transaction) => 
+    transaction.amount.toString().includes(searchTerm) 
+    || transaction.category.toLowerCase().includes(searchTerm) || 
+    transaction.name.toLowerCase().includes(searchTerm) || 
+    transaction.paymentChannel.toLowerCase().includes(searchTerm));
 
     return (
         <>
@@ -65,7 +70,7 @@ export default function CheckingAccounts() {
         <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[20vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
                 {/* Side account */}
                 <div className="duration-300 hover:scale-105 hover:shadow-xl w-full  md:w-full xl:w-[30vw]lg:w-[30vw] p-6 bg-white shadow-2xl overflow-y-auto">
-                <div className="flex flex-col lg:w-full md:w-full ">
+                <div className="flex max-h-[100vh] flex-col lg:w-full md:w-full">
                 <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
                 Checking Accounts
               </h5>
@@ -87,7 +92,7 @@ export default function CheckingAccounts() {
 
 
 
-                            <div className="flex flex-col lg:w-full md:w-full">
+                            <div className="flex max-h-[100vh] flex-col lg:w-full md:w-full">
                             {
                             allCheckingAccounts && allCheckingAccounts?.map((account) => (
                                 <div key={

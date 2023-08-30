@@ -13,23 +13,11 @@ import InfoContext from "../contexts/InfoContext";
 
 
 export default function Home() {
-  const {
-    creditCard,
-    checkingAccount,
-    creditCardTransactions,
-    checkingAccountTransactions,
-    savingsAccount,
-    savingsAccountTransactions,
-    investmentAccount,
-    investmentAccountTransactions,
-    loan, 
-    income
-  } = useContext(InfoContext);
-  const lastAccount = investmentAccount && investmentAccount[investmentAccount.length - 1];
+  
 
   return (
     <>
-      <header>
+      {/* <header>
         
         <UserButton afterSignOutUrl="/" />
       </header>
@@ -64,243 +52,40 @@ export default function Home() {
        
           Sign Up
         
-      </Link>
+      </Link> */}
+
+<section className="bg-custom-purple">
+<div className="grid max-w-screen-xl px-4 py-2 mx-auto lg:gap-8 xl:gap-0 py-12 lg:grid-cols-12">
+        <p className='leading-none text-5xl whitespace-nowrap font-thin font-goldman text-white'>Ledger</p>
+    </div>
+    <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-10 lg:grid-cols-12">
+      
+        <div className="mr-auto place-self-center lg:col-span-7">
+            <h1 className="max-w-2xl mb-9 text-4xl font-thin tracking-none leading-none md:text-5xl xl:text-6xl text-white font-goldman">A Comprehensive Personal Finace Tool</h1>
+            <p className="max-w-2xl mb-6 font-thin text-white lg:mb-8 md:text-md lg:text-lg font-goldman">Track all of your spending, investments, loans, and assets.</p>
+            
+            <Link href="/sign-in" className="rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  text-md">
+                Sign In
+                
+            </Link>
+            <Link href="/sign-up" className="ml-4 rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  text-md">
+                Sign Up
+                
+            </Link>
+            <Link href="/sign-up" className="ml-4 rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  text-md">
+                Demo
+                
+            </Link>
+        </div>
+        <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
+            <img src="https://images.unsplash.com/photo-1669399213378-2853e748f217?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTZ8fDNkJTIwY2hhcnR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="mockup" />
+        </div>                
+    </div>
+</section>
 
       
 
-      <h2>Credit Card Details</h2>
-      {creditCard &&
-        creditCard.map((card) => (
-          <div key={card.number}>
-            <p>
-              <strong>Name:</strong> {card.name}
-            </p>
-            <p>
-              <strong>Number:</strong> {card.number}
-            </p>
-            <p>
-              <strong>Current Balance:</strong> {card.currentBalance}
-            </p>
-            <p>
-              <strong>Credit Limit:</strong> {card.creditLimit}
-            </p>
-          </div>
-        ))}
-
-      <h2>Credit Card Transactions</h2>
-
-      {creditCardTransactions &&
-        creditCardTransactions.map((transaction) => (
-          <div key={transaction.name}>
-            <h1>date: {transaction.date}</h1>
-            <h1>name: {transaction.name}</h1>
-            <h1>category: {transaction.category}</h1>
-            <h1>paymentChannel: {transaction.paymentChannel}</h1>
-            <h1>amount: {transaction.amount}</h1>
-            <h1>pending: {transaction.pending}</h1>
-          </div>
-        ))}
-
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-
-      {/* <CheckingAccountLink/> */}
-
-      <h2>Checking Account Details</h2>
-      {checkingAccount &&
-        checkingAccount.map((account) => (
-          <div key={account.accountNumber}>
-            <p>
-              <strong>Name:</strong> {account.name}
-            </p>
-            <p>
-              <strong>Account Number:</strong> {account.accountNumber}
-            </p>
-            <p>
-              <strong>Balance:</strong> {account.balance}
-            </p>
-          </div>
-        ))}
-
-      <h2>Checking Account Transactions</h2>
-      {checkingAccountTransactions &&
-        checkingAccountTransactions.map((transaction) => (
-          <div key={transaction.name}>
-            <h1>date: {transaction.date}</h1>
-            <h1>name: {transaction.name}</h1>
-            <h1>category: {transaction.category}</h1>
-            <h1>paymentChannel: {transaction.paymentChannel}</h1>
-            <h1>amount: {transaction.amount}</h1>
-            <h1>pending: {transaction.pending}</h1>
-          </div>
-        ))}
-
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-
-      <br></br>
-
-      <SavingsAccountLink />
-
-      <h2>Savings Account Details</h2>
-      {savingsAccount &&
-        savingsAccount.map((account) => (
-          <div key={account.accountNumber}>
-            <p>
-              <strong>Name:</strong> {account.name}
-            </p>
-            <p>
-              <strong>Account Number:</strong> {account.accountNumber}
-            </p>
-            <p>
-              <strong>Balance:</strong> {account.balance}
-            </p>
-          </div>
-        ))}
-
-      <h2>Savings Account Transactions</h2>
-      {savingsAccountTransactions &&
-        savingsAccountTransactions.map((transaction) => (
-          <div key={transaction.name}>
-            <h1>date: {transaction.date}</h1>
-            <h1>name: {transaction.name}</h1>
-            <h1>category: {transaction.category}</h1>
-            <h1>paymentChannel: {transaction.paymentChannel}</h1>
-            <h1>amount: {transaction.amount}</h1>
-            <h1>pending: {transaction.pending}</h1>
-          </div>
-        ))}
-
-<br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-
-
-{/* <InvestmentAccountLink/> */}
-
-{}
-
-<h2>Investment Account Details</h2>
-{/* {investmentAccount &&
-        investmentAccount.map((iAccount) => (
-          <div key={Date.now}>
-            <p>
-              <strong>Name:</strong> {iAccount.name}
-            </p>
-            <p>
-              <strong>Account Number:</strong> {iAccount.accountNumber}
-            </p>
-            <p>
-              <strong>Balance:</strong> {iAccount.balance}
-            </p>
-          </div>
-        ))} */}
-
-<div>
-    {lastAccount && (
-      <div key={Date.now()}>
-        <p>
-          <strong>Name:</strong> {lastAccount.name}
-        </p>
-        <p>
-          <strong>Account Number:</strong> {lastAccount.accountNumber}
-        </p>
-        <p>
-          <strong>Balance:</strong> {lastAccount.balance}
-        </p>
-      </div>
-    )}
-  </div>
-
-
-
-
-<h2>Investment Account Transactions</h2>
-      {investmentAccountTransactions &&
-        investmentAccountTransactions.map((transaction) => (
-          <div key={transaction.name}>
-            <h1>date: {transaction.date}</h1>
-            <h1>name: {transaction.name}</h1>
-            <h1>fees: {transaction.fees}</h1>
-            <h1>price: {transaction.price}</h1>
-            <h1>quantity: {transaction.quantity}</h1>
-            <h1>type: {transaction.type}</h1>
-          </div>
-        ))}
-
-
-
-        <LoanLink/>
-
-        <h2>Loan Details</h2>
-
-    {loan &&
-       loan.map((l) => (
-          <div key={loan.name}>
-            <h1>date: {l.dateAdded}</h1>
-            <h1>name: {l.name}</h1>
-            <h1>account number: {l.accountNumber}</h1>
-            <h1>balance: {l.currentBalance}</h1>
-          </div>
-        ))}
-
-
-
-        {/* <IncomeVerificationLink/> */}
-        <h1>Job Details</h1>
-      {income &&
-        income.map((job) => (
-          <div key={job.employerName}>
-            <p>
-              <strong>Date Added:</strong> {job.dateAdded}
-            </p>
-            <p>
-              <strong>employerName:</strong> {job.employerName}
-            </p>
-            <p>
-              <strong>title:</strong> {job.title}
-            </p>
-            <p>
-              <strong>Pay</strong> {job.pay}
-            </p>
-            <p>
-              <strong>Rate</strong> {job.rate}
-            </p>
-          </div>
-        ))}
+     
     </>
   );
 }

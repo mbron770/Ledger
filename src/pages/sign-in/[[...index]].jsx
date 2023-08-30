@@ -11,23 +11,25 @@ export default function Page() {
   };
 
   return (
-    <div style={styles}>
-      <SignIn
-        afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}
 
-        // afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}
-      />
-      ;
-    </div>
+    <>
+    <div className="bg-custom-purple">
+   <div style={styles}>
+     <SignIn afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL} appearance={{
+          elements: {
+            formButtonPrimary:
+              "bg-custom-purple font-goldman text-lg font-thin normal-case",
+              
+          },
+        }}/>
+   </div>
+
+
+
+  </div>
+    
+    
+    
+    </>
   );
 }
-
-// import { SignIn } from "@clerk/nextjs";
-
-// const SignInPage = () => (
-//   <div style={styles}>
-//     <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
-//   </div>
-// );
-
-// export default SignInPage;

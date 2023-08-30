@@ -4,22 +4,19 @@ import User from "../../../lib/models/user.model";
 
 export default async function handler(req, res) {
   const products = req?.body?.products;
-  // const account_filters = req?.body?.account_filters;
   const userID = req?.body?.user?.id;
 
   try {
     const tokenResponse = await plaidClient.linkTokenCreate({
       user: { client_user_id: process.env.PLAID_CLIENT_ID },
-      client_name: "Spent",
+      client_name: "Ledger",
       language: "en",
       products,
       income_verification: {
         income_source_types: ["payroll"],
       },
       user_token: await createUser(userID),
-      // user_token: "user-sandbox-c27d98a8-f149-4998-bc7f-a6b57ba9f115",
       country_codes: ["US"],
-      // account_filters,
     });
 
     return res.json(tokenResponse.data);

@@ -110,7 +110,7 @@ function FirstRow({ transactions, card, investmentTransactions, holdings, securi
     )
   }else if(card?.name === 'Plaid Mortgage' || card?.name === 'Plaid Student Loan'){
     return (
-      <div className="py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 bg-white shadow-2xl bg-white flex flex-col h-[50vh]">
+      <div className="md:max-h-[80vh] overflow-y-auto py-2 duration-300 hover:scale-105 hover:shadow-xl w-full p-4 bg-white shadow-2xl flex flex-col h-[80vh]">
         <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
           Loan Details
         </h5>
