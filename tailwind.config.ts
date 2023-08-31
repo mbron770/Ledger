@@ -20,6 +20,11 @@ const config: Config = {
         'custom-blue': '#e9eff5'
       },
 
+      textColor: {
+        'custom-purple': '#21253e',
+        'custom-blue': '#e9eff5'
+      },
+
       fontFamily: {
         'goldman': ['Goldman Sans', 'sans-serif'],
       },

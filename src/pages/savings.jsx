@@ -1,7 +1,7 @@
 import NavBar from "../components/shared/topbarnav";
 import {useState, useEffect, useContext} from "react";
 import MainPageDisplay from "../components/shared/displays/mainPageDisplay";
-import SavingsAccountLink from "../components/plaidLinks/bankAccounts/Savings/savingsAccountLink"
+import SavingsAccountLink from "../components/plaidLinks/bankAccounts/savings/savingsAccountLink"
 import {useUser} from "@clerk/nextjs";
 
 import InfoContext from "../contexts/InfoContext"

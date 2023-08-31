@@ -31,14 +31,10 @@ export default function NavBar() {
     
       <nav className="fixed top-0 left-0 right-0 z-50 h-[15vh] bg-custom-purple ">
     
-      {/* <div className="absolute top-[25vh] w-full h-[.5px] ">
-
-
-
-      </div> */}
+     
 
       <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4 space-x-4">
-    {/* Grouping Logo */}
+    
     <div className="flex-shrink-0">
         
         

@@ -168,7 +168,6 @@ export default function CreditCardLink() {
 
       const newCreditCardTransactions = await response.json();
       setCreditCardTransactions(newCreditCardTransactions);
-      console.log("recieved from api: ", newCreditCardTransactions);
     } catch (error) {
       console.error(error);
     }

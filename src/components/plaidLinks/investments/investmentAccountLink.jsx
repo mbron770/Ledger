@@ -213,7 +213,6 @@ export default function InvestmentAccountLink() {
 
       const newInvestmentAccountTransactions = await response.json();
       setInvestmentAccountTransactions(newInvestmentAccountTransactions);
-      console.log("recieved from api: ", newInvestmentAccountTransactions);
     } catch (error) {
       console.error(error);
     }

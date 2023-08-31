@@ -164,7 +164,6 @@ export default function CheckingAccountLink() {
 
       const newCheckingAccountTransactions = await response.json();
       setCheckingAccountTransactions(newCheckingAccountTransactions);
-      console.log("recieved from api: ", newCheckingAccountTransactions);
     } catch (error) {
       console.error(error);
     }

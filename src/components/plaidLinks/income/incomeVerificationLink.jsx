@@ -20,9 +20,6 @@ export default function IncomeLink() {
       },
       body: JSON.stringify({ products, user }),
     });
-    // const { link_token } = await res.json();
-
-    // setToken(link_token);
   }, [user]);
 
   useEffect(() => {

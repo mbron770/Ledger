@@ -1,4 +1,3 @@
-import Layout from "./layout";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
@@ -80,66 +79,59 @@ export default function Dashboard() {
         {/* <div className="relative bg-sky-100 pt-[25vh] mt-20vh] h-full w-screen "> */}
 
         <section className="bg-custom-purple mt-[15vh]">
-          <div className="pt-1 py-48 px-4 max-w-screen-xl text-justify-left lg:py-12">
-            <h5 className=" pt-none  pb-0  text-7xl font-thin leading-none text-white">{`Welcome ${user?.firstName}!`}</h5>
-            <div className="ml-10 mr-10 pt-10  relative inline-block">
-            <button 
-                onClick={() => setShowPlaidLinks(!showPlaidLinks)}
-                className="bg-white border-2 border-transparent hover:border-blue-700 focus:border-blue-700 focus:outline-none  block" 
-                type="button"
-            >
-              <p className='ml-5 mr-5 mt-2 mb-2 font-thin text-lg text-center font-goldman text-custom-purple'>Add an Account</p>
-            </button>
-            
-            {/* Dropdown menu */}
-            {showPlaidLinks && (
-                <div 
-                    id="dropdown" 
-                    className="absolute z-10 bg-white divide-y  shadow w-full mt-0"
+    <div className="max-w-screen-xl px-4 py-2 mx-auto lg:grid lg:grid-cols-12 lg:gap-8">
+
+        <div className="lg:col-span-9">
+            <h5 className="text-7xl font-thin leading-none text-white">{`Welcome ${user?.firstName}!`}</h5>
+
+            <div className="relative mt-4 inline-block">
+                <button 
+                    onClick={() => setShowPlaidLinks(!showPlaidLinks)}
+                    className="mt-3  rounded-md inline-flex items-center justify-center px-5 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium text-md"
+                    type="button"
                 >
-                    <ul 
-                        className="py-2 font-medium bg-white font-goldman text-sm"
+                    Add an Account
+                </button>
+                
+                {showPlaidLinks && (
+                    <div 
+                        id="dropdown" 
+                        className="absolute z-10 bg-white divide-y shadow w-full mt-2 top-full rounded-md"
                     >
-                      
-            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
-                <Link href="/checking" className="block pl-3 pr-4 text-custom-purple">Checking</Link>
-            </li>
-            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
-                <Link href="/savings" className="block pl-3 pr-4 text-custom-purple">Savings</Link>
-            </li>
-            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
-                <Link href="/creditcards" className="block pl-3 pr-4 text-custom-purple">Credit Card</Link>
-            </li>
-            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
-                <Link href="/loans" className="block pl-3 pr-4 text-custom-purple">Loan</Link>
-            </li>
-            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
-                <Link href="/investments" className="block pl-3 pr-4 text-custom-purple">Investment</Link>
-            </li>
-            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
-                <Link href="/budgets" className="block pl-3 pr-4 text-custom-purple">Job</Link>
-            </li>
-                    </ul>
-                </div>
-            )}
-        </div>
-            
-            <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-             
-
-
-
-
-
-
-
-
-
-
-
+                        <ul className="py-2 font-medium bg-white font-goldman text-sm px-5">
+                            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
+                                <Link href="/checking" className="block pl-3 pr-4 text-custom-purple">Checking</Link>
+                            </li>
+                            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
+                                <Link href="/savings" className="block pl-3 pr-4 text-custom-purple">Savings</Link>
+                            </li>
+                            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
+                                <Link href="/creditcards" className="block pl-3 pr-4 text-custom-purple">Credit Card</Link>
+                            </li>
+                            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
+                                <Link href="/loans" className="block pl-3 pr-4 text-custom-purple">Loan</Link>
+                            </li>
+                            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
+                                <Link href="/investments" className="block pl-3 pr-4 text-custom-purple">Investment</Link>
+                            </li>
+                            <li className="py-2 duration-300 hover:scale-105 hover:shadow-xl">
+                                <Link href="/budgets" className="block pl-3 pr-4 text-custom-purple">Job</Link>
+                            </li>
+                        </ul>
+                    </div>
+                )}
             </div>
-          </div>
-        </section>
+        </div>
+
+        <div className="hidden lg:col-span-3 lg:flex lg:items-center mb-4">
+            <img src="/heroBG.png" alt="heroBG" className="w-full"/>
+        </div>
+
+    </div>
+</section>
+
+
+
 
         
 
@@ -150,14 +142,14 @@ export default function Dashboard() {
                 Recent Transactions
               </h5>
 
-              <div className="relative overflow-y-auto shadow-2xl">
+              <div className=" relative overflow-y-auto shadow-2xl">
                 <table className="w-full text-sm text-left">
-                  <tbody>
+                  <tbody >
                     {allRecentTransactions &&
                       allRecentTransactions?.map((transaction) => (
                         <tr
                           key={transaction?.date}
-                          className="bg-white border-b border-custom-blue"
+                          className="bg-custom-blue border-b border-custom-blue duration-300 hover:scale-105 hover:shadow-xl shadow-2xl"
                         >
                           <th
                             scope="row"

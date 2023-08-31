@@ -167,7 +167,7 @@ export default function SavingsAccountLink() {
 
       const newSavingsAccountTransactions = await response.json();
       setSavingsAccountTransactions(newSavingsAccountTransactions);
-      console.log("recieved from api: ", newSavingsAccountTransactions);
+      
     } catch (error) {
       console.error(error);
     }

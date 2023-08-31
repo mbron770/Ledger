@@ -1,91 +1,256 @@
-import { UserButton } from "@clerk/nextjs";
-import Link from 'next/link';
-import Router from "next/router";
-import { useState, useEffect, useCallback, useContext } from "react";
-
-
-import SavingsAccountLink from "../components/plaidLinks/bankAccounts/savings/savingsAccountLink";
-import InvestmentAccountLink from '../components/plaidLinks/investments/investmentAccountLink';
-import LoanLink from "../components/plaidLinks/liabilities/loans/loanLink"
-import IncomeVerificationLink from '../components/plaidLinks/income/incomeVerificationLink'
-import InfoContext from "../contexts/InfoContext";
-
+import {useState} from "react";
+import {useSignIn} from "@clerk/nextjs";
+import Link from "next/link";
 
 
 export default function Home() {
-  
+    // const [email, setEmail] = useState('demo.user@gmail.com')
+    // const [password, setPassword] = useState('demoPassword2023!')
+    // const [firstName, setFirstName] = useState('Demo')
+    // const [lastName, setLastName] = useState('User')
+    const {isLoaded, signIn, setActive} = useSignIn();
 
-  return (
-    <>
-      {/* <header>
-        
-        <UserButton afterSignOutUrl="/" />
-      </header>
+    console.log(signIn)
+    if (!isLoaded) {
+        return null
+    }
 
-      <h1>homepage</h1>
 
-      <Link style={{ 
-            backgroundColor: 'blue', 
-            color: 'white', 
-            padding: '10px 20px', 
-            border: 'none', 
-            borderRadius: '5px',
-            textDecoration: 'none',
-            cursor: 'pointer'
-          }}href="/sign-in">
+    // async function demoSignIn(e){
+    //     console.log('works')
+    //     e.preventDefault()
+    //     await signIn.create({
+    //         identifier: email,
+    //         password
+    //     }).then((result) => {
+    //         if(result.status === 'complete'){
+    //             console.log(result)
+    //             setActive({ session: result.createdSessionId })
+    //         }else{
+    //             console.log(result)
+    //         }
+    //     }).catch((error) => console.error('error', error.errors[0].longMessage))
+    // }
+
+    return (
+        <>
+            <section className="bg-custom-purple">
+                <div className="grid max-w-screen-xl px-4 py-2 mx-auto lg:gap-8 xl:gap-0 lg:grid-cols-12">
+                    <p className='leading-none pt-7 text-5xl whitespace-nowrap font-thin font-goldman text-white'>Ledger</p>
+                </div>
+                <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-10 lg:grid-cols-12">
+
+                    <div className="mr-auto place-self-center lg:col-span-7">
+                        <h1 className="max-w-2xl mb-9 text-4xl font-thin tracking-none leading-none md:text-5xl xl:text-6xl text-white font-goldman">A Comprehensive Personal Finance Tool</h1>
+                        <p className="max-w-2xl mb-6 font-thin text-white lg:mb-8 md:text-md lg:text-lg font-goldman">Track all of your spending, investments and loans. Create a personal budget</p>
+
+                        <Link href="/sign-in" className="rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  text-md">
+                            Sign In
+
+                        </Link>
+                        <Link href="/sign-up" className="ml-4 rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  text-md">
+                            Sign Up
+
+                        </Link>
+                        {/* <form onSubmit={demoSignIn}>
        
-          Sign In
-        
-      </Link>
+        <button type="submit" className="ml-4 rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium text-md">
+            Demo 
+        </button>
+    </form> */} </div>
+                    <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
+                        <img src="/heroBG.png" alt="heroBG"/>
+                    </div>
+                </div>
+            </section>
+            <section className="bg-white">
+                <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 flex flex-col md:flex-row items-start space-y-8 md:space-y-0 md:space-x-2 justify-between">
+
+                    {/* Text on the left */}
+                    <div className="flex flex-col justify-center text-center mb-8 md:mb-0 w-full md:w-2/5">
+                        <h1 className="mb-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-thin tracking-none leading-snug text-custom-purple font-goldman">
+                            Seamless Integration with Plaid
+                        </h1>
 
 
+                        <div className="flex items-center justify-center">
 
-      <Link style={{ 
-            backgroundColor: 'blue', 
-            color: 'white', 
-            padding: '10px 20px', 
-            border: 'none', 
-            borderRadius: '5px',
-            textDecoration: 'none',
-            cursor: 'pointer'
-          }}href="/sign-in">
-       
-          Sign Up
-        
-      </Link> */}
+                            <img src="/connection.webp" alt="connection"/>
+                        </div>
+                    </div>
 
-<section className="bg-custom-purple">
-<div className="grid max-w-screen-xl px-4 py-2 mx-auto lg:gap-8 xl:gap-0 py-12 lg:grid-cols-12">
-        <p className='leading-none text-5xl whitespace-nowrap font-thin font-goldman text-white'>Ledger</p>
-    </div>
-    <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-10 lg:grid-cols-12">
-      
-        <div className="mr-auto place-self-center lg:col-span-7">
-            <h1 className="max-w-2xl mb-9 text-4xl font-thin tracking-none leading-none md:text-5xl xl:text-6xl text-white font-goldman">A Comprehensive Personal Finace Tool</h1>
-            <p className="max-w-2xl mb-6 font-thin text-white lg:mb-8 md:text-md lg:text-lg font-goldman">Track all of your spending, investments, loans, and assets.</p>
-            
-            <Link href="/sign-in" className="rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  text-md">
-                Sign In
-                
-            </Link>
-            <Link href="/sign-up" className="ml-4 rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  text-md">
-                Sign Up
-                
-            </Link>
-            <Link href="/sign-up" className="ml-4 rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  text-md">
-                Demo
-                
-            </Link>
-        </div>
-        <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-            <img src="https://images.unsplash.com/photo-1669399213378-2853e748f217?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTZ8fDNkJTIwY2hhcnR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="mockup" />
-        </div>                
-    </div>
-</section>
 
-      
+                    <div className="bg-custom-blue py-2 duration-300 hover:scale-105 hover:shadow-xl shadow-2xl p-8 md:p-12 w-full md:w-3/5 h-[450px]">
+                        <h5 className=" font-thin text-xl text-center font-goldman text-custom-purple">
+                            Instantly Connect Your Accounts
+                        </h5>
 
-     
-    </>
-  );
+                        <div className="flex items-center justify-center">
+                            <h5 className="mt-8 mb-8 font-thin text-7xl text-center font-goldman text-custom-purple">
+                                Ledger
+                            </h5>
+
+                        </div>
+                        <div className="flex items-center justify-center">
+                            <img className="w-64 h-auto mr-4" src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Plaid_logo.svg" alt="Plaid Logo"/>
+
+                        </div>
+                        <div className="flex items-center justify-center">
+                            <h5 className="mt-8 font-thin text-7xl text-center font-goldman text-custom-purple">
+                                Insight
+                            </h5>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </section>
+
+            <section className="bg-blue-300">
+                <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+
+                    <h1 className="mb-4 text-4xl font-thin tracking-tight leading-none text-white md:text-5xl lg:text-6xl font-goldman">Fuse Your Finances</h1>
+                    <p className="mb-8 text-lg text-white lg:text-xl sm:px-16 lg:px-48 font-goldman font-thin">Sync Checking, Savings, Credit Card, Loan, and Brokerage Accounts</p>
+
+                    <div className="grid md:grid-cols-3 gap-8 mt-8">
+
+
+                        <div className="bg-white  shadow-2xl p-8 md:p-12 duration-300 hover:scale-105 hover:shadow-xl">
+                            <h5 className=" font-thin text-xl text-center font-goldman text-custom-purple">
+                                Balances and Account Info
+                            </h5>
+                            <div className="flex items-center justify-center">
+
+                                <img src="/info.png" alt="info"/>
+                            </div>
+
+                        </div>
+
+
+                        <div className="bg-white  shadow-2xl p-8 md:p-12 duration-300 hover:scale-105 hover:shadow-xl">
+                            <h5 className=" font-thin text-xl text-center font-goldman text-custom-purple">
+                                Transaction Insight
+                            </h5>
+                            <div className="flex items-center justify-center">
+                                <video loop autoPlay muted className="w-full max-w-md">
+                                    <source src="/transactions.mp4" type="video/mp4"/>
+
+                                </video>
+                            </div>
+
+                        </div>
+
+
+                        <div className="bg-white  shadow-2xl p-8 md:p-12 duration-300 hover:scale-105 hover:shadow-xl">
+                            <h5 className=" font-thin mb-5 text-xl text-center font-goldman text-custom-purple">
+                                Generate Dynamic Graphs
+                            </h5>
+                            <div className="w-full h-full object-cover">
+                                <img src="/graphs.gif" alt="Description of GIF"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section className="bg-green-100">
+                <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+
+                    <h1 className="mb-4 text-4xl font-thin tracking-tight leading-none text-custom-purple md:text-5xl lg:text-6xl font-goldman">Keep The Growing Going</h1>
+
+
+                    <p className="mb-8 text-lg text-custom-purple lg:text-xl sm:px-16 lg:px-48 font-goldman font-thin">Visualize Investment Account Transactions, Holdings, and Securities</p>
+
+
+                    <div className="grid md:grid-cols-3 gap-8 mt-8">
+
+
+                        <div className="md:col-span-2 bg-emerald-300 shadow-2xl duration-300 hover:scale-105 hover:shadow-xl overflow-hidden">
+
+
+                            <video loop autoPlay muted className="w-full h-full object-cover">
+                                <source src="/investmentsVid.mov" type="video/mp4"/>
+                            </video>
+                        </div>
+
+
+                        <div className="bg-emerald-200  shadow-2xl duration-300 hover:scale-105 hover:shadow-xl overflow-hidden p-8 md:p-12">
+                            <div className="flex items-center justify-center">
+                                <img src="/investments.webp" alt="Description of GIF"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section className="bg-gray-50">
+                <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+
+                    <h1 className="mb-4 text-4xl font-thin tracking-tight leading-none text-black md:text-5xl lg:text-6xl font-goldman">Don't Let Debt Upset</h1>
+
+
+                    <p className="mb-8 text-lg text-black lg:text-xl sm:px-16 lg:px-48 font-goldman font-thin">Track Your Mortgage, Student Loan or any other Liability</p>
+
+                    <div className="grid md:grid-cols-3 gap-8 mt-8">
+
+
+                        <div className="bg-white  shadow-2xl duration-300 hover:scale-105 hover:shadow-xl overflow-hidden p-8 md:p-12 order-last md:order-first">
+                            <video loop autoPlay muted className="w-full h-full object-cover">
+                                <source src="/loanVid.mp4" type="video/mp4"/>
+                            </video>
+                        </div>
+
+
+                        <div className="md:col-span-2 bg-black  shadow-2xl duration-300 hover:scale-105 hover:shadow-xl overflow-hidden p-8 md:p-12 order-first md:order-last">
+                            <div className="flex items-center justify-center">
+                                <video loop autoPlay muted className="w-full max-w-md">
+                                    <source src="/debtVid.webm" type="video/webm"/>
+                                </video>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <section className="bg-yellow-300">
+                <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+
+                    <h1 className="mb-4 text-4xl font-thin tracking-tight leading-none text-custom-purple md:text-5xl lg:text-6xl font-goldman">Budget Like a Boss</h1>
+
+
+                    <p className="mb-8 text-lg text-custom-purple lg:text-xl sm:px-16 lg:px-48 font-goldman font-thin">Add your Job/Side Hustle Info along with your bills. Generate a budget.</p>
+
+                    <div className="grid md:grid-cols-4 gap-8 mt-8">
+
+
+                        <div className="md:col-span-3 bg-white shadow-2xl duration-300 hover:scale-105 hover:shadow-xl overflow-hidden p-8 md:p-12">
+                            <div className="flex items-center justify-center">
+                                <video loop autoPlay muted className="w-full max-w-md">
+                                    <source src="/budgetVid.mp4" type="video/mp4"/>
+                                </video>
+                            </div>
+                        </div>
+
+
+                        <div className="bg-white shadow-2xl duration-300 hover:scale-105 hover:shadow-xl overflow-hidden p-8 md:p-12">
+
+                            <div className="flex items-center justify-center mt-10 mb-10">
+                                <img src="/budgetPic.webp" alt="Description of GIF"/>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+        </>
+    );
 }
