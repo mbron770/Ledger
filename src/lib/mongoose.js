@@ -28,7 +28,7 @@ import mongoose from 'mongoose';
 
 const connection = {};
 
-export default async function connectToDB() {
+  async function connectToDB() {
   if (connection.isConnected) {
     return console.log('mongo connection established')
   }
@@ -42,5 +42,5 @@ export default async function connectToDB() {
     connection.isConnected = db.connections[0].readyState;
   }
 }
-
+export default connectToDB()
 
