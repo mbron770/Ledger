@@ -4,8 +4,8 @@ import Link from "next/link";
 
 
 export default function Home() {
-    // const [email, setEmail] = useState('demo.user@gmail.com')
-    // const [password, setPassword] = useState('demoPassword2023!')
+    const [email, setEmail] = useState('demo@demo.com')
+    const [password, setPassword] = useState('demo')
     // const [firstName, setFirstName] = useState('Demo')
     // const [lastName, setLastName] = useState('User')
     const {isLoaded, signIn, setActive} = useSignIn();
@@ -16,21 +16,21 @@ export default function Home() {
     }
 
 
-    // async function demoSignIn(e){
-    //     console.log('works')
-    //     e.preventDefault()
-    //     await signIn.create({
-    //         identifier: email,
-    //         password
-    //     }).then((result) => {
-    //         if(result.status === 'complete'){
-    //             console.log(result)
-    //             setActive({ session: result.createdSessionId })
-    //         }else{
-    //             console.log(result)
-    //         }
-    //     }).catch((error) => console.error('error', error.errors[0].longMessage))
-    // }
+    async function demoSignIn(e){
+        console.log('works')
+        e.preventDefault()
+        await signIn.create({
+            identifier: email,
+            password
+        }).then((result) => {
+            if(result.status === 'complete'){
+                console.log(result)
+                setActive({ session: result.createdSessionId })
+            }else{
+                console.log(result)
+            }
+        }).catch((error) => console.error('error', error.errors[0].longMessage))
+    }
 
     return (
         <>
@@ -52,12 +52,12 @@ export default function Home() {
                             Sign Up
 
                         </Link>
-                        {/* <form onSubmit={demoSignIn}>
+                         <form onSubmit={demoSignIn}>
        
         <button type="submit" className="ml-4 rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium text-md">
             Demo 
         </button>
-    </form> */} </div>
+    </form>  </div>
                     <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
                         <img src="/heroBG.png" alt="heroBG"/>
                     </div>

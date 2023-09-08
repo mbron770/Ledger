@@ -1,21 +1,22 @@
-import { plaidClient } from "../../../lib/plaid";
+import { plaidClient, sessionOptions } from "../../../lib/plaid";
 import { connectToDB } from "../../../lib/mongoose";
 import User from "../../../lib/models/user.model";
 
 export default async function handler(req, res) {
-  const products = req?.body?.products;
-  const userID = req?.body?.user?.id;
+  // const products = req?.body?.products;
+  // const userID = req?.body?.user?.id;
 
   try {
     const tokenResponse = await plaidClient.linkTokenCreate({
       user: { client_user_id: process.env.PLAID_CLIENT_ID },
       client_name: "Ledger",
-      language: "en",
-      products,
+      products: ['income_verification'],
+      // user_token: await createUser(userID),
+      user_token: 'user-sandbox-4ec6d559-f836-458f-8ce0-4620c44c5b3c', 
       income_verification: {
         income_source_types: ["payroll"],
       },
-      user_token: await createUser(userID),
+      language: "en",
       country_codes: ["US"],
     });
 
