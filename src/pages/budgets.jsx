@@ -1,4 +1,5 @@
 import NavBar from "../components/shared/topbarnav";
+import AddIncomeForm from "../components/budgeting/forms/incomeForm"
 import { useState } from "react";
 
 export default function Budgets() {
@@ -15,7 +16,7 @@ export default function Budgets() {
 
                     {/* Side Card */}
                     <div className="mb-8 w-full lg:w-[20vw] h-[70vh] p-6 mt-8 lg:mt-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        {/* ... content for the side card ... */}
+                        <AddIncomeForm/>
                     </div>
 
                     {/* Main Cards Container */}

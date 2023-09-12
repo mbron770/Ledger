@@ -5,7 +5,6 @@ import { WeeklySpendingChart } from "../components/graphs/weeklySpendingChart";
 import { CategoryDonutChart } from "../components/graphs/categoryDonutChart";
 import { MerchantsHorizontalGraph } from "../components/graphs/merchantsHorizontalGraph";
 import NavBar from "../components/shared/topbarnav";
-
 export default function Dashboard() {
   const [showDropdown, setShowDropdown] = useState([]);
   const [showPlaidLinks, setShowPlaidLinks] = useState(false)
@@ -126,6 +125,7 @@ export default function Dashboard() {
         <div className="hidden lg:col-span-3 lg:flex lg:items-center mb-4">
             <img src="/heroBG.png" alt="heroBG" className="w-full"/>
         </div>
+        
 
     </div>
 </section>

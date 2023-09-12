@@ -39,7 +39,7 @@ export default function NavBar() {
         
         
             
-            <Link href="/dashboard" className="block pl-3 pr-4 leading-none text-xl whitespace-nowrap font-goldman text-white">Ledger</Link>
+            <Link href="/" className="block pl-3 pr-4 leading-none text-xl whitespace-nowrap font-goldman text-white">Ledger</Link>
         
         
     </div>
