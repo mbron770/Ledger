@@ -1,68 +1,42 @@
-import {useState} from "react";
-import {useSignIn} from "@clerk/nextjs";
 import Link from "next/link";
+import DemoButton from "../components/shared/demo/demoButton";
+import NavBar from "../components/shared/topbarnav";
+import {useUser} from "@clerk/nextjs";
 
 
 export default function Home() {
-    const [email, setEmail] = useState('demo@demo.com')
-    const [password, setPassword] = useState('demo')
-    // const [firstName, setFirstName] = useState('Demo')
-    // const [lastName, setLastName] = useState('User')
-    const {isLoaded, signIn, setActive} = useSignIn();
-
-    console.log(signIn)
-    if (!isLoaded) {
-        return null
-    }
-
-
-    async function demoSignIn(e){
-        console.log('works')
-        e.preventDefault()
-        await signIn.create({
-            identifier: email,
-            password
-        }).then((result) => {
-            if(result.status === 'complete'){
-                console.log(result)
-                setActive({ session: result.createdSessionId })
-            }else{
-                console.log(result)
-            }
-        }).catch((error) => console.error('error', error.errors[0].longMessage))
-    }
-
+    const {user} = useUser();
     return (
         <>
+        {user && user ? <NavBar/> : null}
             <section className="bg-custom-purple">
                 <div className="grid max-w-screen-xl px-4 py-2 mx-auto lg:gap-8 xl:gap-0 lg:grid-cols-12">
-                    <p className='leading-none pt-7 text-5xl whitespace-nowrap font-thin font-goldman text-white'>Ledger</p>
+                    <p className="leading-none pt-7 text-5xl whitespace-nowrap font-thin font-goldman text-white">Ledger</p>
                 </div>
                 <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-10 lg:grid-cols-12">
-
                     <div className="mr-auto place-self-center lg:col-span-7">
                         <h1 className="max-w-2xl mb-9 text-4xl font-thin tracking-none leading-none md:text-5xl xl:text-6xl text-white font-goldman">A Comprehensive Personal Finance Tool</h1>
-                        <p className="max-w-2xl mb-6 font-thin text-white lg:mb-8 md:text-md lg:text-lg font-goldman">Track all of your spending, investments and loans. Create a personal budget</p>
+                        <p className="max-w-2xl mb-6 font-thin text-white lg:mb-8 md:text-md lg:text-lg font-goldman">Track all of your spending, investments, and loans. Create a personal budget</p>
 
-                        <Link href="/sign-in" className="rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  text-md">
-                            Sign In
 
-                        </Link>
-                        <Link href="/sign-up" className="ml-4 rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  text-md">
-                            Sign Up
+                        <div className="flex flex-col items-center md:items-start justify-center space-y-4">
+                            <DemoButton text="Demo" className="w-72 rounded-md inline-flex items-center justify-center px-20 py-3 text-custom-purple font-thin font-goldman bg-blue-300 hover:bg-white focus:outline-none focus:ring-4 focus:ring-blue-300 text-xl"/>
+                            <Link href="/sign-in" className="w-72 rounded-md inline-flex items-center justify-center px-20 py-3 text-custom-purple font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 text-md">
+                                Sign In
+                            </Link>
+                            <Link href="/sign-up" className="w-72 rounded-md inline-flex items-center justify-center px-20 py-3 text-custom-purple font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 text-md">
+                                Sign Up
+                            </Link>
+                        </div>
 
-                        </Link>
-                         <form onSubmit={demoSignIn}>
-       
-        <button type="submit" className="ml-4 rounded-md inline-flex items-center justify-center px-7 py-3 text-custom-purple mt-3 font-thin font-goldman bg-custom-blue hover:bg-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium text-md">
-            Demo 
-        </button>
-    </form>  </div>
+
+                    </div>
                     <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
                         <img src="/heroBG.png" alt="heroBG"/>
                     </div>
                 </div>
             </section>
+
             <section className="bg-white">
                 <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 flex flex-col md:flex-row items-start space-y-8 md:space-y-0 md:space-x-2 justify-between">
 
