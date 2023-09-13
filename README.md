@@ -1,8 +1,6 @@
 
-
-<div align="center">
   # [Ledger Personal Finance](https://www.ledgerpf.com/)
-</div>
+
 
 
 <h4 align="center">A comprehensive personal finance application that connects external bank accounts via Plaid API and aggregates that information to create insight-driven charts and graphics</h1>
