@@ -1,9 +1,10 @@
 
 
-<h1 align="center"><b>Ledger Personal Finance</b></h1>
+<h1 align="center" <a href="https://www.ledgerpf.com/"><b>Ledger Personal Finance</b></h1>
+
 <h4 align="center">A comprehensive personal finance application that connects external bank accounts via Plaid API and aggregates that information to create insight-driven charts and graphics</h1>
 
- <a href="https://www.ledgerpf.com/">Live App/a>
+ <a href="https://www.ledgerpf.com/">Live App>
 
 
 
