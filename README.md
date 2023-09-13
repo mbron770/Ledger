@@ -1,9 +1,7 @@
 
 
 <div align="center">
-  <a href="https://www.ledgerpf.com/">
-    <h1><b>Ledger Personal Finance</b></h1>
-  </a>
+  # [Ledger Personal Finance](https://www.ledgerpf.com/)
 </div>
 
 
