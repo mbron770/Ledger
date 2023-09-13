@@ -1,6 +1,6 @@
 
 
-<a href="https://www.ledgerpf.com/"><h1><b>Ledger Personal Finance</b></h1></a>
+# [Ledger Personal Finance](https://www.ledgerpf.com/)
 
 <h4 align="center">A comprehensive personal finance application that connects external bank accounts via Plaid API and aggregates that information to create insight-driven charts and graphics</h1>
 
@@ -18,8 +18,8 @@ This project is a full-stack web app with the goal of connecting and aggregating
   * **[NextJs](https://nextjs.org/)**
   * * **[React](https://react.dev/)**
 * **[MongoDB]()**
-  * **[Plaid API](https://plaid.com/)**
-  * * **[Clerk](https://clerk.com/)**
+*[Plaid API](https://plaid.com/)**
+*[Clerk](https://clerk.com/)**
 
 
 
@@ -69,7 +69,7 @@ Basic Integration
 2. Open the directory in your favorite code editor
 3. Run npm run dev in the terminal to open the app on port 3000 in your favorite browser
 
-Advanced Integration 
+Advanced Integration <br></br>
 4. Run cp .env.example .env.local to generate a local file of all required environmental variables
 5. Obtain all of the environmental variables from Plaid, MongoDB, and Clerk and paste the values
 6. Run ngrok http 3000 to launch the webhook for clerk to communicate with mongo https://ngrok.com/download
