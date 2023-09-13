@@ -16,11 +16,12 @@ This project is a full-stack web app with the goal of connecting and aggregating
 ## Languages and Dependencies
 
 * **[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)**
-  * **[NextJs](https://nextjs.org/)**
-  * * **[React](https://react.dev/)**
+* **[NextJs](https://nextjs.org/)**
+* **[React](https://react.dev/)**
 * **[MongoDB]()**
-*[Plaid API](https://plaid.com/)**
-*[Clerk](https://clerk.com/)**
+* **[Plaid API](https://plaid.com/)**
+* **[Clerk](https://clerk.com/)**
+
 
 
 
