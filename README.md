@@ -30,36 +30,152 @@ This project is a full-stack web app with the goal of connecting and aggregating
 Upon successful setup (see **Setup Instructions**), you should see the following project directory hierarchy.
 
 ```
+.
+├── .next
+├── node_modules
+├── .env.example
 ├── .gitignore
 ├── README.md
-├── backend
-│   ├──  app.py
-│   ├──  database.db
-│   ├──  manage.py
-│   ├──  models.py
-│   ├──  requirements.txt
-│   ├──  routes.py
-│   ├──  run
-│   ├──  migrations
-│   │    ├── alembic.ini
-│   │    ├── env.py
-│   │    ├── script.py.mako
-│   │    └── versions
-│
-├── frontend
-    ├──  package.json
-    ├──  package-lock.json
-    ├──  README.md
-    │  
-    └──  public 
-    │    └── index.html
-    │  
-    └──  src
-         ├── App.css
-         ├── App.jsx
-         ├── index.js
-         └── Components
-              └── ArticleList.js
+├── next-env.d.ts
+├── next.config.js
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── public
+│   ├── balances.mp4
+│   ├── budgetPic.webp
+│   ├── budgetVid.mp4
+│   ├── connection.webp
+│   ├── debtVid.webm
+│   ├── favicon.ico
+│   ├── graphs.gif
+│   ├── heroBG.png
+│   ├── info.png
+│   ├── investments.webp
+│   ├── investmentsVid.mov
+│   ├── loanVid.mp4
+│   ├── next.svg
+│   ├── transactions.mp4
+│   └── vercel.svg
+├── src
+│   ├── components
+│   │   ├── budgeting
+│   │   │   └── forms
+│   │   │       ├── billsForm.jsx
+│   │   │       └── incomeForm.jsx
+│   │   ├── graphs
+│   │   │   ├── categoryDonutChart.jsx
+│   │   │   ├── merchantsHorizontalGraph.jsx
+│   │   │   └── weeklySpendingChart.jsx
+│   │   ├── plaidLinks
+│   │   │   ├── bankAccounts
+│   │   │   │   ├── checking
+│   │   │   │   │   └── checkingAccountLink.jsx
+│   │   │   │   └── savings
+│   │   │   │       └── savingsAccountLink.jsx
+│   │   │   ├── income
+│   │   │   │   └── incomeVerificationLink.jsx
+│   │   │   ├── investments
+│   │   │   │   └── investmentAccountLink.jsx
+│   │   │   └── liabilities
+│   │   │       ├── creditCard
+│   │   │       │   └── creditCardLink.jsx
+│   │   │       └── loans
+│   │   │           └── loanLink.jsx
+│   │   └── shared
+│   │       ├── demo
+│   │       │   └── demoButton.jsx
+│   │       ├── displays
+│   │       │   ├── investmentHoldingsDisplayTable.jsx
+│   │       │   ├── investmentSecuritiesDisplayTable.jsx
+│   │       │   ├── investmentTransactionsTable.jsx
+│   │       │   ├── loanDisplayTable.jsx
+│   │       │   ├── mainPageDisplay.jsx
+│   │       │   └── transactionsDisplayTable.jsx
+│   │       └── topbarnav.jsx
+│   ├── contexts
+│   │   ├── InfoContext.js
+│   │   └── InfoProvider.js
+│   ├── lib
+│   │   ├── models
+│   │   │   ├── checkingAccount.model.js
+│   │   │   ├── creditCard.model.js
+│   │   │   ├── investmentAccount.model.js
+│   │   │   ├── investmentHoldings.model.js
+│   │   │   ├── investmentSecurities.model.js
+│   │   │   ├── investmentTransactions.model.js
+│   │   │   ├── item.model.js
+│   │   │   ├── job.model.js
+│   │   │   ├── jobs.model.js
+│   │   │   ├── loan.model.js
+│   │   │   ├── savingsAccount.model.js
+│   │   │   ├── transactions.model.js
+│   │   │   └── user.model.js
+│   │   ├── mongoose.js
+│   │   └── plaid.js
+│   ├── middleware.js
+│   ├── pages
+│   │   ├── _app.jsx
+│   │   ├── _document.jsx
+│   │   ├── api
+│   │   │   ├── bankAccounts
+│   │   │   │   ├── checkingAccount
+│   │   │   │   │   ├── addCheckingAccount.js
+│   │   │   │   │   ├── displayCheckingAccountTransactions.js
+│   │   │   │   │   ├── getAddedCheckingAccount.js
+│   │   │   │   │   ├── getAllCheckingAccounts.js
+│   │   │   │   │   └── getCheckingAccountTransactions.js
+│   │   │   │   └── savingsAccount
+│   │   │   │       ├── addSavingsAccount.js
+│   │   │   │       ├── displaySavingsAccountTransactions.js
+│   │   │   │       ├── getAddedSavingsAccount.js
+│   │   │   │       ├── getAllSavingsAccounts.js
+│   │   │   │       └── getSavingsAccountTransactions.js
+│   │   │   ├── clerk
+│   │   │   │   └── clerkwebhook.js
+│   │   │   ├── dashboard
+│   │   │   │   ├── displayAllItems.js
+│   │   │   │   └── recentCreditCardTransactions.js
+│   │   │   ├── income
+│   │   │   │   ├── addIncome.js
+│   │   │   │   └── getIncome.js
+│   │   │   ├── investments
+│   │   │   │   ├── addInvestmentAccount.js
+│   │   │   │   ├── displayInvestmentAccountTransactions.js
+│   │   │   │   ├── getAddedInvestmentAccount.js
+│   │   │   │   ├── getAllInvestmentAccounts.js
+│   │   │   │   └── getInvestmentAccountTransactions.js
+│   │   │   ├── liabilities
+│   │   │   │   ├── creditCard
+│   │   │   │   │   ├── addCreditCard.js
+│   │   │   │   │   ├── displayCreditCardTransactions.js
+│   │   │   │   │   ├── getAddedCreditCard.js
+│   │   │   │   │   ├── getAllCreditCards.js
+│   │   │   │   │   └── getCreditCardTransactions.js
+│   │   │   │   └── loans
+│   │   │   │       ├── addLoan.js
+│   │   │   │       ├── getAddedLoan.js
+│   │   │   │       └── getAllLoans.js
+│   │   │   └── plaidTokens
+│   │   │       ├── createlinktoken.js
+│   │   │       ├── exchangePublicToken.js
+│   │   │       └── incomeLinkToken.js
+│   │   ├── budgets.jsx
+│   │   ├── checking.jsx
+│   │   ├── creditcards.jsx
+│   │   ├── dashboard.jsx
+│   │   ├── index.jsx
+│   │   ├── investments.jsx
+│   │   ├── loans.jsx
+│   │   ├── savings.jsx
+│   │   ├── sign-in
+│   │   │   └── [[...index]].jsx
+│   │   └── sign-up
+│   │       └── [[...index]].jsx
+│   └── styles
+│       └── globals.css
+├── tailwind.config.ts
+└── tsconfig.json
 ```
 
 ## Setup Instructions
