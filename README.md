@@ -185,14 +185,30 @@ To launch this project on your own local development environment, please go thro
 **Basic Integration:**
 1. Clone the repository into your local environment.
 2. Open the directory in your favorite code editor.
-3. Run `npm run dev` in the terminal to open the app on port 3000 in your favorite browser.
+3. Run the following command in the terminal to open the app on port 3000 in your favorite browser.
 
+```console 
+npm run dev
+```
 **Advanced Integration:**
-*First implement basic integrationon
-1. Run `cp .env.example .env.local` to generate a local file of all required environmental variables.
-2. Obtain all of the environmental variables from Plaid, MongoDB, and Clerk and paste the values.
-3. Run `ngrok http 3000` to launch the webhook for Clerk to communicate with MongoDB. You can download ngrok from [https://ngrok.com/download](https://ngrok.com/download).
-4. Paste the Clerk webhook API endpoint into the Clerk webhook configuration. It should look like this: `https://1234-56-78-910-123.ngrok-free.app/api/clerk/clerkwebhook`.
+*First implement basic integration
+1. Run the following command to generate a local file of all required environmental variables.
+   
+ ```console 
+cp .env.example .env.local
+```
+3. Obtain all of the environmental variables from Plaid, MongoDB, and Clerk and paste the values.
+4. Run ngrok to launch the webhook for Clerk to communicate with MongoDB. You can download ngrok from [https://ngrok.com/download](https://ngrok.com/download).
+
+```console 
+ngrok http 3000
+```
+
+5. Paste the Clerk webhook API endpoint into the Clerk webhook configuration. It should look like this:
+```console 
+https://1234-56-78-910-123.ngrok-free.app/api/clerk/clerkwebhook
+```
+ 
 
 
 ## Credits
