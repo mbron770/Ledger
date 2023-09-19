@@ -8,12 +8,73 @@ export default function AddIncomeForm() {
 
     const [addJob, setAddJob] = useState(false);
     const [jobType, setJobType] = useState('')
+    const [title, setTitle] = useState('')
+    const [company, setCompany] = useState('')
     const [payType, setPayType] = useState('')
-    // const [payAmount, payAmount] = useState('')
+    const [yearlySalary, setYearlySalary] = useState('')
+    const [payFrequency, setPayFrequency] = useState('')
+    const [payAmount, setPayAmount] = useState('')
+    const [takeHome, setTakeHome] = useState('')
+
+    const [hourlyRate, setHourlyRate] = useState('')
+    const [hoursWorked, setHoursWorked] = useState('')
 
     const toggleButton = () => {
         setAddJob(!addJob);
     };
+
+
+    //form change functions 
+
+    function addJobToDB(e){
+
+    }
+
+    function handleJobTypeChange(e){
+        setJobType(e.target.value)
+    }
+
+    function handleTitleChange(e){
+        setTitle(e.target.value)
+    }
+
+    function handleCompanyChange(e){
+        setCompany(e.target.value)
+    }
+
+    function handlePayTypeChange(e){
+        setPayType(e.target.value)
+    }
+
+    function handleYearlySalaryChange(e){
+        setYearlySalary(e.target.value)
+    }
+
+    function handlePayFrequencyChange(e){
+        setPayFrequency(e.target.value)
+    }
+
+    function handlePayAmountChange(e){
+        setPayAmount(e.target.value)
+    }
+
+    function handleHourlyRateChange(e){
+        setHourlyRate(e.target.value)
+    }
+
+    function handleHoursWorkedChange(e){
+        setHourlyRate(e.target.value)
+    }
+
+    function handleTakeHomeChange(e){
+        setTakeHome(e.target.value)
+    }
+
+    
+
+
+
+
 
     return (
         <>
@@ -39,10 +100,15 @@ export default function AddIncomeForm() {
 
                             <div className="px-6 py-6 lg:px-8">
                                 <h3 className="mb-4 text-xl text-center font-medium text-gray-900 dark:text-white">Add your job or side hustle</h3>
-                                <form className="space-y-6" action="#">
+                                <form className="space-y-6" action="#" onSubmit={addJobToDB}>
 
                                     <label for="incomeType" className="block  text-sm font-medium text-gray-900 dark:text-white">Select Income Type</label>
-                                    <select id="incomeType" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <select id="incomeType"
+                                    name='jobType'
+                                    value={jobType}
+                                    onChange={handleJobTypeChange}
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        
                                         <option>W2 Job</option>
                                         <option>1099 Job</option>
                                         <option>Side Hustle</option>
@@ -54,14 +120,24 @@ export default function AddIncomeForm() {
                                         <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                             Job Title
                                         </label>
-                                        <input type="text" name="title" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Software Engineer" required/>
+                                        <input type="text" 
+                                        name="title" 
+                                        value={title}
+                                        onChange={handleTitleChange}
+                                        id="title" 
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Software Engineer" required/>
                                     </div>
 
                                     <div>
                                         <label htmlFor="company" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                             Company
                                         </label>
-                                        <input type="text" name="company" id="company" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Ledger Personal Finance" required/>
+                                        <input type="text" 
+                                        name="company" 
+                                        value={company}
+                                        onChange={handleCompanyChange}
+                                        id="company" 
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Ledger Personal Finance" required/>
                                     </div>
 
                                     <label for="payType" className="block  text-sm font-medium text-gray-900 dark:text-white">How do you get paid?</label>
@@ -69,7 +145,11 @@ export default function AddIncomeForm() {
                                     id="payType" 
                                     onChange={(e) => setPayType(e.target.value)}
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option value="">Select pay type</option>
+                                    <option 
+                                     name='payType'
+                                     value={payType}
+                                     onChange={handlePayTypeChange}
+                                    >Select pay type</option>
                                         <option>Salary</option>
                                         <option>Hourly</option>
                                     </select>
@@ -80,13 +160,19 @@ export default function AddIncomeForm() {
                                       <input 
                                         id="yearlySalary" 
                                         type="text" 
-                                        // value={payAmount} 
-                                        // onChange={handleAmountChange}
+                                        name='yearlySalary'
+                                        value={yearlySalary}
+                                        // onChange={handleYearlySalaryChange}
+                                        onChange={(e) => setPayType(e.target.value)}
                                         placeholder="Enter yearly salary"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
                                     
                                     <label for="incomeType" className="block  text-sm font-medium text-gray-900 dark:text-white">How often to you get paid?</label>
-                                    <select id="incomeType" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <select id="incomeType" 
+                                    name='payFrequency'
+                                    value={payFrequency}
+                                    onChange={handlePayFrequencyChange}
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option>Biweekly</option>
                                         <option>Twice Per Month</option>
                                         <option>Monthly</option>
@@ -97,9 +183,10 @@ export default function AddIncomeForm() {
                                     <label htmlFor="takeHome" className="block mt-2 text-sm font-medium text-gray-900 dark:text-white">What's your take home pay?</label>
                                       <input 
                                         id="takeHome" 
-                                        type='integer'
-                                        // value={payAmount} 
-                                        // onChange={handleAmountChange}
+                                        // type='integer'
+                                        name='payAmount'
+                                        value={payAmount} 
+                                        onChange={handlePayAmountChange}
                                         placeholder="5000"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
                                     
@@ -117,22 +204,28 @@ export default function AddIncomeForm() {
                                       <input 
                                         id="hourlyRate" 
                                         type="text" 
-                                        // value={payAmount} 
-                                        // onChange={handleAmountChange}
-                                        placeholder="Enter yearly salary"
+                                        name='hourlyRate'
+                                        value={hourlyRate}
+                                        onChange={handleHourlyRateChange}
+                                        placeholder="Enter Hourly Rate"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
                                     
-                                    <label htmlFor="hourlyRate" className="block mt-2 text-sm font-medium text-gray-900 dark:text-white">How many hours do you work per week?</label>
+                                    <label htmlFor="hoursWorked" className="block mt-2 text-sm font-medium text-gray-900 dark:text-white">How many hours do you work per week?</label>
                                       <input 
                                         id="hoursWorked" 
                                         type='integer'
-                                        // value={payAmount} 
-                                        // onChange={handleAmountChange}
+                                        name='hoursWorked'
+                                        value={hoursWorked}
+                                        onChange={handleHoursWorkedChange}
                                         placeholder="40"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
                                     
                                     <label for="incomeType" className="block  text-sm font-medium text-gray-900 dark:text-white">How often to you get paid?</label>
-                                    <select id="incomeType" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <select id="incomeType" 
+                                     name='payFrequency'
+                                     value={payFrequency}
+                                     onChange={handlePayFrequencyChange}
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option>Biweekly</option>
                                         <option>Twice Per Month</option>
                                         <option>Monthly</option>
@@ -144,8 +237,9 @@ export default function AddIncomeForm() {
                                       <input 
                                         id="takeHome" 
                                         type='integer'
-                                        // value={payAmount} 
-                                        // onChange={handleAmountChange}
+                                        name='takeHome'
+                                     value={takeHome}
+                                     onChange={handleTakeHomeChange}
                                         placeholder="5000"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
                                     
