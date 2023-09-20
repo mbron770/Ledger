@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import {itemSchema} from "../models/item.model";
 import {incomeSchema} from "./income.model"
+import {billSchema} from "./income.model"
 
 const userSchema = new mongoose.Schema({
     id: {
@@ -10,6 +11,7 @@ const userSchema = new mongoose.Schema({
     },
     items: [itemSchema],
     income: [incomeSchema],
+    bills: [billSchema],
     data: mongoose.Schema.Types.Mixed
 }, {
     strict: false,
