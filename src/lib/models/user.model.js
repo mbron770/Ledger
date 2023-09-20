@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import {itemSchema} from "../models/item.model";
 import {incomeSchema} from "./income.model"
-import {billSchema} from "./income.model"
+import {billSchema} from "./bill.model"
 
 const userSchema = new mongoose.Schema({
     id: {
