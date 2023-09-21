@@ -70,11 +70,38 @@ export default function Budgets() {
     useEffect(() => {
         getAllBills()
         getAllIncomes()
+        getTotalIncome()
+
     }, [user, fetchedData])
 
+    function getTotalIncome(){
+        let [totalHourlyIncome, totalSalaryIncome, totalIncomes]  = [0, 0, 0]
 
-    // console.log(allBills)
-    // console.log(allIncomes)
+    for(let income of allIncomes){
+        let hourlyRate = Number(income['hourlyRate'])
+        let hoursPerWeek = Number(income['hoursPerWeek'])
+        let yearlySalary = Number(income['yearlySalary'])
+
+        if(!isNaN(hourlyRate) && !isNaN(hoursPerWeek)){
+            totalHourlyIncome += hourlyRate * hoursPerWeek
+        }
+
+        if(!isNaN(yearlySalary)) totalSalaryIncome += yearlySalary
+
+
+        
+        
+        
+    }
+    totalIncomes = totalHourlyIncome + totalSalaryIncome
+    // console.log('hourlyIncomeTotal', totalHourlyIncome)
+    // console.log('salaryIncomeTotal', totalSalaryIncome)
+    // console.log('total', totalIncomes)
+    return totalIncomes
+
+    }
+
+    
 
     
 
@@ -129,6 +156,7 @@ export default function Budgets() {
                             <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
                                 Incomes
                             </h5>
+                        <h1>{` totalIncome: ${getTotalIncome()}`}</h1>
     {allIncomes.map((income) => (
 <div>
     <p>{income?.dateAdded}</p>
