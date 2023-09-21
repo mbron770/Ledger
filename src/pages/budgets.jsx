@@ -67,13 +67,6 @@ export default function Budgets() {
         }
     }
 
-    useEffect(() => {
-        getAllBills()
-        getAllIncomes()
-        getTotalIncome()
-
-    }, [user, fetchedData])
-
     function getTotalIncome(){
         let [totalHourlyIncome, totalSalaryIncome, totalIncomes]  = [0, 0, 0]
 
@@ -94,12 +87,34 @@ export default function Budgets() {
         
     }
     totalIncomes = totalHourlyIncome + totalSalaryIncome
-    // console.log('hourlyIncomeTotal', totalHourlyIncome)
-    // console.log('salaryIncomeTotal', totalSalaryIncome)
-    // console.log('total', totalIncomes)
+    // setFetchedData(false)
     return totalIncomes
 
     }
+
+    function getTotalBillsAmount(){
+        let totalBillsAmount = 0
+
+    for(let bill of allBills){
+        let billTotal = Number(bill['billTotal'])
+        if(!isNaN(billTotal)) totalBillsAmount += billTotal
+        
+    }
+    return totalBillsAmount
+    }
+
+    useEffect(() => {
+        getAllBills()
+        getAllIncomes()
+    }, [user, fetchedData])
+
+    useEffect(() => {
+        getTotalIncome()
+        getTotalBillsAmount()
+    }, [allBills, allIncomes])
+
+
+
 
     
 
@@ -136,6 +151,8 @@ export default function Budgets() {
                             <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
                                 Accounts
                             </h5>
+                            <h1>{` totalBillAmount: ${getTotalBillsAmount()}`}</h1>
+                            
 {allBills.map((bill) => (
 <div>
     <p>{bill.dateAdded}</p>
