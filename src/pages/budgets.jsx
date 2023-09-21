@@ -1,11 +1,59 @@
 import NavBar from "../components/shared/topbarnav";
 import AddIncomeForm from "../components/budgeting/forms/incomeForm"
 import AddBillsForm from "../components/budgeting/forms/billsForm"
-
-import { useState } from "react";
+import {useUser} from "@clerk/nextjs";
+import { useState, useEffect, useContext } from "react";
+import InfoContext from "../contexts/InfoContext";
 
 export default function Budgets() {
     const [showDropdown, setShowDropdown] = useState([]);
+    const {user} = useUser()
+    const [allBills, setAllBills] = useState([])
+    const {fetchedData, setFetchedData} = useContext(InfoContext);
+
+    async function getAllBills(){
+        try{
+
+            const response = await fetch("/api/bills/getBills", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json"
+                },
+                body: JSON.stringify({userID: user?.id})
+
+            })
+
+            if (! response.ok) {
+                throw new Error('failed to get bills from DB')
+            }
+            
+             const fetchedBills = await response.json()
+             setAllBills(fetchedBills)
+             setFetchedData(false)
+            
+
+
+
+        }catch (error){
+            console.error(error)
+        }
+    }
+
+    useEffect(() => {
+        getAllBills()
+    }, [user, fetchedData])
+
+
+    console.log(allBills)
+
+    
+
+
+
+
+
+
 
     return (
         <>
@@ -32,6 +80,18 @@ export default function Budgets() {
                             <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
                                 Accounts
                             </h5>
+{allBills.map((bill) => (
+<div>
+    <p>{bill.dateAdded}</p>
+    <p>{bill.billType}</p>
+    <p>{bill.description}</p>
+    <p>{bill.company}</p>
+    <p>{bill.payFrequency}</p>
+    <p>{bill.billTotal}</p>
+
+</div>
+))}
+                            
                             {/* ... rest of the card's content ... */}
                         </div>
 

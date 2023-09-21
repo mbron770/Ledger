@@ -2,7 +2,7 @@ import {useUser} from "@clerk/nextjs";
 import Router from "next/router";
 import {useState, useEffect, useCallback, useContext} from "react";
 import {usePlaidLink} from "react-plaid-link";
-// import InfoContext from "../../../contexts/InfoContext";
+import InfoContext from "../../../contexts/InfoContext";
 
 export default function AddIncomeForm() {
 
@@ -19,6 +19,7 @@ export default function AddIncomeForm() {
     const [hourlyRate, setHourlyRate] = useState('')
     const [hoursWorked, setHoursWorked] = useState('')
     const {user} = useUser()
+    const {fetchedData, setFetchedData} = useContext(InfoContext);
 
     const toggleButton = () => {
         setAddJob(!addJob);
@@ -39,6 +40,7 @@ export default function AddIncomeForm() {
         setHoursWorked("");
         setPayFrequency("");
         setTakeHome("");
+        setFetchedData();
 
         try {
 

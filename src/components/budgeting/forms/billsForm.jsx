@@ -2,7 +2,7 @@ import {useUser} from "@clerk/nextjs";
 import Router from "next/router";
 import {useState, useEffect, useCallback, useContext} from "react";
 import {usePlaidLink} from "react-plaid-link";
-// import InfoContext from "../../../contexts/InfoContext";
+import InfoContext from "../../../contexts/InfoContext";
 
 export default function AddBillsForm() {
 
@@ -12,6 +12,7 @@ export default function AddBillsForm() {
     const [company, setCompany] = useState('')
     const [payFrequency, setPayFrequency] = useState('')
     const [billTotal, setBillTotal] = useState('')
+    const {fetchedData, setFetchedData} = useContext(InfoContext);
 
     const {user} = useUser()
 
@@ -30,6 +31,7 @@ export default function AddBillsForm() {
         setCompany("");
         setPayFrequency("");
         setBillTotal("");
+        setFetchedData()
 
         try {
 
