@@ -9,6 +9,7 @@ export default function Budgets() {
     const [showDropdown, setShowDropdown] = useState([]);
     const {user} = useUser()
     const [allBills, setAllBills] = useState([])
+    const [allIncomes, setAllIncomes] = useState([])
     const {fetchedData, setFetchedData} = useContext(InfoContext);
 
     async function getAllBills(){
@@ -40,12 +41,40 @@ export default function Budgets() {
         }
     }
 
+
+    async function getAllIncomes(){
+        try{
+
+            const response = await fetch("/api/income/getIncome", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json"
+                },
+                body: JSON.stringify({userID: user?.id})
+
+            })
+
+            if (! response.ok) {
+                throw new Error('failed to get bills from DB')
+            }
+            
+             const fetchedIncomes = await response.json()
+             setAllIncomes(fetchedIncomes)
+             setFetchedData(false)
+        }catch (error){
+            console.error(error)
+        }
+    }
+
     useEffect(() => {
         getAllBills()
+        getAllIncomes()
     }, [user, fetchedData])
 
 
-    console.log(allBills)
+    // console.log(allBills)
+    // console.log(allIncomes)
 
     
 
@@ -98,9 +127,24 @@ export default function Budgets() {
                         {/* Second Card */}
                         <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                             <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                New Card Title
+                                Incomes
                             </h5>
-                            {/* ... rest of the card's content ... */}
+    {allIncomes.map((income) => (
+<div>
+    <p>{income?.dateAdded}</p>
+    <p>{income?.incomeType}</p>
+    <p>{income?.jobTitle}</p>
+    <p>{income?.company}</p>
+    <p>{income?.payType}</p>
+    <p>{income?.paySchedule}</p>
+    <p>{income?.takeHomePay}</p>
+    <p>{income?.yearlySalary}</p>
+    <p>{income?.hourlyRate}</p>
+    <p>{income?.hoursPerWeek}</p>
+
+
+</div>
+))}
                         </div>
 
                         {/* Third Row - Two Cards Side by Side on Larger Screens */}

@@ -20,7 +20,6 @@ async function getAllBillsHandler(req, res) {
             return res.status(404).send({error: "User not logged in"});
         }
 
-
         let allBills = loggedInUser.bills.map((individualBill) => ({
             dateAdded: individualBill.dateAdded,
             billType: individualBill.billType,
