@@ -114,126 +114,61 @@ export default function Budgets() {
     }, [allBills, allIncomes])
 
 
-
-
-    
-
-    
-
-
-
-
-
-
-
-    return (
+    return(
         <>
-            <NavBar />
-            {/* <div className="relative bg-sky-100 min-h-[100vh]"> */}
-            <div className="relative bg-sky-100 pt-[25vh] h-full w-screen ">
+         <NavBar />
+            
+
+            <div className="absolute bg-custom-blue w-full h-[100]">
+            <section className="bg-custom-purple h-[18vh] mt-[15vh]">
+
+            <div className="container mx-auto mr-10 px-10 flex flex-col md:items-center lg:flex-row lg:justify-start">
+            <div className="hidden lg:block lg:w-12"></div> {/* Spacer for large screens */}
+            <AddIncomeForm className="mb-4 md:mb-4 lg:mb-0 lg:mr-8"/>
+            <div className="hidden lg:block lg:w-8"></div> {/* Spacer for large screens */}
+        <AddBillsForm className="pl-4 mb-4 md:mb-4 lg:mb-0 lg:mr-4"/>
+    </div>
+{/* 
+    <div className="flex flex-col md:items-center lg:items-start lg:items-start justify-center h-full px-4">
+        <AddIncomeForm className="lg:pr-4"/>
+        <AddBillsForm/>
+    </div> */}
+
+    
+</section>
 
 
-            <div className="px-4  lg:px-[10vw] pt-[5vh] flex flex-col lg:flex-row items-start lg:space-x-16">
-
-                    {/* Side Card */}
-                    <div className="mb-8 w-full lg:w-[20vw] h-[70vh] p-6 mt-8 lg:mt-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <AddIncomeForm/>
-                        <br></br>
-                        <AddBillsForm/>
-
-                    </div>
-
-                    {/* Main Cards Container */}
-                    <div className="w-full lg:w-[70vw] flex flex-col space-y-8  lg:h-[60vh]">
-                        
-                        {/* First Card */}
-                        <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                            <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                Accounts
-                            </h5>
-                            <h1>{` totalBillAmount: ${getTotalBillsAmount()}`}</h1>
-                            
-{allBills.map((bill) => (
-<div>
-    <p>{bill.dateAdded}</p>
-    <p>{bill.billType}</p>
-    <p>{bill.description}</p>
-    <p>{bill.company}</p>
-    <p>{bill.payFrequency}</p>
-    <p>{bill.billTotal}</p>
-
-</div>
-))}
-                            
-                            {/* ... rest of the card's content ... */}
-                        </div>
-
-                        {/* Second Card */}
-                        <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                            <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                Incomes
-                            </h5>
-                        <h1>{` totalIncome: ${getTotalIncome()}`}</h1>
-    {allIncomes.map((income) => (
-<div>
-    <p>{income?.dateAdded}</p>
-    <p>{income?.incomeType}</p>
-    <p>{income?.jobTitle}</p>
-    <p>{income?.company}</p>
-    <p>{income?.payType}</p>
-    <p>{income?.paySchedule}</p>
-    <p>{income?.takeHomePay}</p>
-    <p>{income?.yearlySalary}</p>
-    <p>{income?.hourlyRate}</p>
-    <p>{income?.hoursPerWeek}</p>
 
 
-</div>
-))}
-                        </div>
 
-                        {/* Third Row - Two Cards Side by Side on Larger Screens */}
-                        <div className="w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-                            <div className="w-full md:w-[50%] p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                    New Card Title
-                                </h5>
-                                {/* ... rest of the card's content ... */}
-                            </div>
-                            <div className="w-full md:w-[50%] p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                    New Card Title
-                                </h5>
-                                {/* ... rest of the card's content ... */}
-                            </div>
-                        </div>
 
-                        {/* Fourth Card */}
-                        <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                            <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                Another Wide Card
-                            </h5>
-                            {/* ... rest of the card's content ... */}
-                        </div>
+            
 
-                        {/* Fifth Row - Two More Cards */}
-                        <div className="w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-                            <div className="w-full md:w-[50%] p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                    New Card Title
-                                </h5>
-                                {/* ... rest of the card's content ... */}
-                            </div>
-                            <div className="w-full md:w-[50%] p-4 text-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                <h5 className="mb-2 text-2xl text-left font-bold text-gray-900 dark:text-white">
-                                    New Card Title
-                                </h5>
-                                {/* ... rest of the card's content ... */}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+
+
+            <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[12vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
+            <div className="duration-300 hover:scale-105 hover:shadow-xl w-full  md:w-full xl:w-[30vw]lg:w-[30vw] p-6 bg-white shadow-2xl overflow-y-auto">
+                <div className="flex max-h-[100vh] flex-col lg:w-full md:w-full">
+              <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+                Recent Transactions
+              </h5>
+
+            </div>
+            </div>
+
+
+            <div className="duration-300 hover:scale-105 hover:shadow-xl w-full  md:w-full xl:w-[20vw]lg:w-[20vw] p-6 bg-white shadow-2xl overflow-y-auto">
+                <div className="flex max-h-[100vh] flex-col lg:w-[50vw] md:w-[50vw]">
+              <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
+                Recent Transactions
+              </h5>
+
+            </div>
+            </div>
+            </div>
             </div>
         </>
+
     )
-}
+};
