@@ -11,6 +11,7 @@ export default function Budgets() {
     const [allBills, setAllBills] = useState([])
     const [allIncomes, setAllIncomes] = useState([])
     const {fetchedData, setFetchedData} = useContext(InfoContext);
+    console.log(allBills)
 
     async function getAllBills(){
         try{
@@ -119,7 +120,7 @@ export default function Budgets() {
          <NavBar />
             
 
-            <div className="absolute bg-custom-blue w-full h-[100]">
+            
             <section className="bg-custom-purple h-[18vh] mt-[15vh]">
 
             <div className="container mx-auto mr-10 px-10 flex flex-col md:items-center lg:flex-row lg:justify-start">
@@ -142,27 +143,205 @@ export default function Budgets() {
 
 
 
-
-            <div className="lg:mb-[10vh] px-4 lg:px-[10vw] pt-[12vh] h-full  flex flex-col lg:flex-row items-start lg:items-stretch space-y-8 lg:space-y-0 lg:space-x-8">
-            <div className="duration-300 hover:scale-105 hover:shadow-xl w-full  md:w-full xl:w-[30vw]lg:w-[30vw] p-6 bg-white shadow-2xl overflow-y-auto">
-                <div className="flex max-h-[100vh] flex-col lg:w-full md:w-full">
-              <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
-                Recent Transactions
-              </h5>
-
-            </div>
-            </div>
+<div className="absolute bg-custom-blue w-full h-[screen]">
 
 
-            <div className="duration-300 hover:scale-105 hover:shadow-xl w-full  md:w-full xl:w-[20vw]lg:w-[20vw] p-6 bg-white shadow-2xl overflow-y-auto">
-                <div className="flex max-h-[100vh] flex-col lg:w-[50vw] md:w-[50vw]">
-              <h5 className="pt-4 mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
-                Recent Transactions
-              </h5>
+<div className="relative lg:mb-[5vh] px-4 lg:px-[10vw] pt-[5vh] h-full flex flex-col items-center justify-center space-y-8 lg:space-y-6">
 
+
+<div className="flex flex-col lg:flex-row w-full space-y-8 lg:space-y-0 lg:space-x-8">
+
+<div className="duration-300 hover:scale-105 hover:shadow-xl w-full lg:w-[50vw] p-6 bg-white shadow-2xl overflow-y-auto">
+            <div className="flex max-h-[100vh] flex-col">
+            <h5 className="font-thin text-2xl text-left font-goldman text-custom-purple">
+                    My Total Income
+                </h5>
+               
+           
             </div>
+        </div>
+
+        <div className="duration-300 hover:scale-105 hover:shadow-xl w-full lg:w-[50vw] p-6 bg-white shadow-2xl overflow-y-auto">
+            <div className="flex max-h-[100vh] flex-col">
+                <h5 className="font-thin text-2xl text-left font-goldman text-custom-purple">
+                    My Total Bills
+                </h5>
+                {/* Add other contents of the card here */}
             </div>
-            </div>
+        </div>
+
+    </div>
+
+    
+
+
+
+
+    <div className="w-full duration-300 hover:scale-105 hover:shadow-xl p-4 bg-white shadow-2xl overflow-y-auto">
+    <div className="flex flex-col">
+
+        <h5 className="mb-2 font-thin text-2xl text-left font-goldman text-custom-purple">
+           My Income Sources
+        </h5>
+            
+
+
+                
+        </div>
+    </div>
+
+
+
+    <div className="w-full duration-300 hover:scale-105 hover:shadow-xl p-4 bg-white shadow-2xl overflow-y-auto">
+    <div className="flex flex-col">
+
+        <h5 className="mb-2 font-thin text-2xl text-left font-goldman text-custom-purple">
+           My Income Sources
+        </h5>
+            
+
+
+                
+        </div>
+    </div>
+
+
+
+
+
+
+
+   
+    <div className="w-full duration-300 hover:scale-105 hover:shadow-xl p-4 bg-white shadow-2xl overflow-y-auto">
+    <div className="flex flex-col">
+
+        <h5 className="mb-2 font-thin text-2xl text-left font-goldman text-custom-purple">
+           My Income Sources
+        </h5>
+            <table className="min-w-full text-sm text-left border-collapse font-thin font-goldman text-custom-purple">
+        <thead className="text-xs uppercase bg-custom-blue">
+            <tr>
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">Job</th>
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">Income Type</th>
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">Pay Type</th>
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">Pay Amount</th>
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">Take Home</th>
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">Pay Schedule</th>
+                            <th scope="col" className="px-3 py-2 font-medium font-goldman text-custom-purple">Date Added</th>
+
+                        </tr>
+            </thead>
+            <tbody> 
+                    {
+                        (allIncomes?.length === 0) ? 
+                        (
+                            <tr className="bg-custom-blue py-2 hover:shadow-xl">
+                            <td colSpan="6" className="text-center py-4">No transactions available.</td>
+                        </tr>
+                        ) : 
+                        allIncomes?.map((income) => (
+                            <tr key={income.dateAdded} className="bg-custom-blue py-2 hover:shadow-xl">
+                                <th scope="row" className="px-3 py-3 font-thin font-goldman text-custom-purple ">{`${income.jobTitle} at ${income.company}`}</th>
+                                <td className="px-3 py-3 font-thin font-goldman text-custom-purple ">{income.incomeType}</td>
+                                <td className="px-3 py-3 font-thin font-goldman text-custom-purple ">{income.payType}</td>
+                                <td className="px-3 py-3 font-thin font-goldman text-green-700 ">${income.yearlySalary ? income.yearlySalary : income.hourlyRate*income.hoursPerWeek}</td>
+                                <td className="px-3 py-3 font-thin font-goldman text-green-700 ">${income.takeHomePay}</td>
+                                <td className="px-3 py-3 font-thin font-goldman text-custom-purple ">{income.paySchedule}</td>
+                                
+                                <td className="px-3 py-3 font-thin font-goldman text-custom-purple ">{new Date(income.dateAdded).toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric"
+                                })}</td>
+                            </tr>
+                        ))
+                    }
+                    </tbody>
+        </table>
+
+
+                
+        </div>
+    </div>
+
+
+     <div className="w-full duration-300 hover:scale-105 hover:shadow-xl p-4 bg-white shadow-2xl overflow-y-auto">
+    <div className="flex flex-col">
+
+        <h5 className="mb-2 font-thin text-2xl text-left font-goldman text-custom-purple">
+           All My Bills
+        </h5>
+        <table className="min-w-full text-sm text-left border-collapse font-thin font-goldman text-custom-purple">
+        <thead className="text-xs uppercase bg-custom-blue">
+            <tr>
+
+                    <th scope="col" className="px-3 py-3 font-medium font-goldman text-custom-purple">Bill Type</th>
+                    <th scope="col" className="px-3 py-3 font-medium font-goldman text-custom-purple">From</th>
+                    <th scope="col" className="px-3 py-3 font-medium font-goldman text-custom-purple">Description</th>
+                    <th scope="col" className="px-3 py-3 font-medium font-goldman text-custom-purple">Frequency</th>
+                    <th scope="col" className="px-3 py-3 font-medium font-goldman text-custom-purple">Bill Total</th>
+                    <th scope="col" className="px-3 py-3 font-medium font-goldman text-custom-purple">Date Added</th>
+                    <th scope="col" className="px-3 py-3 font-medium font-goldman text-custom-purple">Date Due</th>
+
+                        </tr>
+            </thead>
+           
+
+
+
+                    <tbody>
+                {
+                    (allBills?.length === 0) ? 
+                    (
+                        <tr className="bg-custom-blue py-2 hover:shadow-xl">
+                            <td colSpan="6" className="text-center py-4">No bills available.</td>
+                        </tr>
+                    ) : 
+                    allBills?.map((bill) => (
+                        <tr key={bill.dateAdded} className="bg-custom-blue py-2 hover:shadow-xl" >
+                            <td className="px-3 py-3 font-thin font-goldman text-custom-purple">{bill.billType}</td>
+                            <td className="px-3 py-3 font-thin font-goldman text-custom-purple">{bill.company}</td>
+                            <td className="px-3 py-3 font-thin font-goldman text-custom-purple">{bill.description}</td>
+                            <td className="px-3 py-3 font-thin font-goldman text-red-700">{bill.payFrequency}</td>
+                            <td className="px-3 py-3 font-thin font-goldman text-green-700">{`$${bill.billTotal}`}</td>
+                            <td className="ppx-3 py-3 font-thin font-goldman text-custom-purple">{new Date(bill.dateAdded).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric"
+                            })}</td>
+                             <td className="ppx-3 py-3 font-thin font-goldman text-custom-purple">{new Date(bill.dateAdded).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric"
+                            })}</td>
+                        </tr>
+                    ))
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+   
+
+    
+
+
+
+</div>
+
+
+
+
+
+            
             </div>
         </>
 
