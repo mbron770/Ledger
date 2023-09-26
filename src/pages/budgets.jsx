@@ -123,16 +123,12 @@ export default function Budgets() {
             <section className="bg-custom-purple h-[18vh] mt-[15vh]">
 
             <div className="container mx-auto mr-10 px-10 flex flex-col md:items-center lg:flex-row lg:justify-start">
-            <div className="hidden lg:block lg:w-12"></div> {/* Spacer for large screens */}
+            <div className="hidden lg:block lg:w-12"></div> 
             <AddIncomeForm className="mb-4 md:mb-4 lg:mb-0 lg:mr-8"/>
-            <div className="hidden lg:block lg:w-8"></div> {/* Spacer for large screens */}
+            <div className="hidden lg:block lg:w-8"></div> 
         <AddBillsForm className="pl-4 mb-4 md:mb-4 lg:mb-0 lg:mr-4"/>
     </div>
-{/* 
-    <div className="flex flex-col md:items-center lg:items-start lg:items-start justify-center h-full px-4">
-        <AddIncomeForm className="lg:pr-4"/>
-        <AddBillsForm/>
-    </div> */}
+
 
     
 </section>
