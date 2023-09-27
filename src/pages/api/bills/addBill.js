@@ -16,20 +16,17 @@ async function incomeHandler(req, res) {
             return res.status(404).send({error: "User not logged in"});
         }
 
-        let newIncome = {
-            incomeType: req ?. body ?. incomeType,
-            jobTitle: req ?. body ?. jobTitle,
-            company: req ?. body ?. company,
-            payType: req ?. body ?. payType,
-            paySchedule: req ?. body ?. paySchedule,
-            takeHomePay: parseFloat(req ?. body ?. takeHomePay),
-            yearlySalary: req ?. body ?. yearlySalary ? parseFloat(req ?. body ?. yearlySalary) : null,
-            hourlyRate: req ?. body ?. hourlyRate ? parseFloat(req ?. body ?. hourlyRate) : null,
-            hoursPerWeek: req ?. body ?. hoursPerWeek ? parseFloat(req ?. body ?. hoursPerWeek) : null
+        let newBill = {
+                        billType: req ?. body ?.billType,
+                        description: req ?. body ?.description,
+                        company: req ?. body ?.company,
+                        payFrequency: req ?. body ?.payFrequency,
+                        billTotal: parseFloat(req ?. body ?.billTotal),
+
         }
-        await loggedInUser.income.push(newIncome)
+        await loggedInUser.bills.push(newBill)
         await loggedInUser.save()
-        console.log('income inserted')
+        console.log('bill inserted')
         res.send({ok: true})
 
     } catch (error) {

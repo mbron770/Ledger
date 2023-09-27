@@ -95,6 +95,11 @@ export default function CheckingAccountLink() {
     }
   }
 
+
+
+
+
+
   async function getAddedCheckingAccount() {
     try {
       const response = await fetch(

@@ -20,6 +20,7 @@ export const InfoProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [searchTerm, setSearchTerm] = useState('')
   const [fetchedData, setFetchedData] = useState(false)
+  const [allRecentTransactions, setAllRecentTransactions] = useState(null);
 
   return (
     <InfoContext.Provider
@@ -50,6 +51,8 @@ export const InfoProvider = ({ children }) => {
         setSearchTerm,
         fetchedData, 
         setFetchedData,
+        allRecentTransactions, 
+        setAllRecentTransactions
       }}
     >
       {children}

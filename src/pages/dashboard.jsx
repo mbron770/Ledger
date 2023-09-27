@@ -1,16 +1,20 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 import { WeeklySpendingChart } from "../components/graphs/weeklySpendingChart";
 import { CategoryDonutChart } from "../components/graphs/categoryDonutChart";
 import { MerchantsHorizontalGraph } from "../components/graphs/merchantsHorizontalGraph";
+import InfoContext from "../contexts/InfoContext";
 import NavBar from "../components/shared/topbarnav";
+
 export default function Dashboard() {
   const [showDropdown, setShowDropdown] = useState([]);
   const [showPlaidLinks, setShowPlaidLinks] = useState(false)
-  const [allRecentTransactions, setAllRecentTransactions] = useState(null);
+  const {allRecentTransactions, setAllRecentTransactions, fetchedData, setFetchedData} = useContext(InfoContext);
   const [allItems, setAllItems] = useState(null);
   const buttonRef = useRef(null);
+
+  console.log(allRecentTransactions)
 
   const { user } = useUser();
   console.log(user);
@@ -36,6 +40,7 @@ export default function Dashboard() {
 
         const recentCreditCardTransactions = await response.json();
         setAllRecentTransactions(recentCreditCardTransactions);
+        setFetchedData(false)
       } catch (error) {
         console.error(error);
       }
@@ -553,23 +558,6 @@ export default function Dashboard() {
               </h5>
               <MerchantsHorizontalGraph transactions={allRecentTransactions} />
             </div>
-
-            {/* Third Row - Two Cards Side by Side on Larger Screens
-            <div className=" w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-              <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
-              <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
-                  Spending Categories
-                </h5>
-                <CategoryDonutChart transactions={allRecentTransactions} />
-              </div>
-
-              <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white shadow-2xl">
-                <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
-                  Weekly Spending
-                </h5>
-              </div>
-            </div> */}
-
 <div className=" duration-300 hover:scale-105 hover:shadow-xl w-full p-4 text-center bg-white shadow-2xl">
             <h5 className="mb-2 font-thin text-2xl text-justify-left font-goldman text-custom-purple">
                 Spending Categories
@@ -577,24 +565,6 @@ export default function Dashboard() {
 
               <CategoryDonutChart transactions={allRecentTransactions} />
             </div>
-
-            {/* Fourth Card */}
-
-            {/* Fifth Row - Two More Cards */}
-            {/* <div className=" w-full flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-              <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white  shadow-2xl">
-              <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
-                  Spending Categories
-                </h5>
-                <CategoryDonutChart transactions={allRecentTransactions} />
-              </div>
-
-              <div className="duration-300 hover:scale-105 hover:shadow-xl w-full md:w-[50%] p-4 text-center bg-white shadow-2xl">
-                <h5 className="mb-2 font-thin text-2xl text-center font-goldman text-custom-purple">
-                  Weekly Spending
-                </h5>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
