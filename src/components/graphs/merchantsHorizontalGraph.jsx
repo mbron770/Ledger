@@ -9,15 +9,14 @@ import {
 } from "recharts";
 
 const predefinedColors = [
-  "#48BB78", // green-500
-  "#38B2AC", // teal-500
-  "#4299E1", // blue-500
-  "#667EEA", // indigo-500
   "#F56565", // red-500
   "#ED8936", // orange-500
   "#ECC94B", // yellow-500
-  "#9F7AEA", // purple-500
+  "#4299E1", // blue-500
   "#ED64A6", // pink-500
+  "#38B2AC", // teal-500
+  "#667EEA", // indigo-500
+  "#9F7AEA", // purple-500
   "#4A5568", // gray-600
 ];
 
@@ -40,7 +39,19 @@ const getMerchantTotals = (transactions) => {
   return sortedMerchants;
 };
 
-export const MerchantsHorizontalGraph = ({ transactions, investmentTransactions }) => {
+const incomeDistribution = (totalIncomes) => {
+  return [
+    { name: '50% of Income on Necessities', amount: totalIncomes * 0.5 },
+    { name: '30% of Income on Wants', amount: totalIncomes * 0.3 },
+    { name: '20% of Income on Savings/Investments and Debt Repayment', amount: totalIncomes * 0.2 },
+  ];
+};
+
+
+
+
+
+export const MerchantsHorizontalGraph = ({ transactions, investmentTransactions, totalIncomes }) => {
   
   let chartData
 
@@ -49,22 +60,10 @@ export const MerchantsHorizontalGraph = ({ transactions, investmentTransactions 
 
   } else if(investmentTransactions && investmentTransactions?.length > 0){
     chartData = getMerchantTotals(investmentTransactions)
+  } 
+  else if(totalIncomes ){
+    chartData = incomeDistribution(totalIncomes)
   }
-// close_price
-// : 
-// 0.011
-// name
-// : 
-// "Nflx Feb 01'18 $355 Call"
-// ticker_symbol
-// : 
-// "NFLX180201C00355000"
-// type
-// : 
-// "derivative"
-
-
- 
 
   return (
     <div className="bg-custom-blue p-4">

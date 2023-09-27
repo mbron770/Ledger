@@ -61,8 +61,34 @@ const getSecuritiesTypeTotals = (securities) => {
     return typeTotals;
 }
 
+const getAllIncomes = (allIncomes) => {
+    const incomeTotals = {}
 
-export const CategoryDonutChart = ({transactions, investmentTransactions, securities}) => {
+    allIncomes ?.forEach(income => {
+        const typeValue  = Math.abs(income?.takeHomePay)
+        if(!incomeTotals[income?.incomeType]){
+            incomeTotals[income?.incomeType] = 0
+        }
+        incomeTotals[income?.incomeType] += typeValue
+    }) 
+    return incomeTotals
+}
+
+
+const getAllBills = (allBills) => {
+    const billTotals = {}
+
+    allBills ?.forEach(bill => {
+        const typeValue  = Math.abs(bill?.billTotal)
+        if(!billTotals[bill?.billType]){
+            billTotals[bill?.billType] = 0
+        }
+        billTotals[bill?.billType] += typeValue
+    }) 
+    return billTotals
+}
+
+export const CategoryDonutChart = ({transactions, investmentTransactions, securities, allIncomes, allBills}) => {
     let categoryTotals
     let categories
 
@@ -75,6 +101,12 @@ export const CategoryDonutChart = ({transactions, investmentTransactions, securi
 
     } else if (securities) {
         categoryTotals = getSecuritiesTypeTotals(securities);
+        categories = Object.keys(categoryTotals)
+    } else if (allIncomes){
+        categoryTotals = getAllIncomes(allIncomes)
+        categories = Object.keys(categoryTotals)
+    } else if (allBills){
+        categoryTotals = getAllBills(allBills)
         categories = Object.keys(categoryTotals)
     }
 

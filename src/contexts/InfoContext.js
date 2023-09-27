@@ -27,6 +27,8 @@ const InfoContext = createContext({
   setSearchTerm: () => {},
   fetchedData: false, 
   setFetchedData: () => {},
+  allRecentTransactions: null, 
+  setAllRecentTransactions: () => {}
 });
 
 export default InfoContext;
