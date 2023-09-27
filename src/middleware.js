@@ -8,6 +8,7 @@ export default authMiddleware({
   publicRoutes: ['/'], 
   ignoredRoutes: ['/api/clerk/clerkwebhook'],
 
+ 
 
 });
  
