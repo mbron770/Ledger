@@ -98,15 +98,15 @@ Upon successful setup (see **Setup Instructions**), you should see the following
 │   │   └── InfoProvider.js
 │   ├── lib
 │   │   ├── models
+│   │   │   ├── bill.model.js
 │   │   │   ├── checkingAccount.model.js
 │   │   │   ├── creditCard.model.js
+│   │   │   ├── income.model.js
 │   │   │   ├── investmentAccount.model.js
 │   │   │   ├── investmentHoldings.model.js
 │   │   │   ├── investmentSecurities.model.js
 │   │   │   ├── investmentTransactions.model.js
 │   │   │   ├── item.model.js
-│   │   │   ├── job.model.js
-│   │   │   ├── jobs.model.js
 │   │   │   ├── loan.model.js
 │   │   │   ├── savingsAccount.model.js
 │   │   │   ├── transactions.model.js
@@ -131,6 +131,9 @@ Upon successful setup (see **Setup Instructions**), you should see the following
 │   │   │   │       ├── getAddedSavingsAccount.js
 │   │   │   │       ├── getAllSavingsAccounts.js
 │   │   │   │       └── getSavingsAccountTransactions.js
+│   │   │   ├── bills
+│   │   │   │   ├── addBill.js
+│   │   │   │   └── getBills.js
 │   │   │   ├── clerk
 │   │   │   │   └── clerkwebhook.js
 │   │   │   ├── dashboard
@@ -176,6 +179,8 @@ Upon successful setup (see **Setup Instructions**), you should see the following
 │       └── globals.css
 ├── tailwind.config.ts
 └── tsconfig.json
+
+39 directories, 106 files
 ```
 
 ## Setup Instructions
