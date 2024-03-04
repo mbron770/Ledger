@@ -19,6 +19,7 @@ This project is a full-stack web app with the goal of connecting and aggregating
 * **[NextJs](https://nextjs.org/)**
 * **[React](https://react.dev/)**
 * **[MongoDB]()**
+* **[ReCharts]()**
 * **[Plaid API](https://plaid.com/)**
 * **[Clerk](https://clerk.com/)**
 
@@ -190,7 +191,11 @@ To launch this project on your own local development environment, please go thro
 **Basic Integration:**
 1. Clone the repository into your local environment.
 2. Open the directory in your favorite code editor.
-3. Run the following command in the terminal to open the app on port 3000 in your favorite browser.
+3. Run the following commands in the terminal to open the app on port 3000 in your favorite browser.
+4. 
+```console 
+npm install
+```
 
 ```console 
 npm run dev
